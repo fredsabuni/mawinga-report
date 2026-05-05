@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mawinga — Product Strategy Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Display:wght@400;700&family=Google+Sans+Text:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1E3A8A;
+  --royal: #1E40AF;
+  --sky: #3B82F6;
+  --pale: #EFF6FF;
+  --gold: #F59E0B;
+  --coral: #EF4444;
+  --sage: #10B981;
+  --ink: #0F172A;
+  --mist: #64748B;
+  --fog: #CBD5E1;
+  --fog2: #E2E8F0;
+  --paper: #F8FAFF;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Google Sans Text', 'Google Sans', sans-serif;
+  background: var(--paper); color: var(--ink); line-height: 1.65; font-size: 15px;
+}
+
+/* HERO */
+.hero {
+  background: var(--navy); color: white;
+  padding: 88px 64px 72px; position: relative; overflow: hidden;
+}
+.hero-orb1 {
+  position: absolute; top: -100px; right: -80px;
+  width: 420px; height: 420px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(59,130,246,0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-orb2 {
+  position: absolute; bottom: -80px; left: 25%;
+  width: 280px; height: 280px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,158,11,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-label { font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 22px; }
+.hero h1 { font-family: 'Google Sans Display', sans-serif; font-size: 58px; font-weight: 700; line-height: 1.05; margin-bottom: 18px; }
+.hero h1 span { color: var(--gold); }
+.hero-sub { font-size: 17px; font-weight: 400; color: rgba(255,255,255,0.68); max-width: 580px; line-height: 1.65; }
+.hero-disclaimer {
+  margin-top: 36px; display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 100px; padding: 8px 18px; font-size: 12px; color: rgba(255,255,255,0.6);
+}
+.hero-disclaimer span { color: var(--gold); font-weight: 600; }
+
+/* LAYOUT */
+.container { max-width: 1060px; margin: 0 auto; padding: 0 52px; }
+section { padding: 76px 0; }
+section + section { border-top: 1px solid var(--fog2); }
+.section-label { font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase; color: var(--royal); margin-bottom: 10px; }
+.section-title { font-family: 'Google Sans Display', sans-serif; font-size: 34px; font-weight: 700; line-height: 1.15; margin-bottom: 16px; }
+.section-lead { font-size: 16px; color: var(--mist); max-width: 640px; line-height: 1.7; margin-bottom: 48px; }
+
+/* PIPELINE */
+.pipeline { display: flex; margin: 32px 0; overflow-x: auto; }
+.pipe-step { flex: 1; min-width: 140px; background: white; border: 1px solid var(--fog2); padding: 22px 16px; position: relative; text-align: center; }
+.pipe-step:first-child { border-radius: 12px 0 0 12px; }
+.pipe-step:last-child { border-radius: 0 12px 12px 0; }
+.pipe-step + .pipe-step { border-left: none; }
+.pipe-step::after { content: '›'; position: absolute; right: -10px; top: 50%; transform: translateY(-50%); font-size: 20px; color: var(--fog); z-index: 2; background: var(--paper); padding: 0 2px; }
+.pipe-step:last-child::after { display: none; }
+.pipe-step .step-num { font-size: 10px; font-weight: 700; color: var(--royal); letter-spacing: 1px; margin-bottom: 8px; }
+.pipe-step .step-name { font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.pipe-step .step-detail { font-size: 11px; color: var(--mist); line-height: 1.4; }
+.pipe-step.hl { background: var(--navy); border-color: var(--navy); }
+.pipe-step.hl .step-num { color: var(--gold); }
+.pipe-step.hl .step-name { color: white; }
+.pipe-step.hl .step-detail { color: rgba(255,255,255,0.55); }
+
+/* INSIGHT BOX */
+.insight-box { background: var(--pale); border-left: 4px solid var(--royal); border-radius: 0 12px 12px 0; padding: 22px 28px; margin: 32px 0; }
+.insight-box p { font-size: 16px; font-style: italic; color: var(--navy); line-height: 1.65; }
+.insight-box cite { display: block; margin-top: 10px; font-size: 12px; color: var(--mist); font-style: normal; font-weight: 500; }
+
+/* SCAN DEMO */
+.scan-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 32px 0; }
+.scan-card { background: white; border: 1px solid var(--fog2); border-radius: 16px; padding: 28px; }
+.scan-card h4 { font-family: 'Google Sans', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.scan-card p { font-size: 13px; color: var(--mist); line-height: 1.6; margin-bottom: 16px; }
+.barcode-visual { background: var(--ink); border-radius: 8px; padding: 16px; font-family: monospace; font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 1px; margin-bottom: 12px; line-height: 1.8; }
+.imei-list { display: flex; flex-direction: column; gap: 6px; }
+.imei-row { display: flex; align-items: center; gap: 8px; font-size: 12px; padding: 6px 10px; border-radius: 6px; background: var(--pale); }
+.imei-row .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sage); flex-shrink: 0; }
+.imei-code { font-family: monospace; color: var(--ink); font-size: 11px; }
+
+/* FLOW SECTION */
+.flow-tabs { display: flex; gap: 8px; margin-bottom: 32px; }
+.flow-tab {
+  padding: 9px 22px; border-radius: 100px; font-size: 13px; font-weight: 500;
+  cursor: pointer; border: 1.5px solid var(--fog); background: white; color: var(--mist);
+  transition: all 0.22s; font-family: 'Google Sans', sans-serif;
+}
+.flow-tab.active { background: var(--navy); border-color: var(--navy); color: white; }
+.flow-tab:hover:not(.active) { border-color: var(--royal); color: var(--royal); }
+.flow-panel { display: none; }
+.flow-panel.active { display: block; animation: panelIn 0.35s ease; }
+
+@keyframes panelIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+@keyframes cardFloat { from { opacity:0; transform:translateY(18px) scale(0.97); } to { opacity:1; transform:translateY(0) scale(1); } }
+
+.flow-tree { background: white; border: 1px solid var(--fog2); border-radius: 18px; padding: 36px; }
+.flow-role { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+.role-badge { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+.role-badge.owner { background: var(--navy); color: white; }
+.role-badge.manager { background: var(--royal); color: white; }
+.role-badge.agent { background: var(--sky); color: white; }
+.role-title { font-family: 'Google Sans Display', sans-serif; font-size: 20px; font-weight: 700; }
+.role-sub { font-size: 12px; color: var(--mist); }
+.flow-actions { display: grid; grid-template-columns: repeat(auto-fill, minmax(196px, 1fr)); gap: 12px; }
+
+.action-item {
+  background: var(--pale); border: 1px solid rgba(30,64,175,0.1);
+  border-radius: 12px; padding: 16px; position: relative; cursor: default;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: cardFloat 0.5s ease both;
+}
+.action-item:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(30,58,138,0.12); }
+.action-item.primary { background: var(--navy); border-color: transparent; }
+.action-item.primary:hover { box-shadow: 0 8px 24px rgba(30,58,138,0.3); }
+.flow-actions .action-item:nth-child(1){animation-delay:.04s}
+.flow-actions .action-item:nth-child(2){animation-delay:.09s}
+.flow-actions .action-item:nth-child(3){animation-delay:.14s}
+.flow-actions .action-item:nth-child(4){animation-delay:.19s}
+.flow-actions .action-item:nth-child(5){animation-delay:.24s}
+.flow-actions .action-item:nth-child(6){animation-delay:.29s}
+.flow-actions .action-item:nth-child(7){animation-delay:.34s}
+.flow-actions .action-item:nth-child(8){animation-delay:.39s}
+
+.action-icon { font-size: 20px; margin-bottom: 8px; display: block; }
+.action-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; color: var(--ink); font-family: 'Google Sans', sans-serif; }
+.action-item.primary .action-name { color: white; }
+.action-desc { font-size: 11px; color: var(--mist); line-height: 1.45; }
+.action-item.primary .action-desc { color: rgba(255,255,255,0.62); }
+.hot-tag { position: absolute; top: 10px; right: 10px; background: var(--gold); color: var(--ink); font-size: 9px; font-weight: 700; letter-spacing: 1px; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; }
+.simplify-note { margin-top: 16px; padding: 14px 18px; background: #FEF3C7; border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; font-size: 13px; color: #78350F; line-height: 1.55; }
+
+/* WIREFRAMES */
+.wf-tabs { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+.wf-tab { padding: 8px 18px; border-radius: 100px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1.5px solid var(--fog); background: white; color: var(--mist); transition: all 0.2s; font-family: 'Google Sans', sans-serif; }
+.wf-tab.active { background: var(--navy); border-color: var(--navy); color: white; }
+.wf-tab:hover:not(.active) { border-color: var(--royal); color: var(--royal); }
+.wf-panel { display: none; }
+.wf-panel.active { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; animation: panelIn 0.3s ease; }
+
+/* PHONE */
+.phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.phone-label { font-size: 11px; color: var(--mist); font-weight: 500; letter-spacing: 0.5px; text-align: center; }
+.phone-arrow { font-size: 18px; color: var(--fog); line-height: 1; align-self: center; margin-top: 60px; }
+.phone {
+  width: 176px; background: #FAFAFA;
+  border: 2px solid var(--ink); border-radius: 26px; padding: 10px 9px;
+  position: relative; box-shadow: 3px 4px 0 var(--ink);
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+  font-family: 'Google Sans Text', 'Google Sans', sans-serif;
+}
+.phone:hover { transform: translateY(-2px); box-shadow: 3px 6px 0 var(--ink); }
+.phone:active { transform: translateY(1px); box-shadow: 2px 2px 0 var(--ink); }
+.phone::before { content: ''; position: absolute; top: 7px; left: 50%; transform: translateX(-50%); width: 34px; height: 4px; background: var(--ink); border-radius: 3px; }
+.phone-screen { padding: 14px 7px 7px; }
+.sk-statusbar { display: flex; justify-content: space-between; margin-bottom: 10px; }
+.sk-time { font-size: 8px; font-weight: 600; color: var(--ink); }
+.sk-icons { display: flex; gap: 3px; }
+.sk-icon { width: 8px; height: 6px; background: var(--ink); border-radius: 1px; opacity: 0.6; }
+.sk-header { margin-bottom: 9px; }
+.sk-title { font-size: 11px; font-weight: 700; color: var(--ink); margin-bottom: 1px; font-family: 'Google Sans', sans-serif; }
+.sk-sub { font-size: 8px; color: var(--mist); }
+.sk-line { height: 1px; background: var(--fog2); margin: 7px 0; }
+.sk-row { display: flex; align-items: center; gap: 6px; padding: 5px 7px; border: 1px solid var(--fog2); border-radius: 6px; margin-bottom: 4px; background: white; }
+.sk-row.primary { background: var(--navy); border-color: var(--navy); }
+.sk-row-icon { width: 20px; height: 20px; border-radius: 5px; background: var(--pale); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+.sk-row.primary .sk-row-icon { background: rgba(255,255,255,0.15); }
+.sk-row-text { flex: 1; }
+.sk-row-label { font-size: 9px; font-weight: 600; color: var(--ink); }
+.sk-row.primary .sk-row-label { color: white; }
+.sk-row-desc { font-size: 7px; color: var(--mist); }
+.sk-row.primary .sk-row-desc { color: rgba(255,255,255,0.55); }
+.sk-row-arrow { font-size: 10px; color: var(--fog); }
+.sk-row.primary .sk-row-arrow { color: rgba(255,255,255,0.4); }
+.sk-search { display: flex; align-items: center; gap: 5px; background: var(--fog2); border-radius: 6px; padding: 4px 7px; margin-bottom: 7px; }
+.sk-search-icon { font-size: 8px; }
+.sk-search-text { font-size: 8px; color: var(--mist); }
+.sk-field { border: 1px solid var(--fog); border-radius: 6px; padding: 5px 7px; margin-bottom: 5px; background: white; }
+.sk-field-label { font-size: 7px; color: var(--mist); margin-bottom: 2px; }
+.sk-field-val { font-size: 9px; color: var(--ink); font-weight: 500; }
+.sk-field-val.empty { color: var(--fog); font-weight: 400; }
+.sk-btn { background: var(--navy); color: white; text-align: center; border-radius: 7px; padding: 7px; font-size: 9px; font-weight: 600; margin-top: 7px; font-family: 'Google Sans', sans-serif; }
+.sk-btn.secondary { background: white; color: var(--royal); border: 1.5px solid var(--royal); }
+.sk-scan { border: 2px dashed var(--royal); border-radius: 8px; padding: 14px 8px; text-align: center; margin-bottom: 7px; background: var(--pale); }
+.sk-scan-icon { font-size: 20px; margin-bottom: 4px; }
+.sk-scan-text { font-size: 8px; color: var(--royal); font-weight: 600; line-height: 1.5; }
+.sk-badge { display: inline-flex; align-items: center; padding: 2px 6px; border-radius: 4px; font-size: 7px; font-weight: 700; margin-left: 4px; }
+.sk-badge.aged { background: #FEF3C7; color: #92400E; }
+.sk-badge.ok { background: #ECFDF5; color: #065F46; }
+.sk-stock-item { display: flex; align-items: center; justify-content: space-between; padding: 5px 5px; border-bottom: 1px solid var(--fog2); }
+.sk-stock-name { font-size: 8px; font-weight: 600; color: var(--ink); }
+.sk-stock-imei { font-size: 7px; color: var(--mist); font-family: monospace; }
+.sk-receipt { background: white; border: 1px dashed var(--fog); border-radius: 6px; padding: 8px; margin-bottom: 6px; }
+.sk-receipt-logo { text-align: center; font-size: 9px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.sk-receipt-line { display: flex; justify-content: space-between; font-size: 8px; color: var(--ink); margin-bottom: 2px; }
+.sk-receipt-total { display: flex; justify-content: space-between; font-size: 9px; font-weight: 700; border-top: 1px solid var(--fog); padding-top: 4px; margin-top: 4px; }
+.sk-receipt-footer { text-align: center; font-size: 7px; color: var(--mist); margin-top: 5px; }
+.sk-tabbar { display: flex; justify-content: space-around; border-top: 1px solid var(--fog2); padding-top: 6px; margin-top: 8px; }
+.sk-tab { text-align: center; }
+.sk-tab-icon { font-size: 11px; }
+.sk-tab-name { font-size: 7px; color: var(--mist); }
+.sk-tab.active .sk-tab-name { color: var(--royal); font-weight: 700; }
+.wf-desc { flex: 1; min-width: 280px; padding: 24px 4px 24px 4px; }
+.wf-desc h3 { font-family: 'Google Sans Display', sans-serif; font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+.wf-desc p { font-size: 14px; color: var(--mist); line-height: 1.7; margin-bottom: 16px; }
+.wf-points { display: flex; flex-direction: column; gap: 10px; }
+.wf-point { display: flex; gap: 12px; align-items: flex-start; font-size: 13px; color: var(--ink); line-height: 1.5; }
+.wf-point-num { width: 22px; height: 22px; border-radius: 6px; background: var(--pale); color: var(--royal); font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+/* RECOMMENDATIONS */
+.rec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.rec-card { background: white; border: 1px solid var(--fog2); border-radius: 16px; padding: 30px; }
+.rec-card.primary-rec { background: var(--navy); border-color: transparent; color: white; grid-column: span 2; }
+.rec-card.wide { grid-column: span 2; }
+.rec-num { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; color: var(--royal); margin-bottom: 10px; }
+.rec-card.primary-rec .rec-num { color: var(--gold); }
+.rec-card h3 { font-family: 'Google Sans Display', sans-serif; font-size: 19px; font-weight: 700; margin-bottom: 10px; }
+.rec-card.primary-rec h3 { color: white; }
+.rec-card p { font-size: 14px; color: var(--mist); line-height: 1.7; }
+.rec-card.primary-rec p { color: rgba(255,255,255,0.7); }
+.rec-bullets { margin-top: 16px; display: flex; flex-direction: column; gap: 9px; }
+.rec-bullet { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: rgba(255,255,255,0.78); }
+.rec-bullet::before { content: '→'; color: var(--gold); flex-shrink: 0; }
+.pill { display: inline-flex; padding: 4px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; margin-right: 5px; margin-top: 6px; }
+.pill.p1 { background: #EFF6FF; color: var(--royal); }
+.pill.p2 { background: #FEF3C7; color: #92400E; }
+.pill.p3 { background: #ECFDF5; color: #065F46; }
+.pill.p4 { background: #F0FDF4; color: #14532D; }
+
+/* PROCESS */
+.process-steps { display: flex; flex-direction: column; gap: 0; margin: 32px 0; position: relative; }
+.process-steps::before { content: ''; position: absolute; left: 21px; top: 44px; bottom: 44px; width: 2px; background: var(--fog2); }
+.process-step { display: flex; align-items: flex-start; gap: 20px; padding: 20px 0; position: relative; }
+.step-circle { width: 42px; height: 42px; border-radius: 50%; background: white; border: 2px solid var(--fog); display: flex; align-items: center; justify-content: center; font-family: 'Google Sans', sans-serif; font-size: 14px; font-weight: 700; color: var(--mist); flex-shrink: 0; z-index: 1; }
+.process-step.done .step-circle { background: var(--navy); border-color: var(--navy); color: white; }
+.step-content { padding-top: 7px; flex: 1; }
+.step-content h4 { font-family: 'Google Sans', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.step-content p { font-size: 13px; color: var(--mist); line-height: 1.6; }
+
+/* FOOTER */
+footer { background: var(--ink); color: rgba(255,255,255,0.5); padding: 44px 60px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; }
+footer strong { color: white; font-family: 'Google Sans Display', sans-serif; font-size: 18px; }
+
+/* ── MOBILE FIRST — primary design target ── */
+@media (max-width: 768px) {
+
+  /* Base */
+  body { font-size: 14px; }
+
+  /* Hero */
+  .hero { padding: 52px 20px 44px; }
+  .hero h1 { font-size: 36px; line-height: 1.08; }
+  .hero-sub { font-size: 15px; }
+  .hero-disclaimer { font-size: 11px; padding: 7px 14px; }
+
+  /* Layout */
+  .container { padding: 0 20px; }
+  section { padding: 48px 0; }
+  .section-title { font-size: 26px; }
+  .section-lead { font-size: 14px; margin-bottom: 28px; }
+
+  /* Pipeline — vertical scroll stack */
+  .pipeline { flex-direction: column; gap: 6px; }
+  .pipe-step { border-radius: 10px !important; border: 1px solid var(--fog2) !important; min-width: unset; }
+  .pipe-step::after { display: none; }
+
+  /* Scan demo */
+  .scan-demo { grid-template-columns: 1fr; gap: 16px; }
+
+  /* Flow tabs — scrollable row */
+  .flow-tabs { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+  .flow-tabs::-webkit-scrollbar { display: none; }
+  .flow-tab { white-space: nowrap; flex-shrink: 0; }
+  .flow-tree { padding: 20px 16px; border-radius: 14px; }
+  .flow-actions { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* Wireframe tabs */
+  .wf-tabs { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+  .wf-tabs::-webkit-scrollbar { display: none; }
+  .wf-tab { white-space: nowrap; flex-shrink: 0; font-size: 11px; padding: 7px 14px; }
+
+  /* Wireframe panels — vertical scroll with snap */
+  .wf-panel.active {
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 16px;
+    padding-bottom: 12px;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+  }
+  .wf-panel.active::-webkit-scrollbar { height: 3px; }
+  .wf-panel.active::-webkit-scrollbar-thumb { background: var(--fog); border-radius: 2px; }
+  .phone-wrap {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+  .phone { width: 160px; }
+  .phone-arrow { display: none; }
+  .wf-desc {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    min-width: 80vw;
+    padding: 8px 4px;
+  }
+  .wf-desc h3 { font-size: 18px; }
+  .wf-desc p { font-size: 13px; }
+
+  /* Recommendations */
+  .rec-grid { grid-template-columns: 1fr; gap: 14px; }
+  .rec-card.primary-rec, .rec-card.wide { grid-column: span 1; }
+  .rec-card { padding: 22px 18px; }
+  .rec-card h3 { font-size: 16px; }
+
+  /* Commissions & notifications inline grids */
+  .rec-card .inline-3col { grid-template-columns: 1fr !important; }
+  .rec-card .inline-2col { grid-template-columns: 1fr !important; }
+
+  /* Process steps */
+  .process-steps::before { left: 19px; }
+  .step-content h4 { font-size: 15px; }
+
+  /* Roadmap */
+  .stage-bar { flex-wrap: nowrap; overflow-x: auto; padding: 28px 0 8px; gap: 0; -webkit-overflow-scrolling: touch; }
+  .stage-bar::-webkit-scrollbar { display: none; }
+  .stage { min-width: 90px; }
+  .stage-desc { font-size: 10px; max-width: 80px; }
+  .here-marker { padding-left: 16px; }
+  .roadmap-grid {
+    flex-direction: column;
+    gap: 12px;
+    overflow-x: visible;
+  }
+  .rm-phase { min-width: unset; width: 100%; }
+  .rm-phase-head { border-radius: 10px 10px 0 0; padding: 14px 16px; }
+  .rm-phase-title { font-size: 15px; }
+  .rm-cards { border-radius: 0 0 10px 10px; padding: 10px 10px 14px; }
+  .rm-connector {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 0;
+    padding: 6px 0;
+    gap: 8px;
+  }
+  .rm-connector-line {
+    width: 32px; height: 2px;
+    background: repeating-linear-gradient(to right, var(--fog2) 0, var(--fog2) 5px, transparent 5px, transparent 10px);
+  }
+  .rm-connector-label {
+    writing-mode: horizontal-tb;
+    transform: none;
+    font-size: 9px;
+  }
+  .rm-principle { border-radius: 12px; padding: 16px 18px; }
+  .rm-principle-text { font-size: 13px; }
+
+  /* Footer */
+  footer { flex-direction: column; gap: 10px; text-align: center; padding: 32px 24px; }
+}
+
+/* ── TABLET adjustments ── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container { padding: 0 32px; }
+  .hero { padding: 64px 40px 56px; }
+  .hero h1 { font-size: 44px; }
+  .flow-actions { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+  .wf-panel.active { gap: 20px; }
+}
+
+/* ── MOBILE FIRST — primary design target ── */
+@media (max-width: 768px) {
+
+  /* Base */
+  body { font-size: 14px; }
+
+  /* Hero */
+  .hero { padding: 52px 20px 44px; }
+  .hero h1 { font-size: 36px; line-height: 1.08; }
+  .hero-sub { font-size: 15px; }
+  .hero-disclaimer { font-size: 11px; padding: 7px 14px; }
+
+  /* Layout */
+  .container { padding: 0 20px; }
+  section { padding: 48px 0; }
+  .section-title { font-size: 26px; }
+  .section-lead { font-size: 14px; margin-bottom: 28px; }
+
+  /* Pipeline — vertical scroll stack */
+  .pipeline { flex-direction: column; gap: 6px; }
+  .pipe-step { border-radius: 10px !important; border: 1px solid var(--fog2) !important; min-width: unset; }
+  .pipe-step::after { display: none; }
+
+  /* Scan demo */
+  .scan-demo { grid-template-columns: 1fr; gap: 16px; }
+
+  /* Flow tabs — scrollable row */
+  .flow-tabs { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+  .flow-tabs::-webkit-scrollbar { display: none; }
+  .flow-tab { white-space: nowrap; flex-shrink: 0; }
+  .flow-tree { padding: 20px 16px; border-radius: 14px; }
+  .flow-actions { grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* Wireframe tabs */
+  .wf-tabs { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+  .wf-tabs::-webkit-scrollbar { display: none; }
+  .wf-tab { white-space: nowrap; flex-shrink: 0; font-size: 11px; padding: 7px 14px; }
+
+  /* Wireframe panels — vertical scroll with snap */
+  .wf-panel.active {
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 16px;
+    padding-bottom: 12px;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+  }
+  .wf-panel.active::-webkit-scrollbar { height: 3px; }
+  .wf-panel.active::-webkit-scrollbar-thumb { background: var(--fog); border-radius: 2px; }
+  .phone-wrap {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+  .phone { width: 160px; }
+  .phone-arrow { display: none; }
+  .wf-desc {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    min-width: 80vw;
+    padding: 8px 4px;
+  }
+  .wf-desc h3 { font-size: 18px; }
+  .wf-desc p { font-size: 13px; }
+
+  /* Recommendations */
+  .rec-grid { grid-template-columns: 1fr; gap: 14px; }
+  .rec-card.primary-rec, .rec-card.wide { grid-column: span 1; }
+  .rec-card { padding: 22px 18px; }
+  .rec-card h3 { font-size: 16px; }
+
+  /* Commissions & notifications inline grids */
+  .rec-card .inline-3col { grid-template-columns: 1fr !important; }
+  .rec-card .inline-2col { grid-template-columns: 1fr !important; }
+
+  /* Process steps */
+  .process-steps::before { left: 19px; }
+  .step-content h4 { font-size: 15px; }
+
+  /* Roadmap */
+  .stage-bar { flex-wrap: nowrap; overflow-x: auto; padding: 28px 0 8px; gap: 0; -webkit-overflow-scrolling: touch; }
+  .stage-bar::-webkit-scrollbar { display: none; }
+  .stage { min-width: 90px; }
+  .stage-desc { font-size: 10px; max-width: 80px; }
+  .here-marker { padding-left: 16px; }
+  .roadmap-grid {
+    flex-direction: column;
+    gap: 12px;
+    overflow-x: visible;
+  }
+  .rm-phase { min-width: unset; width: 100%; }
+  .rm-phase-head { border-radius: 10px 10px 0 0; padding: 14px 16px; }
+  .rm-phase-title { font-size: 15px; }
+  .rm-cards { border-radius: 0 0 10px 10px; padding: 10px 10px 14px; }
+  .rm-connector {
+    flex-direction: row;
+    align-items: center;
+    margin-top: 0;
+    padding: 6px 0;
+    gap: 8px;
+  }
+  .rm-connector-line {
+    width: 32px; height: 2px;
+    background: repeating-linear-gradient(to right, var(--fog2) 0, var(--fog2) 5px, transparent 5px, transparent 10px);
+  }
+  .rm-connector-label {
+    writing-mode: horizontal-tb;
+    transform: none;
+    font-size: 9px;
+  }
+  .rm-principle { border-radius: 12px; padding: 16px 18px; }
+  .rm-principle-text { font-size: 13px; }
+
+  /* Footer */
+  footer { flex-direction: column; gap: 10px; text-align: center; padding: 32px 24px; }
+}
+
+/* ── TABLET adjustments ── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container { padding: 0 32px; }
+  .hero { padding: 64px 40px 56px; }
+  .hero h1 { font-size: 44px; }
+  .flow-actions { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+  .wf-panel.active { gap: 20px; }
+}
+
+/* ── ROADMAP ── */
+.roadmap-wrap { margin-top: 8px; }
+
+/* Stage bar */
+.stage-bar {
+  display: flex; align-items: flex-start; justify-content: center;
+  gap: 0; margin-bottom: 0; padding: 32px 0 0;
+  position: relative;
+}
+.stage { display: flex; flex-direction: column; align-items: center; text-align: center; flex: 0 0 auto; }
+.stage-dot {
+  width: 18px; height: 18px; border-radius: 50%; border: 3px solid var(--fog);
+  background: white; position: relative; z-index: 2; transition: all 0.3s;
+}
+.stage-critical .stage-dot { background: var(--coral); border-color: var(--coral); box-shadow: 0 0 0 5px rgba(239,68,68,0.15); }
+.stage-building .stage-dot { background: var(--gold); border-color: var(--gold); }
+.stage-stable .stage-dot { background: var(--sky); border-color: var(--sky); }
+.stage-optimal .stage-dot { background: var(--sage); border-color: var(--sage); }
+.stage-label { font-family: 'Google Sans', sans-serif; font-size: 12px; font-weight: 700; margin-top: 10px; color: var(--ink); }
+.stage-critical .stage-label { color: var(--coral); }
+.stage-building .stage-label { color: var(--gold); }
+.stage-stable .stage-label { color: var(--sky); }
+.stage-optimal .stage-label { color: var(--sage); }
+.stage-desc { font-size: 11px; color: var(--mist); max-width: 100px; line-height: 1.4; margin-top: 4px; }
+.stage-track { flex: 1; display: flex; align-items: center; padding: 0 4px; margin-top: -22px; }
+.stage-track-fill { flex: 1; height: 2px; background: var(--fog2); }
+.track-arrow { font-size: 14px; color: var(--fog); margin-top: 0; }
+
+/* You are here */
+.here-marker {
+  display: flex; flex-direction: column; align-items: flex-start;
+  padding-left: 24px; margin-top: -6px; margin-bottom: 28px;
+  position: relative;
+}
+.here-pulse {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--coral); position: relative;
+}
+.here-pulse::before {
+  content: ''; position: absolute; inset: -4px; border-radius: 50%;
+  border: 2px solid var(--coral); opacity: 0.4;
+  animation: pulse 2s ease-in-out infinite;
+}
+.here-pulse::after {
+  content: ''; position: absolute; inset: -9px; border-radius: 50%;
+  border: 2px solid var(--coral); opacity: 0.15;
+  animation: pulse 2s ease-in-out infinite 0.4s;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.3); opacity: 0.1; }
+}
+.here-label {
+  font-size: 11px; font-weight: 700; color: var(--coral);
+  margin-top: 6px; letter-spacing: 0.5px;
+}
+
+/* Roadmap grid */
+.roadmap-grid {
+  display: flex; align-items: flex-start; gap: 0;
+  overflow-x: auto; padding-bottom: 12px;
+}
+
+/* Phase column */
+.rm-phase { flex: 1; min-width: 220px; }
+.rm-phase-head { padding: 16px 20px; border-radius: 12px 12px 0 0; margin-bottom: 0; }
+.rm-phase-now .rm-phase-head { background: rgba(239,68,68,0.08); border: 1.5px solid rgba(239,68,68,0.2); border-bottom: none; }
+.rm-phase-p1 .rm-phase-head { background: rgba(245,158,11,0.08); border: 1.5px solid rgba(245,158,11,0.2); border-bottom: none; }
+.rm-phase-p2 .rm-phase-head { background: rgba(59,130,246,0.08); border: 1.5px solid rgba(59,130,246,0.2); border-bottom: none; }
+.rm-phase-p3 .rm-phase-head { background: rgba(16,185,129,0.08); border: 1.5px solid rgba(16,185,129,0.2); border-bottom: none; }
+
+.rm-phase-tag {
+  display: inline-flex; padding: 3px 8px; border-radius: 4px;
+  font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+  margin-bottom: 8px;
+}
+.critical-tag { background: rgba(239,68,68,0.12); color: var(--coral); }
+.p1-tag { background: rgba(245,158,11,0.12); color: #B45309; }
+.p2-tag { background: rgba(59,130,246,0.12); color: var(--royal); }
+.p3-tag { background: rgba(16,185,129,0.12); color: #047857; }
+
+.rm-phase-title { font-family: 'Google Sans Display', sans-serif; font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+.rm-phase-sub { font-size: 11px; color: var(--mist); }
+
+/* Cards container */
+.rm-cards {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 12px 12px 16px;
+  border: 1.5px solid var(--fog2); border-top: none;
+  border-radius: 0 0 12px 12px;
+  background: white;
+}
+.rm-phase-now .rm-cards { border-color: rgba(239,68,68,0.2); }
+.rm-phase-p1 .rm-cards { border-color: rgba(245,158,11,0.2); }
+.rm-phase-p2 .rm-cards { border-color: rgba(59,130,246,0.2); }
+.rm-phase-p3 .rm-cards { border-color: rgba(16,185,129,0.2); }
+
+.rm-card {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px; border-radius: 8px;
+  border: 1px solid var(--fog2);
+  transition: transform 0.15s ease;
+}
+.rm-card:hover { transform: translateX(2px); }
+.rm-card-problem { background: #FFF5F5; border-color: rgba(239,68,68,0.15); }
+.rm-card-action { background: #FFFBEB; border-color: rgba(245,158,11,0.15); }
+.rm-card-feature { background: #EFF6FF; border-color: rgba(59,130,246,0.15); }
+.rm-card-optimal { background: #ECFDF5; border-color: rgba(16,185,129,0.15); }
+
+.rm-card-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.rm-card-title { font-size: 12px; font-weight: 700; color: var(--ink); margin-bottom: 3px; font-family: 'Google Sans', sans-serif; }
+.rm-card-desc { font-size: 11px; color: var(--mist); line-height: 1.45; }
+
+/* Connector */
+.rm-connector {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; padding: 0 6px;
+  margin-top: 68px; gap: 6px; flex: 0 0 auto;
+}
+.rm-connector-line {
+  width: 2px; height: 60px;
+  background: repeating-linear-gradient(to bottom, var(--fog2) 0, var(--fog2) 6px, transparent 6px, transparent 12px);
+}
+.rm-connector-label {
+  writing-mode: vertical-rl; text-orientation: mixed;
+  font-size: 9px; font-weight: 600; color: var(--mist);
+  letter-spacing: 1px; text-transform: uppercase;
+  transform: rotate(180deg);
+}
+
+/* Bottom principle */
+.rm-principle {
+  margin-top: 28px;
+  background: var(--navy); border-radius: 14px; padding: 20px 28px;
+}
+.rm-principle-inner { display: flex; align-items: flex-start; gap: 14px; }
+.rm-principle-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+.rm-principle-text { font-size: 14px; color: rgba(255,255,255,0.78); line-height: 1.6; }
+.rm-principle-text strong { color: var(--gold); }
+
+/* roadmap mobile handled in main media block */
+
+
+/* Mobile nav */
+.mnav-item {
+  display: inline-block; margin-right: 8px;
+  padding: 6px 14px; border-radius: 100px;
+  font-size: 12px; font-weight: 600; font-family: 'Google Sans', sans-serif;
+  color: var(--mist); text-decoration: none;
+  border: 1.5px solid var(--fog2); background: white;
+  transition: all 0.2s;
+}
+.mnav-item:active, .mnav-item.active { background: var(--navy); color: white; border-color: var(--navy); }
+#mobile-nav::-webkit-scrollbar { display: none; }
+
+
+/* ── ROADMAP v2 ── */
+.rm2-youarehere {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: rgba(239,68,68,0.08); border: 1.5px solid rgba(239,68,68,0.25);
+  border-radius: 100px; padding: 10px 18px; margin-bottom: 28px;
+  font-size: 13px; color: var(--coral);
+}
+.rm2-pulse {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--coral); flex-shrink: 0; position: relative;
+}
+.rm2-pulse::before {
+  content: ''; position: absolute; inset: -4px; border-radius: 50%;
+  border: 2px solid var(--coral); opacity: 0.35;
+  animation: rm2pulse 2s ease-in-out infinite;
+}
+.rm2-pulse::after {
+  content: ''; position: absolute; inset: -9px; border-radius: 50%;
+  border: 2px solid var(--coral); opacity: 0.12;
+  animation: rm2pulse 2s ease-in-out infinite 0.5s;
+}
+@keyframes rm2pulse {
+  0%,100% { transform: scale(1); opacity: 0.35; }
+  50% { transform: scale(1.25); opacity: 0.08; }
+}
+.rm2-phases { display: flex; flex-direction: column; gap: 0; }
+
+/* Phase card */
+.rm2-phase {
+  border-radius: 14px; overflow: hidden;
+  border: 1.5px solid var(--fog2);
+  background: white; margin-bottom: 4px;
+}
+.rm2-phase-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 20px; cursor: pointer;
+  user-select: none; -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s;
+}
+.rm2-phase-header:active { opacity: 0.85; }
+.rm2-phase-left { flex: 1; }
+.rm2-phase-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  padding: 3px 9px; border-radius: 4px; display: inline-block;
+  margin-bottom: 6px;
+}
+.rm2-phase-title {
+  font-family: 'Google Sans Display', sans-serif;
+  font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 2px;
+}
+.rm2-phase-sub { font-size: 12px; color: var(--mist); }
+.rm2-phase-chevron {
+  font-size: 22px; color: var(--mist); transition: transform 0.3s ease;
+  margin-left: 12px; line-height: 1;
+}
+.rm2-phase-header.open .rm2-phase-chevron { transform: rotate(180deg); }
+
+/* Phase colour themes */
+.rm2-critical { background: linear-gradient(135deg, rgba(239,68,68,0.06) 0%, rgba(239,68,68,0.02) 100%); border-bottom: 1px solid rgba(239,68,68,0.12); }
+.rm2-critical .rm2-phase-tag { background: rgba(239,68,68,0.1); color: var(--coral); }
+.rm2-p1 { background: linear-gradient(135deg, rgba(245,158,11,0.07) 0%, rgba(245,158,11,0.02) 100%); border-bottom: 1px solid rgba(245,158,11,0.15); }
+.rm2-p1 .rm2-phase-tag { background: rgba(245,158,11,0.12); color: #B45309; }
+.rm2-p2 { background: linear-gradient(135deg, rgba(59,130,246,0.07) 0%, rgba(59,130,246,0.02) 100%); border-bottom: 1px solid rgba(59,130,246,0.15); }
+.rm2-p2 .rm2-phase-tag { background: rgba(59,130,246,0.1); color: var(--royal); }
+.rm2-p3 { background: linear-gradient(135deg, rgba(16,185,129,0.07) 0%, rgba(16,185,129,0.02) 100%); border-bottom: 1px solid rgba(16,185,129,0.15); }
+.rm2-p3 .rm2-phase-tag { background: rgba(16,185,129,0.1); color: #047857; }
+
+/* Phase body */
+.rm2-phase-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+  padding: 0 16px;
+}
+.rm2-phase-body.rm2-open {
+  max-height: 600px;
+  padding: 4px 16px 16px;
+}
+
+/* Items */
+.rm2-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 14px; border-radius: 10px; margin-bottom: 6px;
+  border: 1px solid transparent;
+}
+.rm2-item:last-child { margin-bottom: 0; }
+.rm2-item-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.rm2-item-title { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 3px; font-family: 'Google Sans', sans-serif; }
+.rm2-item-desc { font-size: 12px; color: var(--mist); line-height: 1.45; }
+
+.rm2-problem { background: #FFF5F5; border-color: rgba(239,68,68,0.12); }
+.rm2-action  { background: #FFFBEB; border-color: rgba(245,158,11,0.12); }
+.rm2-feature { background: #EFF6FF; border-color: rgba(59,130,246,0.12); }
+.rm2-optimal { background: #ECFDF5; border-color: rgba(16,185,129,0.12); }
+
+/* Connector */
+.rm2-connector {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 6px 0; gap: 3px;
+}
+.rm2-connector-line {
+  width: 2px; height: 20px;
+  background: repeating-linear-gradient(to bottom, var(--fog) 0, var(--fog) 5px, transparent 5px, transparent 10px);
+}
+.rm2-connector-label { font-size: 10px; color: var(--mist); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+.rm2-connector-arrow { font-size: 14px; color: var(--fog); line-height: 1; }
+
+/* Bottom rule */
+.rm2-rule {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: var(--navy); border-radius: 14px;
+  padding: 20px 22px; margin-top: 20px;
+  font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.6;
+}
+.rm2-rule-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+.rm2-rule strong { color: var(--gold); }
+
+</style>
+</head>
+<body>
+
+<!-- Mobile scroll progress -->
+<div id="progress-bar" style="position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(to right,var(--royal),var(--sky));z-index:999;transition:width 0.1s;"></div>
+
+<!-- Mobile section nav -->
+<nav id="mobile-nav" style="display:none;position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--fog2);z-index:100;padding:8px 12px 12px;overflow-x:auto;white-space:nowrap;">
+  <a href="#sec-overview" class="mnav-item">Overview</a>
+  <a href="#sec-flows" class="mnav-item">Flows</a>
+  <a href="#sec-wireframes" class="mnav-item">Wireframes</a>
+  <a href="#sec-recs" class="mnav-item">Priorities</a>
+  <a href="#sec-roadmap" class="mnav-item">Roadmap</a>
+  <a href="#sec-process" class="mnav-item">Process</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-orb1"></div><div class="hero-orb2"></div>
+  <div class="hero-label">Product Strategy Report · May 2026</div>
+  <h1>Mawinga<br><span>Customer Insight</span></h1>
+  <p class="hero-sub">A single active customer gave us everything we needed — where the platform falls short, and exactly where to focus next to make it genuinely useful for dealers.</p>
+  <div class="hero-disclaimer"><span>Note:</span> Based on in-depth session with one active customer. Findings are qualitative, not statistical.</div>
+</header>
+
+<!-- PLATFORM OVERVIEW -->
+<section id="sec-overview">
+  <div class="container">
+    <div class="section-label">Platform overview</div>
+    <h2 class="section-title">What Mawinga does</h2>
+    <p class="section-lead">Mawinga is an end-to-end inventory and sales platform for smartphone dealers — covering the full lifecycle from stock arrival to final sale, reporting, and business intelligence.</p>
+    <div class="pipeline">
+      <div class="pipe-step hl"><div class="step-num">01</div><div class="step-name">Receive inventory</div><div class="step-detail">Enter stock one item or in bulk via scan</div></div>
+      <div class="pipe-step"><div class="step-num">02</div><div class="step-name">Record IMEI</div><div class="step-detail">Each device gets its unique identifier captured</div></div>
+      <div class="pipe-step"><div class="step-num">03</div><div class="step-name">Assign to branch</div><div class="step-detail">Stock goes to branch, manager, or TL</div></div>
+      <div class="pipe-step"><div class="step-num">04</div><div class="step-name">Assign to agent</div><div class="step-detail">TL pushes devices to sales agents</div></div>
+      <div class="pipe-step hl"><div class="step-num">05</div><div class="step-name">Sell + receipt</div><div class="step-detail">Agent sells, prints receipt, records customer</div></div>
+      <div class="pipe-step"><div class="step-num">06</div><div class="step-name">Reports &amp; aging</div><div class="step-detail">Sales history, who sold what, stock age alerts</div></div>
+    </div>
+    <div class="insight-box">
+      <p>"Receipt printing is the one thing our customer reaches for every day. Everything else exists in the platform — but it's buried and hard to navigate. The opportunity isn't building more features; it's making what's already there actually usable."</p>
+      <cite>— Key observation from customer session, May 2026</cite>
+    </div>
+    <h3 style="font-family:'Google Sans Display',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;margin-top:48px;">Bulk inventory entry with camera scan</h3>
+    <p style="color:var(--mist);font-size:14px;margin-bottom:24px;max-width:620px;">Owners receiving large shipments should be able to point their camera at a shipment label and have all IMEIs imported at once — no manual typing per device.</p>
+    <div class="scan-demo">
+      <div class="scan-card">
+        <h4>📦 Real shipment label</h4>
+        <p>Labels contain a carton number and multiple IMEI barcodes per shipment. Currently dealers type these one by one — slow and error-prone.</p>
+        <div class="barcode-visual">C/no.L39LQ1927<br><br>350151145442544 &nbsp; 350151145442627<br>350151145442668 &nbsp; 350151145442676<br>350151145442734 &nbsp; 350151145442878<br>350151145443021 &nbsp; [...+14 more]</div>
+        <div style="font-size:12px;color:var(--mist);">Attached label from customer — 20 IMEIs per carton is common.</div>
+      </div>
+      <div class="scan-card">
+        <h4>✅ What Mawinga should do</h4>
+        <p>Owner opens camera, scans the label. OCR reads all barcodes in seconds. Mawinga shows a confirmation list — then bulk-imports with one tap.</p>
+        <div class="imei-list">
+          <div style="font-size:11px;color:var(--mist);margin-bottom:5px;font-weight:600;">Detected — confirm to import</div>
+          <div class="imei-row"><span class="dot"></span><span class="imei-code">350151145442544</span></div>
+          <div class="imei-row"><span class="dot"></span><span class="imei-code">350151145442627</span></div>
+          <div class="imei-row"><span class="dot"></span><span class="imei-code">350151145442668</span></div>
+          <div class="imei-row"><span class="dot" style="background:var(--gold)"></span><span class="imei-code">350151145442734 — verify</span></div>
+          <div style="text-align:center;padding:8px;font-size:12px;color:var(--mist);">+ 16 more detected</div>
+        </div>
+        <div style="margin-top:10px;padding:10px 16px;background:var(--navy);border-radius:8px;font-size:13px;font-weight:600;color:white;text-align:center;">Import all 20 IMEIs →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USER FLOWS -->
+<section id="sec-flows">
+  <div class="container">
+    <div class="section-label">Redesigned user flows</div>
+    <h2 class="section-title">Who can do what</h2>
+    <p class="section-lead">The existing flows are built — but they're hard to find and navigate. The redesign should surface each role's options immediately, without hunting. Every user lands on a screen that shows exactly their world.</p>
+    <div class="flow-tabs">
+      <button class="flow-tab active" onclick="showFlow('owner',this)">Owner</button>
+      <button class="flow-tab" onclick="showFlow('manager',this)">Manager / TL</button>
+      <button class="flow-tab" onclick="showFlow('agent',this)">Sales Agent</button>
+    </div>
+
+    <div class="flow-panel active" id="flow-owner">
+      <div class="flow-tree">
+        <div class="flow-role"><div class="role-badge owner">OW</div><div><div class="role-title">Owner</div><div class="role-sub">Full visibility — manages the entire business lifecycle</div></div></div>
+        <div class="flow-actions">
+          <div class="action-item"><span class="action-icon">📦</span><div class="action-name">Receive inventory</div><div class="action-desc">Enter one device or use camera scan to bulk-import IMEIs from shipment label</div></div>
+          <div class="action-item"><span class="action-icon">🏪</span><div class="action-name">Manage branches</div><div class="action-desc">Create, edit, and view all branch locations</div></div>
+          <div class="action-item"><span class="action-icon">👥</span><div class="action-name">Manage users</div><div class="action-desc">Add managers, TLs, agents — with role-based access per person</div></div>
+          <div class="action-item"><span class="action-icon">🔄</span><div class="action-name">Transfer stock</div><div class="action-desc">Move devices between branches or assign to manager</div></div>
+          <div class="action-item primary"><span class="action-icon">🧾</span><div class="action-name">Record a sale</div><div class="action-desc">Sell device and print receipt — the most-used flow</div><span class="hot-tag">MOST USED</span></div>
+          <div class="action-item"><span class="action-icon">📊</span><div class="action-name">Reports</div><div class="action-desc">Who sold what, when, where — with stock aging flags</div></div>
+          <div class="action-item"><span class="action-icon">💸</span><div class="action-name">Expenses</div><div class="action-desc">Log costs: rent, salaries, logistics, repairs</div></div>
+          <div class="action-item"><span class="action-icon">💰</span><div class="action-name">Income</div><div class="action-desc">Record non-sale income sources</div></div>
+        </div>
+        <div class="simplify-note"><strong>Simplification needed:</strong> Inventory entry, stock transfers, and branch assignment currently involve too many steps. Redesign goal: scan → confirm → assign — three steps maximum.</div>
+      </div>
+    </div>
+
+    <div class="flow-panel" id="flow-manager">
+      <div class="flow-tree">
+        <div class="flow-role"><div class="role-badge manager">MG</div><div><div class="role-title">Manager / Team Lead</div><div class="role-sub">Branch-level operations — receive stock, assign, sell</div></div></div>
+        <div class="flow-actions">
+          <div class="action-item"><span class="action-icon">📥</span><div class="action-name">Receive stock</div><div class="action-desc">Accept transfer from owner into their branch — confirm with one tap</div></div>
+          <div class="action-item"><span class="action-icon">➡️</span><div class="action-name">Assign to agent</div><div class="action-desc">Push devices to sales agents on their team</div></div>
+          <div class="action-item primary"><span class="action-icon">🧾</span><div class="action-name">Record a sale</div><div class="action-desc">Sell device and print receipt</div><span class="hot-tag">MOST USED</span></div>
+          <div class="action-item"><span class="action-icon">↩️</span><div class="action-name">Return aged stock</div><div class="action-desc">Flag and return devices that haven't moved</div></div>
+          <div class="action-item"><span class="action-icon">📋</span><div class="action-name">Branch stock view</div><div class="action-desc">All devices in branch with age indicators at a glance</div></div>
+        </div>
+        <div class="simplify-note"><strong>Simplification needed:</strong> Receiving and assigning stock are currently separate flows that feel disconnected. They should be one guided flow: receive → choose agent or keep in branch.</div>
+      </div>
+    </div>
+
+    <div class="flow-panel" id="flow-agent">
+      <div class="flow-tree">
+        <div class="flow-role"><div class="role-badge agent">SA</div><div><div class="role-title">Sales Agent</div><div class="role-sub">Focused, minimal — receive stock, sell, return</div></div></div>
+        <div class="flow-actions">
+          <div class="action-item"><span class="action-icon">📥</span><div class="action-name">Receive stock</div><div class="action-desc">Accept devices assigned by team lead</div></div>
+          <div class="action-item primary"><span class="action-icon">🧾</span><div class="action-name">Record a sale</div><div class="action-desc">Select device → enter customer details → print receipt</div><span class="hot-tag">MOST USED</span></div>
+          <div class="action-item"><span class="action-icon">↩️</span><div class="action-name">Return stock</div><div class="action-desc">Return unsold or aged devices to team lead</div></div>
+          <div class="action-item"><span class="action-icon">📱</span><div class="action-name">My stock</div><div class="action-desc">View devices currently assigned to me</div></div>
+        </div>
+        <div class="simplify-note"><strong>Design principle:</strong> The agent's home screen should show exactly 3 things — My Stock, Sell, Return. No menus. No settings. The screen should explain itself without any training.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WIREFRAMES -->
+<section id="sec-wireframes">
+  <div class="container">
+    <div class="section-label">Mobile wireframes</div>
+    <h2 class="section-title">Paper-sketch walkthroughs</h2>
+    <p class="section-lead">Intentionally rough — sketch-style screens showing the flow and layout without prescribing the final design. Click any phone to walk through the flow. These are for customer walkthroughs — get their feedback before any code is written.</p>
+    <div class="wf-tabs">
+      <button class="wf-tab active" onclick="showWf('wf-home',this)">Home screens</button>
+      <button class="wf-tab" onclick="showWf('wf-sell',this)">Record a sale</button>
+      <button class="wf-tab" onclick="showWf('wf-inventory',this)">Add inventory</button>
+      <button class="wf-tab" onclick="showWf('wf-stock',this)">Stock &amp; aging</button>
+      <button class="wf-tab" onclick="showWf('wf-receipt',this)">Receipt</button>
+      <button class="wf-tab" onclick="showWf('wf-commissions',this)">Commissions</button>
+      <button class="wf-tab" onclick="showWf('wf-settings',this)">Settings</button>
+    </div>
+
+    <!-- HOME -->
+    <div class="wf-panel active" id="wf-home">
+      <div class="phone-wrap">
+        <div class="phone-label">Owner home</div>
+        <div class="phone" onclick="showWf('wf-inventory',document.querySelectorAll('.wf-tab')[2])">
+          <div class="phone-screen">
+            <div class="sk-statusbar"><span class="sk-time">9:41</span><div class="sk-icons"><div class="sk-icon"></div><div class="sk-icon"></div></div></div>
+            <div class="sk-header"><div class="sk-title">Good morning, John</div><div class="sk-sub">All branches · Mawinga</div></div>
+            <div style="background:var(--navy);border-radius:7px;padding:8px 10px;margin-bottom:7px;">
+              <div style="font-size:7px;color:rgba(255,255,255,0.5);margin-bottom:2px;letter-spacing:0.5px;">TODAY'S SALES</div>
+              <div style="font-size:15px;font-weight:700;color:white;font-family:'Google Sans',sans-serif;line-height:1.1;">TZS 1,350,000</div>
+              <div style="display:flex;justify-content:space-between;margin-top:4px;">
+                <div style="font-size:7px;color:rgba(255,255,255,0.45);">3 transactions</div>
+                <div style="font-size:7px;color:rgba(255,255,255,0.45);">All branches</div>
+              </div>
+            </div>
+            <div class="sk-line"></div>
+            <div class="sk-row primary"><div class="sk-row-icon">🧾</div><div class="sk-row-text"><div class="sk-row-label">Record a sale</div><div class="sk-row-desc">Sell a device now</div></div><div class="sk-row-arrow">›</div></div>
+            <div class="sk-row"><div class="sk-row-icon">📦</div><div class="sk-row-text"><div class="sk-row-label">Add inventory</div><div class="sk-row-desc">Scan or enter manually</div></div><div class="sk-row-arrow">›</div></div>
+            <div class="sk-row"><div class="sk-row-icon">🔄</div><div class="sk-row-text"><div class="sk-row-label">Transfer stock</div><div class="sk-row-desc">Move to branch or agent</div></div><div class="sk-row-arrow">›</div></div>
+            <div class="sk-row"><div class="sk-row-icon">📊</div><div class="sk-row-text"><div class="sk-row-label">Reports</div><div class="sk-row-desc">Sales, stock, expenses</div></div><div class="sk-row-arrow">›</div></div>
+            <div class="sk-row"><div class="sk-row-icon">👥</div><div class="sk-row-text"><div class="sk-row-label">Manage</div><div class="sk-row-desc">Users &amp; branches</div></div><div class="sk-row-arrow">›</div></div>
+            <div class="sk-tabbar">
+              <div class="sk-tab active"><div class="sk-tab-icon">🏠</div><div class="sk-tab-name">Home</div></div>
+              <div class="sk-tab"><div class="sk-tab-icon">📦</div><div class="sk-tab-name">Stock</div></div>
+              <div class="sk-tab"><div class="sk-tab-icon">📊</div><div class="sk-tab-name">Reports</div></div>
+              <div class="sk-tab"><div class="sk-tab-icon">🔔</div><div class="sk-tab-name">Alerts</div></div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--sky);margin-top:4px;">tap → inventory flow</div>
+      </div>
+      <div class="phone-arrow">→</div>
+      <div class="phone-wrap">
+        <div class="phone-label">Manager / TL home</div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="sk-statusbar"><span class="sk-time">9:41</span><div class="sk-icons"><div class="sk-icon"></div></div></div>
+            <div class="sk-header"><div class="sk-title">Hi, Amina</div><div class="sk-sub">Kariakoo Branch · 12 devices</div></div>
+            <div style="display:flex;gap:5px;margin-bottom:7px;">
+              <div style="flex:1;background:var(--royal);border-radius:7px;padding:7px 8px;">
+                <div style="font-size:6px;color:rgba(255,255,255,0.5);margin-bottom:2px;letter-spacing:0.5px;">TODAY'S SALES</div>
+                <div style="font-size:12px;font-weight:700;color:white;font-family:'Google Sans',sans-serif;line-height:1.1;">TZS 450,000</div>
+                <div style="font-size:6px;color:rgba(255,255,255,0.45);margin-top:2px;">1 transaction</div>
+              </div>
+              <div style="flex:1;background:#065F46;border-radius:7px;padding:7px 8px;">
+                <div style="font-size:6px;color:rgba(255,255,255,0.5);margin-bottom:2px;letter-spacing:0.5px;">MY COMMISSION</div>
+                <div style="font-size:12px;font-weight:700;color:white;font-family:'Google Sans',sans-serif;line-height:1.1;">TZS 18,000</div>
+                <div style="font-size:6px;color:rgba(255,255,255,0.45);margin-top:2px;">Pending approval</div>
+              </div>
+            </div>
+            <div class="sk-line"></div>
+            <div class="sk-row primary"><div class="sk-row-icon">🧾</div><div class="sk-row-text"><div class="sk-row-label">Record a sale</div><div class="sk-row-desc">Sell a device now</div></div><div class="sk-row-arrow">›</div></div>
+            <div class="sk-row"><div class="sk-row-icon">📥</div><div class="sk-row-text"><div class="sk-row-label">Receive stock</div><div class="sk-row-desc">3 pending transfers</div></div><div class="sk-row-arrow">›</div></div>
+            <div class="sk-row"><div class="sk-row-icon">➡️</div><div class="sk-row-text"><div class="sk-row-label">Assign to agent</div><div class="sk-row-desc">Push devices to team</div></div><div class="sk-row-arrow">›</div></div>
+            <div class="sk-row"><div class="sk-row-icon">📋</div><div class="sk-row-text"><div class="sk-row-label">My stock</div><div class="sk-row-desc">2 aged <span class="sk-badge aged">30d+</span></div></div><div class="sk-row-arrow">›</div></div>
+            <div class="sk-tabbar">
+              <div class="sk-tab active"><div class="sk-tab-icon">🏠</div><div class="sk-tab-name">Home</div></div>
+              <div class="sk-tab"><div class="sk-tab-icon">📦</div><div class="sk-tab-name">Stock</div></div>
+              <div class="sk-tab"><div class="sk-tab-icon">🔔</div><div class="sk-tab-name">Alerts</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-arrow">→</div>
+      <div class="phone-wrap">
+        <div class="phone-label">Agent home — 3 actions only</div>
+        <div class="phone" onclick="showWf('wf-sell',document.querySelectorAll('.wf-tab')[1])">
+          <div class="phone-screen">
+            <div class="sk-statusbar"><span class="sk-time">9:41</span><div class="sk-icons"><div class="sk-icon"></div></div></div>
+            <div class="sk-header"><div class="sk-title">Hi, David</div><div class="sk-sub">4 devices with you</div></div>
+            <div style="display:flex;gap:5px;margin-bottom:7px;">
+              <div style="flex:1;background:#0369A1;border-radius:7px;padding:7px 8px;">
+                <div style="font-size:6px;color:rgba(255,255,255,0.5);margin-bottom:2px;letter-spacing:0.5px;">TODAY'S SALES</div>
+                <div style="font-size:12px;font-weight:700;color:white;font-family:'Google Sans',sans-serif;line-height:1.1;">TZS 900,000</div>
+                <div style="font-size:6px;color:rgba(255,255,255,0.45);margin-top:2px;">2 transactions</div>
+              </div>
+              <div style="flex:1;background:#065F46;border-radius:7px;padding:7px 8px;">
+                <div style="font-size:6px;color:rgba(255,255,255,0.5);margin-bottom:2px;letter-spacing:0.5px;">MY COMMISSION</div>
+                <div style="font-size:12px;font-weight:700;color:white;font-family:'Google Sans',sans-serif;line-height:1.1;">TZS 36,000</div>
+                <div style="font-size:6px;color:rgba(255,255,255,0.45);margin-top:2px;">Pending approval</div>
+              </div>
+            </div>
+            <div class="sk-line"></div>
+            <div class="sk-row primary"><div class="sk-row-icon">🧾</div><div class="sk-row-text"><div class="sk-row-label">Sell a device</div><div class="sk-row-desc">Tap to start a sale</div></div><div class="sk-row-arrow">›</div></div>
+            <div class="sk-row"><div class="sk-row-icon">📱</div><div class="sk-row-text"><div class="sk-row-label">My stock</div><div class="sk-row-desc">4 devices assigned to me</div></div><div class="sk-row-arrow">›</div></div>
+            <div class="sk-row"><div class="sk-row-icon">↩️</div><div class="sk-row-text"><div class="sk-row-label">Return a device</div><div class="sk-row-desc">Send back to team lead</div></div><div class="sk-row-arrow">›</div></div>
+            <div style="margin-top:12px;padding:8px;background:var(--pale);border-radius:6px;font-size:8px;color:var(--royal);text-align:center;line-height:1.5;">3 options only.<br>Nothing to get lost in.</div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--sky);margin-top:4px;">tap → sale flow</div>
+      </div>
+      <div class="wf-desc">
+        <h3>Role-specific home screens</h3>
+        <p>Each user sees only what they need — no universal menu, no discovery required. The most important action sits at the top, always.</p>
+        <div class="wf-points">
+          <div class="wf-point"><div class="wf-point-num">1</div>"Record a sale" is always the primary action — it's what everyone uses most.</div>
+          <div class="wf-point"><div class="wf-point-num">2</div>Agents see exactly 3 options. No menus, no settings, no confusion.</div>
+          <div class="wf-point"><div class="wf-point-num">3</div>Alerts surface inline — "3 pending transfers", "2 aged devices" — no hunting needed.</div>
+          <div class="wf-point"><div class="wf-point-num">4</div>Tab bar gives fast access to Stock, Reports, Alerts without leaving the flow.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SELL -->
+    <div class="wf-panel" id="wf-sell">
+      <div class="phone-wrap">
+        <div class="phone-label">Step 1 — Select device</div>
+        <div class="phone" onclick="showWf('wf-receipt',document.querySelectorAll('.wf-tab')[4])">
+          <div class="phone-screen">
+            <div class="sk-statusbar"><span class="sk-time">9:41</span><div class="sk-icons"><div class="sk-icon"></div></div></div>
+            <div class="sk-header"><div class="sk-title">Record a sale</div><div class="sk-sub">Select device to sell</div></div>
+            <div class="sk-search"><span class="sk-search-icon">🔍</span><span class="sk-search-text">Search model or IMEI...</span></div>
+            <div class="sk-stock-item"><div><div class="sk-stock-name">Samsung A55 Blue</div><div class="sk-stock-imei">IMEI: 35015114...</div></div><div class="sk-badge ok">5d</div></div>
+            <div class="sk-stock-item"><div><div class="sk-stock-name">Tecno Spark 20</div><div class="sk-stock-imei">IMEI: 86421200...</div></div><div class="sk-badge ok">12d</div></div>
+            <div class="sk-stock-item" style="background:#FEF3C7;border-radius:6px;padding:5px 5px;"><div><div class="sk-stock-name">Samsung A35</div><div class="sk-stock-imei">IMEI: 35091345...</div></div><div class="sk-badge aged">35d</div></div>
+          </div>
+        </div>
+        <div style="font-size:11px;color:var(--sky);margin-top:4px;">tap → receipt</div>
+      </div>
+      <div class="phone-arrow">→</div>
+      <div class="phone-wrap">
+        <div class="phone-label">Step 2 — Customer details</div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="sk-statusbar"><span class="sk-time">9:41</span><div class="sk-icons"><div class="sk-icon"></div></div></div>
+            <div class="sk-header"><div class="sk-title">Customer details</div><div class="sk-sub">Samsung A55 · Blue</div></div>
+            <div class="sk-field"><div class="sk-field-label">Customer name</div><div class="sk-field-val empty">Type name...</div></div>
+            <div class="sk-field"><div class="sk-field-label">Phone number</div><div class="sk-field-val empty">+255 ...</div></div>
+            <div class="sk-field"><div class="sk-field-label">Sale price (TZS)</div><div class="sk-field-val">450,000</div></div>
+            <div class="sk-field"><div class="sk-field-label">Payment method</div><div class="sk-field-val">Cash ▾</div></div>
+            <div class="sk-btn">Confirm &amp; print receipt →</div>
+          </div>
+        </div>
+      </div>
+      <div class="wf-desc">
+        <h3>Record a sale — 2 screens only</h3>
+        <p>The sale flow should take under 30 seconds. Select device → fill in customer details → confirm. No intermediate steps, no extra confirmations.</p>
+        <div class="wf-points">
+          <div class="wf-point"><div class="wf-point-num">1</div>Aged devices are highlighted inline — no separate report needed.</div>
+          <div class="wf-point"><div class="wf-point-num">2</div>Sale price is pre-filled from the device record but editable.</div>
+          <div class="wf-point"><div class="wf-point-num">3</div>One tap to confirm and print — receipt generates instantly.</div>
+          <div class="wf-point"><div class="wf-point-num">4</div>Walk this exact flow with the customer before coding it.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INVENTORY -->
+    <div class="wf-panel" id="wf-inventory">
+      <div class="phone-wrap">
+        <div class="phone-label">Option A — Scan label</div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="sk-statusbar"><span class="sk-time">9:41</span><div class="sk-icons"><div class="sk-icon"></div></div></div>
+            <div class="sk-header"><div class="sk-title">Add inventory</div><div class="sk-sub">Choose how to enter</div></div>
+            <div class="sk-scan"><div class="sk-scan-icon">📷</div><div class="sk-scan-text">Scan shipment label<br><span style="font-weight:400;color:var(--mist)">Point camera at barcode sheet</span></div></div>
+            <div class="sk-btn secondary">Enter manually instead</div>
+            <div style="margin-top:10px;padding:7px;background:var(--fog2);border-radius:6px;font-size:8px;color:var(--mist);text-align:center;">Scan detects all IMEIs at once — no typing required</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-arrow">→</div>
+      <div class="phone-wrap">
+        <div class="phone-label">Option B — Manual entry</div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="sk-statusbar"><span class="sk-time">9:41</span><div class="sk-icons"><div class="sk-icon"></div></div></div>
+            <div class="sk-header"><div class="sk-title">Add device</div><div class="sk-sub">Manual entry</div></div>
+            <div class="sk-field"><div class="sk-field-label">Device model</div><div class="sk-field-val empty">e.g. Samsung A55</div></div>
+            <div class="sk-field"><div class="sk-field-label">IMEI number</div><div class="sk-field-val empty">Scan barcode or type...</div></div>
+            <div class="sk-field"><div class="sk-field-label">Storage / colour</div><div class="sk-field-val empty">128GB · Blue</div></div>
+            <div class="sk-field"><div class="sk-field-label">Cost price (TZS)</div><div class="sk-field-val empty">Enter amount...</div></div>
+            <div class="sk-field"><div class="sk-field-label">Assign to</div><div class="sk-field-val">Kariakoo Branch ▾</div></div>
+            <div class="sk-btn">Save device →</div>
+          </div>
+        </div>
+      </div>
+      <div class="wf-desc">
+        <h3>Add inventory — two clear paths</h3>
+        <p>Owners receive stock in two ways: large shipments (use scan) and single devices from a supplier (use manual). Both should be one clean, guided flow.</p>
+        <div class="wf-points">
+          <div class="wf-point"><div class="wf-point-num">1</div>Scan handles bulk shipment labels in one camera shot.</div>
+          <div class="wf-point"><div class="wf-point-num">2</div>Manual flow still supports IMEI scanning via camera.</div>
+          <div class="wf-point"><div class="wf-point-num">3</div>"Assign to" is part of entry — not a separate step later.</div>
+          <div class="wf-point"><div class="wf-point-num">4</div>Ask the customer: does this feel simpler than Excel?</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STOCK AGING -->
+    <div class="wf-panel" id="wf-stock">
+      <div class="phone-wrap">
+        <div class="phone-label">Stock list with aging</div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="sk-statusbar"><span class="sk-time">9:41</span><div class="sk-icons"><div class="sk-icon"></div></div></div>
+            <div class="sk-header"><div class="sk-title">Stock</div><div class="sk-sub">All branches · 28 devices</div></div>
+            <div class="sk-search"><span class="sk-search-icon">🔍</span><span class="sk-search-text">Search model or IMEI...</span></div>
+            <div style="display:flex;gap:4px;margin-bottom:7px;">
+              <div style="font-size:8px;padding:3px 8px;border-radius:100px;background:var(--navy);color:white;">All</div>
+              <div style="font-size:8px;padding:3px 8px;border-radius:100px;background:var(--fog2);color:var(--mist);">Aged</div>
+              <div style="font-size:8px;padding:3px 8px;border-radius:100px;background:var(--fog2);color:var(--mist);">Branch</div>
+            </div>
+            <div class="sk-stock-item"><div><div class="sk-stock-name">Samsung A55 Blue</div><div class="sk-stock-imei">IMEI: 35015114...</div></div><div class="sk-badge ok">5d</div></div>
+            <div class="sk-stock-item"><div><div class="sk-stock-name">Tecno Spark 20</div><div class="sk-stock-imei">IMEI: 86421200...</div></div><div class="sk-badge ok">12d</div></div>
+            <div class="sk-stock-item" style="background:#FEF3C7;border-radius:6px;padding:5px 5px;margin-bottom:3px;"><div><div class="sk-stock-name">Samsung A35</div><div class="sk-stock-imei">IMEI: 35091345...</div></div><div class="sk-badge aged">35d ⚠️</div></div>
+            <div class="sk-stock-item" style="background:#FEF3C7;border-radius:6px;padding:5px 5px;"><div><div class="sk-stock-name">Itel A70</div><div class="sk-stock-imei">IMEI: 35012310...</div></div><div class="sk-badge aged">42d ⚠️</div></div>
+            <div style="margin-top:6px;padding:5px;background:#FEF3C7;border-radius:6px;font-size:7px;color:#92400E;text-align:center;">2 devices aged 30+ days</div>
+          </div>
+        </div>
+      </div>
+      <div class="wf-desc">
+        <h3>Stock list with built-in aging</h3>
+        <p>Dealers don't need a separate aging report — they need aging visible right on the stock list. A colour badge and day-count tell the story at a glance.</p>
+        <div class="wf-points">
+          <div class="wf-point"><div class="wf-point-num">1</div>Green = fresh, amber = aged. Self-explanatory without a legend.</div>
+          <div class="wf-point"><div class="wf-point-num">2</div>Filter by "Aged" shows only problem stock instantly.</div>
+          <div class="wf-point"><div class="wf-point-num">3</div>Inline summary nudges action without being intrusive.</div>
+          <div class="wf-point"><div class="wf-point-num">4</div>Aging threshold should be configurable per business.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECEIPT -->
+    <div class="wf-panel" id="wf-receipt">
+      <div class="phone-wrap">
+        <div class="phone-label">Receipt screen</div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="sk-statusbar"><span class="sk-time">9:41</span><div class="sk-icons"><div class="sk-icon"></div></div></div>
+            <div class="sk-header"><div class="sk-title">Sale complete ✓</div></div>
+            <div class="sk-receipt">
+              <div class="sk-receipt-logo">KARIAKOO PHONES</div>
+              <div style="text-align:center;font-size:7px;color:var(--mist);margin-bottom:5px;">Receipt #1094 · 3 May 2026</div>
+              <div class="sk-receipt-line"><span>Samsung A55 Blue</span></div>
+              <div class="sk-receipt-line"><span>IMEI: 35015114...</span></div>
+              <div class="sk-receipt-line" style="margin-top:4px;"><span>Customer:</span><span>Juma Hassan</span></div>
+              <div class="sk-receipt-line"><span>Phone:</span><span>+255 712 xxx</span></div>
+              <div class="sk-receipt-line"><span>Payment:</span><span>Cash</span></div>
+              <div class="sk-receipt-total"><span>TOTAL</span><span>TZS 450,000</span></div>
+              <div class="sk-receipt-footer">Thank you · Powered by Mawinga</div>
+            </div>
+            <div class="sk-btn">🖨️ Print receipt</div>
+            <div class="sk-btn secondary" style="margin-top:5px;">Share via WhatsApp</div>
+            <div style="text-align:center;margin-top:7px;font-size:7px;color:var(--mist);">Done · Back to home</div>
+          </div>
+        </div>
+      </div>
+      <div class="wf-desc">
+        <h3>Receipt — the most-used screen</h3>
+        <p>This is the screen the customer opens Mawinga for. It must be fast, clean, and shareable. Print and WhatsApp share should be immediate.</p>
+        <div class="wf-points">
+          <div class="wf-point"><div class="wf-point-num">1</div>Sale confirmation and receipt on one screen — not two.</div>
+          <div class="wf-point"><div class="wf-point-num">2</div>WhatsApp share sends the receipt as an image to the customer directly.</div>
+          <div class="wf-point"><div class="wf-point-num">3</div>IMEI on the receipt — important for warranty and after-sale claims.</div>
+          <div class="wf-point"><div class="wf-point-num">4</div>Ask the customer: does this receipt have everything you need?</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMMISSIONS PANEL -->
+    <div class="wf-panel" id="wf-commissions">
+      <div class="phone-wrap">
+        <div class="phone-label">Owner &mdash; pending approvals</div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="sk-statusbar"><span class="sk-time">9:41</span><div class="sk-icons"><div class="sk-icon"></div></div></div>
+            <div class="sk-header"><div class="sk-title">Commissions</div><div class="sk-sub">Pending approval</div></div>
+            <div style="display:flex;gap:4px;margin-bottom:7px;">
+              <div style="font-size:8px;padding:3px 8px;border-radius:100px;background:var(--navy);color:white;">Pending</div>
+              <div style="font-size:8px;padding:3px 8px;border-radius:100px;background:var(--fog2);color:var(--mist);">Approved</div>
+              <div style="font-size:8px;padding:3px 8px;border-radius:100px;background:var(--fog2);color:var(--mist);">History</div>
+            </div>
+            <div style="border:1px solid var(--fog2);border-radius:7px;padding:7px 8px;margin-bottom:5px;background:white;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                <div style="font-size:9px;font-weight:700;color:var(--ink);">David Mwangi</div>
+                <div style="font-size:9px;font-weight:700;color:var(--sage);">TZS 18,000</div>
+              </div>
+              <div style="font-size:7px;color:var(--mist);margin-bottom:5px;">2 sales &middot; 4% rate</div>
+              <div style="display:flex;gap:5px;">
+                <div style="flex:1;background:var(--navy);color:white;text-align:center;border-radius:5px;padding:4px;font-size:8px;font-weight:600;">Approve &amp; Pay</div>
+                <div style="background:var(--fog2);color:var(--mist);text-align:center;border-radius:5px;padding:4px 8px;font-size:8px;">Reject</div>
+              </div>
+            </div>
+            <div style="border:1px solid var(--fog2);border-radius:7px;padding:7px 8px;margin-bottom:5px;background:white;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+                <div style="font-size:9px;font-weight:700;color:var(--ink);">Fatuma Juma</div>
+                <div style="font-size:9px;font-weight:700;color:var(--sage);">TZS 9,000</div>
+              </div>
+              <div style="font-size:7px;color:var(--mist);margin-bottom:5px;">1 sale &middot; 4% rate</div>
+              <div style="display:flex;gap:5px;">
+                <div style="flex:1;background:var(--navy);color:white;text-align:center;border-radius:5px;padding:4px;font-size:8px;font-weight:600;">Approve &amp; Pay</div>
+                <div style="background:var(--fog2);color:var(--mist);text-align:center;border-radius:5px;padding:4px 8px;font-size:8px;">Reject</div>
+              </div>
+            </div>
+            <div style="background:var(--pale);border-radius:6px;padding:5px 8px;text-align:center;font-size:8px;color:var(--royal);font-weight:600;">Total pending: TZS 27,000</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-arrow">&rarr;</div>
+      <div class="phone-wrap">
+        <div class="phone-label">Agent &mdash; my commissions</div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="sk-statusbar"><span class="sk-time">9:41</span><div class="sk-icons"><div class="sk-icon"></div></div></div>
+            <div class="sk-header"><div class="sk-title">My commissions</div><div class="sk-sub">David Mwangi &middot; May 2026</div></div>
+            <div style="background:var(--navy);border-radius:7px;padding:8px 10px;margin-bottom:7px;">
+              <div style="font-size:7px;color:rgba(255,255,255,0.5);margin-bottom:2px;letter-spacing:0.5px;">PENDING PAYOUT</div>
+              <div style="font-size:15px;font-weight:700;color:white;font-family:'Google Sans',sans-serif;line-height:1.1;">TZS 18,000</div>
+              <div style="font-size:7px;color:rgba(255,255,255,0.45);margin-top:3px;">Awaiting owner approval</div>
+            </div>
+            <div class="sk-line"></div>
+            <div style="font-size:7px;font-weight:600;color:var(--mist);margin-bottom:4px;">THIS MONTH</div>
+            <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--fog2);">
+              <div><div style="font-size:8px;font-weight:600;color:var(--ink);">Samsung A55 Blue</div><div style="font-size:7px;color:var(--mist);">Sold 2 May &middot; TZS 450,000</div></div>
+              <div style="font-size:8px;font-weight:700;color:var(--sage);">+9,000</div>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--fog2);">
+              <div><div style="font-size:8px;font-weight:600;color:var(--ink);">Tecno Spark 20</div><div style="font-size:7px;color:var(--mist);">Sold 3 May &middot; TZS 225,000</div></div>
+              <div style="font-size:8px;font-weight:700;color:var(--sage);">+9,000</div>
+            </div>
+            <div style="margin-top:8px;padding:5px 8px;background:#ECFDF5;border-radius:6px;font-size:7px;color:#065F46;text-align:center;">Last payout: TZS 36,000 &middot; 28 Apr via M-Pesa</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-arrow">&rarr;</div>
+      <div class="phone-wrap">
+        <div class="phone-label">Set commission rates</div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="sk-statusbar"><span class="sk-time">9:41</span><div class="sk-icons"><div class="sk-icon"></div></div></div>
+            <div class="sk-header"><div class="sk-title">Commission rates</div><div class="sk-sub">Auto-applied on each sale</div></div>
+            <div style="background:var(--pale);border-radius:7px;padding:8px 9px;margin-bottom:7px;">
+              <div style="font-size:7px;color:var(--mist);margin-bottom:4px;font-weight:600;">DEFAULT RATE &mdash; ALL DEVICES</div>
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div style="font-size:10px;color:var(--ink);">Flat percentage</div>
+                <div style="display:flex;align-items:center;gap:5px;"><div style="font-size:12px;font-weight:700;color:var(--navy);">4%</div><div style="font-size:8px;color:var(--royal);border:1px solid var(--royal);border-radius:4px;padding:1px 5px;">Edit</div></div>
+              </div>
+            </div>
+            <div style="font-size:7px;color:var(--mist);margin-bottom:4px;font-weight:600;">PER MODEL OVERRIDES</div>
+            <div style="border:1px solid var(--fog2);border-radius:6px;overflow:hidden;margin-bottom:6px;">
+              <div style="display:flex;justify-content:space-between;padding:4px 8px;background:var(--fog2);">
+                <div style="font-size:7px;font-weight:600;color:var(--mist);">Model</div>
+                <div style="font-size:7px;font-weight:600;color:var(--mist);">Rate</div>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:5px 8px;border-bottom:1px solid var(--fog2);">
+                <div style="font-size:8px;color:var(--ink);">Samsung A55</div>
+                <div style="font-size:8px;font-weight:700;color:var(--navy);">5%</div>
+              </div>
+              <div style="display:flex;justify-content:space-between;padding:5px 8px;">
+                <div style="font-size:8px;color:var(--ink);">iPhone 14</div>
+                <div style="font-size:8px;font-weight:700;color:var(--navy);">3%</div>
+              </div>
+            </div>
+            <div style="text-align:center;font-size:8px;color:var(--royal);font-weight:600;margin-bottom:6px;">+ Add model override</div>
+            <div class="sk-btn">Save rates</div>
+          </div>
+        </div>
+      </div>
+      <div class="wf-desc">
+        <h3>Commissions &mdash; set, review &amp; approve</h3>
+        <p>Commissions are calculated automatically the moment a sale is recorded. The owner reviews and approves payouts &mdash; agents can always see what they are owed without asking.</p>
+        <div class="wf-points">
+          <div class="wf-point"><div class="wf-point-num">1</div>Owner sets a default rate and per-model overrides &mdash; applied automatically on every sale.</div>
+          <div class="wf-point"><div class="wf-point-num">2</div>Pending list shows each agent's sales and owed amount with one-tap approve &amp; pay.</div>
+          <div class="wf-point"><div class="wf-point-num">3</div>Approve &amp; Pay disburses via mobile money (M-Pesa, Airtel) directly from the screen.</div>
+          <div class="wf-point"><div class="wf-point-num">4</div>Agents see their own pending and paid history &mdash; full transparency, no disputes.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SETTINGS PANEL -->
+    <div class="wf-panel" id="wf-settings">
+      <div class="phone-wrap">
+        <div class="phone-label">Settings home</div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="sk-statusbar"><span class="sk-time">9:41</span><div class="sk-icons"><div class="sk-icon"></div></div></div>
+            <div class="sk-header"><div class="sk-title">Settings</div><div class="sk-sub">Kariakoo Phones</div></div>
+            <div class="sk-line"></div>
+            <div style="font-size:7px;color:var(--mist);font-weight:600;margin-bottom:4px;letter-spacing:0.5px;">BUSINESS</div>
+            <div class="sk-row"><div class="sk-row-icon" style="font-size:11px;">&#127978;</div><div class="sk-row-text"><div class="sk-row-label">Branches</div><div class="sk-row-desc">3 active branches</div></div><div class="sk-row-arrow">&rsaquo;</div></div>
+            <div class="sk-row"><div class="sk-row-icon" style="font-size:11px;">&#128101;</div><div class="sk-row-text"><div class="sk-row-label">User management</div><div class="sk-row-desc">8 users &middot; roles &amp; access</div></div><div class="sk-row-arrow">&rsaquo;</div></div>
+            <div class="sk-line"></div>
+            <div style="font-size:7px;color:var(--mist);font-weight:600;margin-bottom:4px;letter-spacing:0.5px;">STOCK &amp; FINANCE</div>
+            <div class="sk-row"><div class="sk-row-icon" style="font-size:11px;">&#8987;</div><div class="sk-row-text"><div class="sk-row-label">Stock aging rules</div><div class="sk-row-desc">Warn after 30 days</div></div><div class="sk-row-arrow">&rsaquo;</div></div>
+            <div class="sk-row"><div class="sk-row-icon" style="font-size:11px;">&#129518;</div><div class="sk-row-text"><div class="sk-row-label">Commission rates</div><div class="sk-row-desc">Default 4%</div></div><div class="sk-row-arrow">&rsaquo;</div></div>
+            <div class="sk-line"></div>
+            <div style="font-size:7px;color:var(--mist);font-weight:600;margin-bottom:4px;letter-spacing:0.5px;">NOTIFICATIONS</div>
+            <div class="sk-row"><div class="sk-row-icon" style="font-size:11px;">&#128276;</div><div class="sk-row-text"><div class="sk-row-label">Alert preferences</div><div class="sk-row-desc">Aging, sales, payments</div></div><div class="sk-row-arrow">&rsaquo;</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-arrow">&rarr;</div>
+      <div class="phone-wrap">
+        <div class="phone-label">Branches</div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="sk-statusbar"><span class="sk-time">9:41</span><div class="sk-icons"><div class="sk-icon"></div></div></div>
+            <div class="sk-header"><div class="sk-title">Branches</div><div class="sk-sub">3 active</div></div>
+            <div style="border:1px solid var(--fog2);border-radius:7px;overflow:hidden;margin-bottom:7px;">
+              <div style="padding:7px 9px;border-bottom:1px solid var(--fog2);">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <div><div style="font-size:9px;font-weight:700;color:var(--ink);">Kariakoo</div><div style="font-size:7px;color:var(--mist);">8 devices &middot; 3 agents</div></div>
+                  <div style="font-size:8px;color:var(--royal);">Edit &rsaquo;</div>
+                </div>
+              </div>
+              <div style="padding:7px 9px;border-bottom:1px solid var(--fog2);">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <div><div style="font-size:9px;font-weight:700;color:var(--ink);">Mwenge</div><div style="font-size:7px;color:var(--mist);">5 devices &middot; 2 agents</div></div>
+                  <div style="font-size:8px;color:var(--royal);">Edit &rsaquo;</div>
+                </div>
+              </div>
+              <div style="padding:7px 9px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <div><div style="font-size:9px;font-weight:700;color:var(--ink);">Sinza</div><div style="font-size:7px;color:var(--mist);">4 devices &middot; 1 agent</div></div>
+                  <div style="font-size:8px;color:var(--royal);">Edit &rsaquo;</div>
+                </div>
+              </div>
+            </div>
+            <div class="sk-btn secondary">+ Add branch</div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-arrow">&rarr;</div>
+      <div class="phone-wrap">
+        <div class="phone-label">Stock aging rules</div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="sk-statusbar"><span class="sk-time">9:41</span><div class="sk-icons"><div class="sk-icon"></div></div></div>
+            <div class="sk-header"><div class="sk-title">Stock aging rules</div><div class="sk-sub">Flag slow-moving stock</div></div>
+            <div style="background:var(--pale);border-radius:7px;padding:9px 10px;margin-bottom:7px;">
+              <div style="font-size:7px;color:var(--mist);margin-bottom:5px;font-weight:600;">WARN AFTER</div>
+              <div style="display:flex;align-items:center;gap:7px;">
+                <input type="range" min="7" max="90" value="30" style="flex:1;accent-color:var(--navy);" oninput="this.nextElementSibling.textContent=this.value+' days'">
+                <div style="font-size:11px;font-weight:700;color:var(--navy);min-width:40px;">30 days</div>
+              </div>
+            </div>
+            <div style="background:var(--pale);border-radius:7px;padding:9px 10px;margin-bottom:7px;">
+              <div style="font-size:7px;color:var(--mist);margin-bottom:5px;font-weight:600;">CRITICAL AFTER</div>
+              <div style="display:flex;align-items:center;gap:7px;">
+                <input type="range" min="14" max="180" value="60" style="flex:1;accent-color:var(--coral);" oninput="this.nextElementSibling.textContent=this.value+' days'">
+                <div style="font-size:11px;font-weight:700;color:var(--coral);min-width:40px;">60 days</div>
+              </div>
+            </div>
+            <div style="font-size:7px;color:var(--mist);margin-bottom:5px;font-weight:600;">NOTIFY VIA</div>
+            <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:8px;">
+              <label style="display:flex;align-items:center;gap:6px;font-size:8px;color:var(--ink);cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--navy);"> In-app alert</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:8px;color:var(--ink);cursor:pointer;"><input type="checkbox" checked style="accent-color:var(--navy);"> Push notification</label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:8px;color:var(--ink);cursor:pointer;"><input type="checkbox" style="accent-color:var(--navy);"> WhatsApp</label>
+            </div>
+            <div class="sk-btn">Save rules</div>
+          </div>
+        </div>
+      </div>
+      <div class="wf-desc">
+        <h3>Settings &mdash; business configuration</h3>
+        <p>Settings gives the owner full control over how the business runs inside Mawinga &mdash; branches, users, aging thresholds, and notification preferences all in one place.</p>
+        <div class="wf-points">
+          <div class="wf-point"><div class="wf-point-num">1</div>Branches screen shows all locations with device and agent counts &mdash; edit or add from here.</div>
+          <div class="wf-point"><div class="wf-point-num">2</div>Stock aging uses sliders for warn and critical thresholds &mdash; each dealer sets their own rules.</div>
+          <div class="wf-point"><div class="wf-point-num">3</div>User management controls who has access, their role, and which branch they belong to.</div>
+          <div class="wf-point"><div class="wf-point-num">4</div>Commission rates live here too &mdash; one place for all business configuration.</div>
+        </div>
+      </div>
+    </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- RECOMMENDATIONS -->
+<section id="sec-recs">
+  <div class="container">
+    <div class="section-label">Strategic recommendations</div>
+    <h2 class="section-title">How to move forward</h2>
+    <p class="section-lead">Each recommendation is a distinct priority — not a wishlist, but a sequence. The first one is the most important and applies to everything that follows.</p>
+    <div class="rec-grid">
+      <div class="rec-card primary-rec">
+        <div class="rec-num">PRIORITY 01</div>
+        <h3>Product engineering process — requirements must come from customers</h3>
+        <p>No feature should be built based on assumptions. Every item on the roadmap must be validated with dealers before development starts — through walkthroughs, co-design sessions, and observation in their actual shops.</p>
+        <div class="rec-bullets">
+          <div class="rec-bullet">Requirements come from customer interviews and real usage — not internal brainstorms.</div>
+          <div class="rec-bullet">Designs and prototypes are walked through with customers before any code is written.</div>
+          <div class="rec-bullet">No feature ships without a customer validation step.</div>
+          <div class="rec-bullet">Create a lightweight feedback loop so active users can flag pain points continuously.</div>
+        </div>
+      </div>
+      <div class="rec-card">
+        <div class="rec-num">PRIORITY 02</div>
+        <h3>Radically simplify the UI</h3>
+        <p>The platform is too complicated for non-technical dealers. Each role should land on a screen showing only their options. Design so clear that a first-time dealer needs no training.</p>
+        <div style="margin-top:14px;"><span class="pill p1">Role-specific home screen</span><span class="pill p1">Max 3 taps to any action</span><span class="pill p2">Reduce navigation complexity</span></div>
+      </div>
+      <div class="rec-card">
+        <div class="rec-num">PRIORITY 03</div>
+        <h3>Bulk IMEI entry via camera scan</h3>
+        <p>Owners receive dozens of phones at a time. Typing each IMEI is painful and error-prone. Camera-based OCR from shipment labels would dramatically speed up stock entry and reduce mistakes.</p>
+        <div style="margin-top:14px;"><span class="pill p3">OCR barcode scan</span><span class="pill p3">Confirm before import</span><span class="pill p3">Error flagging</span></div>
+      </div>
+      <div class="rec-card">
+        <div class="rec-num">PRIORITY 04 — STANDALONE</div>
+        <h3>Reports as a first-class feature</h3>
+        <p>Reports are currently buried. They should be a prominent, dedicated section — showing who sold what, where, when. Stock aging surfaces inline. Business owners make daily decisions from this data.</p>
+        <div style="margin-top:14px;"><span class="pill p4">Sales by agent / branch</span><span class="pill p4">Stock aging dashboard</span><span class="pill p4">Expense vs income</span></div>
+      </div>
+      <div class="rec-card wide" style="background:white;">
+        <div class="rec-num">PRIORITY 05</div>
+        <h3>Agent commissions &amp; payment integration</h3>
+        <p style="color:var(--mist);">Dealers currently calculate agent commissions manually — tracking who sold what, calculating the amount owed, and making payments outside the system entirely. Mawinga should close this loop: once a sale is recorded, the commission is calculated automatically, and the owner can approve and disburse payment directly from the platform.</p>
+        <div style="margin-top:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;">
+          <div style="background:var(--pale);border-radius:10px;padding:16px;">
+            <div style="font-size:18px;margin-bottom:7px;">🧮</div>
+            <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px;">Auto-calculate commissions</div>
+            <div style="font-size:12px;color:var(--mist);line-height:1.55;">When a sale is recorded, the agent's commission is calculated instantly based on configurable rates per model or flat percentage.</div>
+          </div>
+          <div style="background:var(--pale);border-radius:10px;padding:16px;">
+            <div style="font-size:18px;margin-bottom:7px;">✅</div>
+            <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px;">Owner approval flow</div>
+            <div style="font-size:12px;color:var(--mist);line-height:1.55;">Owner sees a pending commissions list — reviews each agent's sales, then approves individual or batch payments before anything is disbursed.</div>
+          </div>
+          <div style="background:var(--pale);border-radius:10px;padding:16px;">
+            <div style="font-size:18px;margin-bottom:7px;">📲</div>
+            <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px;">Payment integration</div>
+            <div style="font-size:12px;color:var(--mist);line-height:1.55;">Disburse via mobile money (M-Pesa, Airtel Money) directly from the approval screen. Agent receives payment and a notification confirming the amount.</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;">
+          <div style="padding:14px 16px;background:#ECFDF5;border-left:3px solid var(--sage);border-radius:0 8px 8px 0;font-size:13px;color:#065F46;">
+            <strong>Agent view:</strong> Agents can see their own commission balance and payment history — no more chasing the owner to know what they're owed.
+          </div>
+          <div style="padding:14px 16px;background:var(--pale);border-left:3px solid var(--royal);border-radius:0 8px 8px 0;font-size:13px;color:var(--navy);">
+            <strong>Validate first:</strong> Commission structures vary by dealer. Walk through the approval flow and rate configuration with the customer before building anything.
+          </div>
+        </div>
+      </div>
+
+      <div class="rec-card wide" style="background:white;">
+        <div class="rec-num">PRIORITY 06 — FUTURE LAYER</div>
+        <h3>Notifications &amp; intelligent automation</h3>
+        <p style="color:var(--mist);">Once core flows are stable and validated, the next layer of value is automation — the platform should proactively tell dealers what's happening and suggest actions based on their business patterns. This turns Mawinga from a recording tool into a business intelligence partner.</p>
+        <div style="margin-top:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;">
+          <div style="background:var(--pale);border-radius:10px;padding:16px;">
+            <div style="font-size:18px;margin-bottom:7px;">📦</div>
+            <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px;">Stock alerts</div>
+            <div style="font-size:12px;color:var(--mist);line-height:1.55;">"Samsung A35 has been unsold for 35 days — consider returning or repricing."</div>
+          </div>
+          <div style="background:var(--pale);border-radius:10px;padding:16px;">
+            <div style="font-size:18px;margin-bottom:7px;">📈</div>
+            <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px;">Performance nudges</div>
+            <div style="font-size:12px;color:var(--mist);line-height:1.55;">"This branch sold significantly more last month. What's working there?"</div>
+          </div>
+          <div style="background:var(--pale);border-radius:10px;padding:16px;">
+            <div style="font-size:18px;margin-bottom:7px;">🤖</div>
+            <div style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px;">Predictive modules</div>
+            <div style="font-size:12px;color:var(--mist);line-height:1.55;">Auto-suggest reorder quantities based on historical sales velocity per model.</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;padding:12px 16px;background:var(--pale);border-left:3px solid var(--royal);border-radius:0 8px 8px 0;font-size:13px;color:var(--navy);">
+          <strong>Important:</strong> Notifications and automation should only be enabled after core flows are stable and validated with customers. Automation on top of a broken UX adds noise, not value.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ROADMAP -->
+<section id="sec-roadmap">
+  <div class="container">
+    <div class="section-label">Product roadmap</div>
+    <h2 class="section-title">From critical to optimal</h2>
+    <p class="section-lead">Mawinga is at a crossroads. The foundation exists — but it's not yet simple enough for daily dealer use. Here's the path forward.</p>
+
+    <!-- Current state pill -->
+    <div class="rm2-youarehere">
+      <div class="rm2-pulse"></div>
+      <span>You are here &mdash; <strong>Critical stage</strong></span>
+    </div>
+
+    <!-- Phase cards — vertically stacked, swipe-friendly -->
+    <div class="rm2-phases">
+
+      <!-- PHASE 0 -->
+      <div class="rm2-phase" data-phase="0">
+        <div class="rm2-phase-header rm2-critical" onclick="togglePhase(this)">
+          <div class="rm2-phase-left">
+            <div class="rm2-phase-tag">NOW</div>
+            <div class="rm2-phase-title">Critical stage</div>
+            <div class="rm2-phase-sub">Where we are today</div>
+          </div>
+          <div class="rm2-phase-chevron">&#8964;</div>
+        </div>
+        <div class="rm2-phase-body rm2-open">
+          <div class="rm2-item rm2-problem">
+            <span class="rm2-item-icon">&#128683;</span>
+            <div>
+              <div class="rm2-item-title">Navigation too complex</div>
+              <div class="rm2-item-desc">Users give up and go back to paper &amp; Excel</div>
+            </div>
+          </div>
+
+          <div class="rm2-item rm2-problem">
+            <span class="rm2-item-icon">&#128683;</span>
+            <div>
+              <div class="rm2-item-title">Manual IMEI entry</div>
+              <div class="rm2-item-desc">Slow, error-prone — no bulk scan option</div>
+            </div>
+          </div>
+          <div class="rm2-item rm2-problem">
+            <span class="rm2-item-icon">&#128683;</span>
+            <div>
+              <div class="rm2-item-title">No commission tracking</div>
+              <div class="rm2-item-desc">Agents paid manually — no transparency</div>
+            </div>
+          </div>
+          <div class="rm2-item rm2-problem">
+            <span class="rm2-item-icon">&#128683;</span>
+            <div>
+              <div class="rm2-item-title">Bulk IMEI scan missing</div>
+              <div class="rm2-item-desc">Owners type every IMEI individually — slow and error-prone for large shipments</div>
+            </div>
+          </div>
+          <div class="rm2-item rm2-problem">
+            <span class="rm2-item-icon">&#128683;</span>
+            <div>
+              <div class="rm2-item-title">Reports buried &amp; unused</div>
+              <div class="rm2-item-desc">Sales, aging, and expense data exists but dealers can't find or use it daily</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARROW -->
+      <div class="rm2-connector">
+        <div class="rm2-connector-line"></div>
+        <div class="rm2-connector-label">Review &amp; redesign each user flow</div>
+        <div class="rm2-connector-arrow">&#8595;</div>
+      </div>
+
+      <!-- PHASE 1 -->
+      <div class="rm2-phase" data-phase="1">
+        <div class="rm2-phase-header rm2-p1" onclick="togglePhase(this)">
+          <div class="rm2-phase-left">
+            <div class="rm2-phase-tag">PHASE 1</div>
+            <div class="rm2-phase-title">Simplify &amp; validate</div>
+            <div class="rm2-phase-sub">Priority 01 &amp; 02 &mdash; customer-led redesign</div>
+          </div>
+          <div class="rm2-phase-chevron">&#8964;</div>
+        </div>
+        <div class="rm2-phase-body">
+          <div class="rm2-item rm2-action">
+            <span class="rm2-item-icon">&#128247;</span>
+            <div>
+              <div class="rm2-item-title">Build bulk IMEI scan</div>
+              <div class="rm2-item-desc">Camera OCR reads full shipment labels — validate flow with owner first</div>
+            </div>
+          </div>
+          <div class="rm2-item rm2-action">
+            <span class="rm2-item-icon">&#128202;</span>
+            <div>
+              <div class="rm2-item-title">Elevate reports to first-class screen</div>
+              <div class="rm2-item-desc">Sales, stock aging, expenses — prominent tab, useful daily</div>
+            </div>
+          </div>
+          <div class="rm2-item rm2-action">
+            <span class="rm2-item-icon">&#128101;</span>
+            <div>
+              <div class="rm2-item-title">Review every user flow</div>
+              <div class="rm2-item-desc">Owner &rarr; Manager &rarr; Agent — cut every unnecessary step</div>
+            </div>
+          </div>
+          <div class="rm2-item rm2-action">
+            <span class="rm2-item-icon">&#9999;&#65039;</span>
+            <div>
+              <div class="rm2-item-title">Redesign role home screens</div>
+              <div class="rm2-item-desc">Each role sees only their 3–5 actions on first screen</div>
+            </div>
+          </div>
+          <div class="rm2-item rm2-action">
+            <span class="rm2-item-icon">&#128065;&#65039;</span>
+            <div>
+              <div class="rm2-item-title">Walkthrough with dealers</div>
+              <div class="rm2-item-desc">Show wireframes in-shop — get feedback before coding</div>
+            </div>
+          </div>
+          <div class="rm2-item rm2-action">
+            <span class="rm2-item-icon">&#9989;</span>
+            <div>
+              <div class="rm2-item-title">Ship &amp; measure</div>
+              <div class="rm2-item-desc">Release, track daily active use within 30 days</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARROW -->
+      <div class="rm2-connector">
+        <div class="rm2-connector-line"></div>
+        <div class="rm2-connector-label">Test &amp; ship core features</div>
+        <div class="rm2-connector-arrow">&#8595;</div>
+      </div>
+
+      <!-- PHASE 2 -->
+      <div class="rm2-phase" data-phase="2">
+        <div class="rm2-phase-header rm2-p2" onclick="togglePhase(this)">
+          <div class="rm2-phase-left">
+            <div class="rm2-phase-tag">PHASE 2</div>
+            <div class="rm2-phase-title">Core features</div>
+            <div class="rm2-phase-sub">Priority 03, 04 &amp; 05 &mdash; validated &amp; shipped</div>
+          </div>
+          <div class="rm2-phase-chevron">&#8964;</div>
+        </div>
+        <div class="rm2-phase-body">
+
+
+          <div class="rm2-item rm2-feature">
+            <span class="rm2-item-icon">&#129518;</span>
+            <div>
+              <div class="rm2-item-title">Commission tracking</div>
+              <div class="rm2-item-desc">Auto-calculate, owner approves, pay via mobile money</div>
+            </div>
+          </div>
+          <div class="rm2-item rm2-feature">
+            <span class="rm2-item-icon">&#9201;&#65039;</span>
+            <div>
+              <div class="rm2-item-title">Stock aging alerts</div>
+              <div class="rm2-item-desc">Configurable thresholds — dealers know before stock goes stale</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARROW -->
+      <div class="rm2-connector">
+        <div class="rm2-connector-line"></div>
+        <div class="rm2-connector-label">Automate &amp; scale</div>
+        <div class="rm2-connector-arrow">&#8595;</div>
+      </div>
+
+      <!-- PHASE 3 -->
+      <div class="rm2-phase" data-phase="3">
+        <div class="rm2-phase-header rm2-p3" onclick="togglePhase(this)">
+          <div class="rm2-phase-left">
+            <div class="rm2-phase-tag">PHASE 3</div>
+            <div class="rm2-phase-title">Optimal stage</div>
+            <div class="rm2-phase-sub">Priority 06 &mdash; intelligence layer</div>
+          </div>
+          <div class="rm2-phase-chevron">&#8964;</div>
+        </div>
+        <div class="rm2-phase-body">
+          <div class="rm2-item rm2-optimal">
+            <span class="rm2-item-icon">&#128276;</span>
+            <div>
+              <div class="rm2-item-title">Smart notifications</div>
+              <div class="rm2-item-desc">Aged stock, low inventory, sales dips — proactively surfaced</div>
+            </div>
+          </div>
+          <div class="rm2-item rm2-optimal">
+            <span class="rm2-item-icon">&#129302;</span>
+            <div>
+              <div class="rm2-item-title">Predictive modules</div>
+              <div class="rm2-item-desc">Reorder suggestions, demand forecasting by model &amp; branch</div>
+            </div>
+          </div>
+          <div class="rm2-item rm2-optimal">
+            <span class="rm2-item-icon">&#128200;</span>
+            <div>
+              <div class="rm2-item-title">Performance insights</div>
+              <div class="rm2-item-desc">Which agent, branch, model is driving growth — auto-surfaced</div>
+            </div>
+          </div>
+          <div class="rm2-item rm2-optimal">
+            <span class="rm2-item-icon">&#127757;</span>
+            <div>
+              <div class="rm2-item-title">Multi-dealer expansion</div>
+              <div class="rm2-item-desc">Mawinga grows from one dealer to a network — platform play</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end phases -->
+
+    <!-- Bottom rule -->
+    <div class="rm2-rule">
+      <span class="rm2-rule-icon">&#128161;</span>
+      <span><strong>The rule at every phase:</strong> no feature moves forward without a customer walkthrough. Design &rarr; show dealer &rarr; get feedback &rarr; build &rarr; measure. Repeat.</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="sec-process">
+  <div class="container">
+    <div class="section-label">How we build next</div>
+    <h2 class="section-title">The product engineering procedure</h2>
+    <p class="section-lead">Every feature from here goes through this process — without exception. It protects the team's time and ensures we only build things dealers actually use.</p>
+    <div class="process-steps">
+      <div class="process-step done"><div class="step-circle">1</div><div class="step-content"><h4>Customer discovery</h4><p>Interview active dealers. Find pain points in real daily work — not features they ask for by name, but the problems underneath.</p></div></div>
+      <div class="process-step done"><div class="step-circle">2</div><div class="step-content"><h4>Requirement definition</h4><p>Write a clear problem statement and success criteria. What does "solved" look like for the dealer? How will we know it's working?</p></div></div>
+      <div class="process-step"><div class="step-circle">3</div><div class="step-content"><h4>Design &amp; walkthrough</h4><p>Create a design (even rough wireframes like those above) and walk through with dealers. Capture feedback before a single line of code is written.</p></div></div>
+      <div class="process-step"><div class="step-circle">4</div><div class="step-content"><h4>Build in small slices</h4><p>Build the smallest version that can be tested. Don't build everything at once. A working prototype beats a perfect spec every time.</p></div></div>
+      <div class="process-step"><div class="step-circle">5</div><div class="step-content"><h4>Test with real users</h4><p>Put the feature in front of real dealers in their shop during real work. Watch where they get stuck. Don't explain it — see if it explains itself.</p></div></div>
+      <div class="process-step"><div class="step-circle">6</div><div class="step-content"><h4>Iterate and release</h4><p>Apply feedback, then ship. Measure adoption. If dealers aren't using it within 30 days, find out why before building the next thing.</p></div></div>
+    </div>
+    <div class="insight-box">
+      <p>There is a real opportunity here. Dealers want to go digital — they are already paying for tools. They just need a tool simple enough to actually use every day. Mawinga can be that tool, but only if we design with dealers, not just for them.</p>
+      <cite>— Product strategy note · May 2026</cite>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div><strong>Mawinga</strong><br>Product Strategy Report · May 2026</div>
+  <div style="text-align:right">Confidential — internal use only</div>
+</footer>
+
+<script>
+function showFlow(role, el) {
+  document.querySelectorAll('.flow-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.flow-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('flow-' + role).classList.add('active');
+  if (el && el.classList) el.classList.add('active');
+}
+function showWf(id, el) {
+  document.querySelectorAll('.wf-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.wf-tab').forEach(t => t.classList.remove('active'));
+  const panel = document.getElementById(id);
+  if (panel) panel.classList.add('active');
+  if (el && el.classList) el.classList.add('active');
+}
+
+// Progress bar
+window.addEventListener('scroll', function() {
+  var scrollTop = window.scrollY;
+  var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  var bar = document.getElementById('progress-bar');
+  if (bar) bar.style.width = pct + '%';
+});
+
+// Show mobile nav on mobile
+function initMobileNav() {
+  var nav = document.getElementById('mobile-nav');
+  if (!nav) return;
+  if (window.innerWidth <= 768) {
+    nav.style.display = 'block';
+    // Add padding to body so content isn't hidden behind nav
+    document.body.style.paddingBottom = '64px';
+  } else {
+    nav.style.display = 'none';
+    document.body.style.paddingBottom = '';
+  }
+}
+initMobileNav();
+window.addEventListener('resize', initMobileNav);
+
+// Highlight active nav item on scroll
+var sections = ['sec-overview','sec-flows','sec-wireframes','sec-recs','sec-roadmap','sec-process'];
+window.addEventListener('scroll', function() {
+  var scrollMid = window.scrollY + window.innerHeight * 0.4;
+  sections.forEach(function(id) {
+    var el = document.getElementById(id);
+    var link = document.querySelector('a[href="#'+id+'"]');
+    if (!el || !link) return;
+    var top = el.offsetTop;
+    var bottom = top + el.offsetHeight;
+    if (scrollMid >= top && scrollMid < bottom) {
+      document.querySelectorAll('.mnav-item').forEach(function(a){ a.classList.remove('active'); });
+      link.classList.add('active');
+      // Scroll link into view in nav
+      link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  });
+});
+
+// Roadmap accordion
+function togglePhase(header) {
+  var body = header.nextElementSibling;
+  var isOpen = body.classList.contains('rm2-open');
+  body.classList.toggle('rm2-open', !isOpen);
+  header.classList.toggle('open', !isOpen);
+}
+// Open first phase by default
+document.addEventListener('DOMContentLoaded', function() {
+  var firstHeader = document.querySelector('.rm2-phase-header');
+  if (firstHeader) firstHeader.classList.add('open');
+});
+
+</script>
+</body>
+</html>
