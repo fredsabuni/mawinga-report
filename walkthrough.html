@@ -1,0 +1,1446 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Mawinga · Hi-Fi Walkthrough</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; font-family: 'Inter', system-ui, sans-serif; }
+  body { background: #f0eee9; }
+  #back-btn {
+    position: fixed; top: 14px; left: 14px; z-index: 200;
+    background: rgba(255,255,255,0.92); border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 10px; padding: 8px 14px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px; font-weight: 600; color: #1E3A8A;
+    cursor: pointer; text-decoration: none;
+    display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    backdrop-filter: blur(8px);
+    transition: background 0.15s;
+  }
+  #back-btn:hover { background: #fff; }
+</style>
+</head>
+<body>
+<a id="back-btn" href="index.html">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 5l-7 7 7 7"/></svg>
+  Back to Report
+</a>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel">
+// ── TOKENS ──────────────────────────────────────────────────────
+const T = {
+  primary: '#1E3A8A', primaryDark: '#172E6E', primaryTint: '#E8EDF8',
+  primaryTintDeep: '#D6DFF1', accent: '#1E40AF',
+  ink: '#0E1530', ink2: '#3A4567', ink3: '#6B7493', ink4: '#9AA1B8',
+  line: '#E6E8F0', line2: '#EFF1F7', bg: '#F6F7FB', surface: '#FFFFFF',
+  success: '#0F8A5F', successTint: '#E1F4EB',
+  warn: '#B45309', warnTint: '#FEF1DC',
+  danger: '#B42318', dangerTint: '#FCE7E4',
+  font: '"Inter", "SF Pro Text", -apple-system, system-ui, sans-serif',
+  phoneW: 380, phoneH: 760,
+};
+
+function Phone({ children, statusDark = false }) {
+  return (
+    <div style={{ width:T.phoneW, height:T.phoneH, borderRadius:36, background:'#0B0F1F', padding:8,
+      boxShadow:'0 1px 0 rgba(255,255,255,.06) inset, 0 30px 60px -30px rgba(20,30,80,.35)',
+      boxSizing:'border-box', fontFamily:T.font }}>
+      <div style={{ width:'100%', height:'100%', borderRadius:28, overflow:'hidden',
+        background:T.bg, display:'flex', flexDirection:'column', position:'relative' }}>
+        <StatusBar dark={statusDark} />
+        <div style={{ flex:1, overflow:'hidden', display:'flex', flexDirection:'column' }}>
+          {children}
+        </div>
+        <div style={{ height:22, flexShrink:0, display:'flex', alignItems:'center', justifyContent:'center' }}>
+          <div style={{ width:110, height:4, borderRadius:2, background:T.ink, opacity:0.85 }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+function StatusBar({ dark }) {
+  const c = dark ? '#fff' : T.ink;
+  return (
+    <div style={{ height:32, flexShrink:0, display:'flex', alignItems:'center',
+      justifyContent:'space-between', padding:'0 22px', position:'relative',
+      background:dark ? T.primary : 'transparent', color:c, fontSize:13, fontWeight:600 }}>
+      <span>9:41</span>
+      <div style={{ position:'absolute', left:'50%', top:8, transform:'translateX(-50%)',
+        width:18, height:18, borderRadius:9, background:'#0B0F1F' }} />
+      <div style={{ display:'flex', gap:5, alignItems:'center' }}>
+        <svg width="14" height="10" viewBox="0 0 14 10" fill={c}><path d="M7 9.5L0 2.5a9.9 9.9 0 0 1 14 0L7 9.5z"/></svg>
+        <svg width="14" height="10" viewBox="0 0 14 10" fill={c}><path d="M13 0v10h-2V2H9v8H7V4H5v6H3V6H1v4H0V0z"/></svg>
+        <svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke={c} strokeWidth="1"><rect x="1" y="1.5" width="16" height="7" rx="1.5"/><rect x="2.5" y="3" width="12" height="4" rx=".5" fill={c}/><rect x="17.5" y="3.5" width="1.5" height="3" rx=".5" fill={c}/></svg>
+      </div>
+    </div>
+  );
+}
+function Icon({ name, size=22, color='currentColor', strokeWidth=1.7 }) {
+  const p = { fill:'none', stroke:color, strokeWidth, strokeLinecap:'round', strokeLinejoin:'round' };
+  const paths = {
+    home: <><path d="M3 11l9-7 9 7" {...p}/><path d="M5 10v10h14V10" {...p}/></>,
+    box: <><path d="M3 7l9-4 9 4-9 4-9-4z" {...p}/><path d="M3 7v10l9 4 9-4V7" {...p}/><path d="M12 11v10" {...p}/></>,
+    chart: <><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" {...p}/></>,
+    bell: <><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2H4.5L6 16z" {...p}/><path d="M10 20a2 2 0 0 0 4 0" {...p}/></>,
+    plus: <><path d="M12 5v14M5 12h14" {...p}/></>,
+    receipt: <><path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2V3z" {...p}/><path d="M8 8h8M8 12h8M8 16h5" {...p}/></>,
+    arrowR: <><path d="M5 12h14M13 5l7 7-7 7" {...p}/></>,
+    arrowL: <><path d="M19 12H5M11 5l-7 7 7 7" {...p}/></>,
+    transfer: <><path d="M4 8h13M14 5l3 3-3 3M20 16H7M10 13l-3 3 3 3" {...p}/></>,
+    return: <><path d="M9 14l-5-5 5-5" {...p}/><path d="M4 9h11a5 5 0 0 1 5 5v0a5 5 0 0 1-5 5H8" {...p}/></>,
+    camera: <><path d="M3 8h4l2-3h6l2 3h4v12H3V8z" {...p}/><circle cx="12" cy="13" r="4" {...p}/></>,
+    scan: <><path d="M3 8V4h4M21 8V4h-4M3 16v4h4M21 16v4h-4" {...p}/><path d="M7 12h10" {...p}/></>,
+    check: <><path d="M5 12l5 5 9-11" {...p}/></>,
+    x: <><path d="M6 6l12 12M18 6L6 18" {...p}/></>,
+    warn: <><path d="M12 3l10 18H2L12 3z" {...p}/><path d="M12 10v5M12 18v.5" {...p}/></>,
+    info: <><circle cx="12" cy="12" r="9" {...p}/><path d="M12 8v.5M12 12v5" {...p}/></>,
+    chev: <><path d="M9 6l6 6-6 6" {...p}/></>,
+    chevDown: <><path d="M6 9l6 6 6-6" {...p}/></>,
+    search: <><circle cx="11" cy="11" r="7" {...p}/><path d="M21 21l-5-5" {...p}/></>,
+    filter: <><path d="M4 5h16M7 12h10M10 19h4" {...p}/></>,
+    user: <><circle cx="12" cy="8" r="4" {...p}/><path d="M4 21c0-4 4-7 8-7s8 3 8 7" {...p}/></>,
+    users: <><circle cx="9" cy="8" r="3.5" {...p}/><path d="M2 20c0-4 3-6 7-6s7 2 7 6" {...p}/><path d="M16 4a4 4 0 0 1 0 8M22 20c0-3-2-5-5-5.5" {...p}/></>,
+    branch: <><path d="M3 21V8l9-5 9 5v13" {...p}/><path d="M9 21v-7h6v7" {...p}/><path d="M3 21h18" {...p}/></>,
+    money: <><circle cx="12" cy="12" r="9" {...p}/><path d="M9 14c0 1.1 1.3 2 3 2s3-.9 3-2c0-2.5-6-1.5-6-4 0-1.1 1.3-2 3-2s3 .9 3 2M12 6v2M12 16v2" {...p}/></>,
+    clock: <><circle cx="12" cy="12" r="9" {...p}/><path d="M12 7v5l3 2" {...p}/></>,
+    inbox: <><path d="M3 13h5l1 3h6l1-3h5M3 13l3-9h12l3 9v7H3v-7z" {...p}/></>,
+    edit: <><path d="M4 20h4L20 8l-4-4L4 16v4z" {...p}/><path d="M14 6l4 4" {...p}/></>,
+    flash: <><path d="M13 3L4 14h6l-1 7 9-11h-6l1-7z" {...p}/></>,
+    sparkle: <><path d="M12 4l1.8 5.2L19 11l-5.2 1.8L12 18l-1.8-5.2L5 11l5.2-1.8L12 4z" {...p}/></>,
+  };
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" style={{ flexShrink:0, display:'block' }}>
+      {paths[name] || null}
+    </svg>
+  );
+}
+function AppBar({ title, sub, leading='back', trailing, dark=true }) {
+  const fg = dark ? '#fff' : T.ink;
+  const subFg = dark ? 'rgba(255,255,255,.78)' : T.ink3;
+  return (
+    <div style={{ background:dark?T.primary:T.surface, padding:'10px 16px 16px', color:fg,
+      borderBottom:dark?'none':`1px solid ${T.line}`, flexShrink:0 }}>
+      <div style={{ display:'flex', alignItems:'center', gap:8, height:36 }}>
+        {(leading==='back'||leading==='close') && (
+          <div style={{ width:32, height:32, borderRadius:16, display:'flex', alignItems:'center', justifyContent:'center', marginLeft:-6 }}>
+            <Icon name={leading==='back'?'arrowL':'x'} size={20} color={fg} />
+          </div>
+        )}
+        <div style={{ flex:1 }} />
+        {trailing}
+      </div>
+      <div style={{ marginTop:4 }}>
+        <div style={{ fontSize:22, fontWeight:700, letterSpacing:-0.3, lineHeight:1.15 }}>{title}</div>
+        {sub && <div style={{ fontSize:13, color:subFg, marginTop:4 }}>{sub}</div>}
+      </div>
+    </div>
+  );
+}
+function TabBar({ active='home', items=['home','box','chart','bell'], labels={home:'Home',box:'Stock',chart:'Reports',bell:'Alerts'} }) {
+  return (
+    <div style={{ flexShrink:0, background:T.surface, borderTop:`1px solid ${T.line}`, display:'flex', padding:'8px 4px 6px' }}>
+      {items.map((it) => {
+        const on = it===active;
+        return (
+          <div key={it} style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', gap:2, padding:'4px 0' }}>
+            <Icon name={it} size={22} color={on?T.primary:T.ink4} strokeWidth={on?2:1.6} />
+            <div style={{ fontSize:11, fontWeight:on?600:500, color:on?T.primary:T.ink3 }}>{labels[it]}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+function Card({ children, style, pad=16 }) {
+  return (
+    <div style={{ background:T.surface, borderRadius:14, border:`1px solid ${T.line}`, padding:pad, ...style }}>
+      {children}
+    </div>
+  );
+}
+function Btn({ kind='primary', icon, children, full, size='md', style }) {
+  const sz = size==='lg'?{height:52,fontSize:16,padding:'0 20px',radius:14}
+    :size==='sm'?{height:36,fontSize:13,padding:'0 12px',radius:10}
+    :{height:46,fontSize:15,padding:'0 18px',radius:12};
+  const styles = {
+    primary:{background:T.primary,color:'#fff',border:'none'},
+    secondary:{background:T.primaryTint,color:T.primary,border:'none'},
+    outline:{background:'#fff',color:T.ink,border:`1px solid ${T.line}`},
+    ghost:{background:'transparent',color:T.primary,border:'none'},
+    danger:{background:'#fff',color:T.danger,border:`1px solid ${T.dangerTint}`},
+  };
+  return (
+    <button style={{ ...styles[kind], height:sz.height, padding:sz.padding, borderRadius:sz.radius,
+      fontSize:sz.fontSize, fontWeight:600, fontFamily:T.font, display:'inline-flex',
+      alignItems:'center', justifyContent:'center', gap:8,
+      width:full?'100%':undefined, cursor:'pointer', letterSpacing:-0.1, ...style }}>
+      {icon}{children}
+    </button>
+  );
+}
+function Pill({ tone='neutral', children, style }) {
+  const tones = {
+    neutral:{bg:T.line2,fg:T.ink2}, success:{bg:T.successTint,fg:T.success},
+    warn:{bg:T.warnTint,fg:T.warn}, danger:{bg:T.dangerTint,fg:T.danger},
+    primary:{bg:T.primaryTint,fg:T.primary},
+  }[tone];
+  return (
+    <span style={{ display:'inline-flex', alignItems:'center', gap:4,
+      background:tones.bg, color:tones.fg, fontSize:11, fontWeight:600,
+      letterSpacing:0.1, padding:'3px 8px', borderRadius:999, ...style }}>
+      {children}
+    </span>
+  );
+}
+function Body({ children, padded=true, style }) {
+  return (
+    <div style={{ flex:1, overflow:'auto', background:T.bg,
+      padding:padded?'16px 16px 24px':0,
+      display:'flex', flexDirection:'column', gap:14, ...style }}>
+      {children}
+    </div>
+  );
+}
+function tzs(n) { return 'TZS '+Number(n).toLocaleString('en-US'); }
+
+// ── DESIGN CANVAS ────────────────────────────────────────────────
+const DC = {
+  bg:'#f0eee9', grid:'rgba(0,0,0,0.06)', label:'rgba(60,50,40,0.7)',
+  title:'rgba(40,30,20,0.85)', subtitle:'rgba(60,50,40,0.6)',
+  font:'-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
+};
+
+if (!document.getElementById('dc-styles')) {
+  const s = document.createElement('style');
+  s.id = 'dc-styles';
+  s.textContent = [
+    '.dc-editable{cursor:text;outline:none;white-space:nowrap;border-radius:3px;padding:0 2px;margin:0 -2px}',
+    '.dc-editable:focus{background:#fff;box-shadow:0 0 0 1.5px #c96442}',
+    '[data-dc-slot]{transition:transform .18s cubic-bezier(.2,.7,.3,1)}',
+    '.dc-card{isolation:isolate;transition:box-shadow .15s,transform .15s}',
+    '.dc-card *{scrollbar-width:none}',
+    '.dc-card *::-webkit-scrollbar{display:none}',
+    '.dc-header{position:absolute;bottom:100%;left:-4px;margin-bottom:calc(4px * var(--dc-inv-zoom,1));z-index:2;display:flex;align-items:center;container-type:inline-size}',
+    '.dc-labelrow{display:flex;align-items:center;gap:4px;height:24px;flex:1 1 auto;min-width:0}',
+    '.dc-grip{flex:0 0 auto;cursor:grab;display:flex;align-items:center;padding:5px 4px;border-radius:4px;transition:background .12s}',
+    '.dc-grip:hover{background:rgba(0,0,0,.08)}',
+    '.dc-labeltext{flex:1 1 auto;min-width:0;cursor:pointer;border-radius:4px;padding:3px 6px;display:flex;align-items:center;transition:background .12s;overflow:hidden}',
+    '.dc-labeltext:hover{background:rgba(0,0,0,.05)}',
+    '.dc-btns{flex:0 0 auto;margin-left:auto;display:flex;gap:2px;opacity:0;transition:opacity .12s}',
+    '[data-dc-slot]:hover .dc-btns{opacity:1}',
+    '.dc-expand{width:22px;height:22px;border-radius:5px;border:none;cursor:pointer;padding:0;background:transparent;color:rgba(60,50,40,.7);display:flex;align-items:center;justify-content:center;font:inherit;transition:background .12s}',
+    '.dc-expand:hover{background:rgba(0,0,0,.06)}',
+    '.dc-header{width:calc((100% + 4px) / var(--dc-inv-zoom,1));transform:scale(var(--dc-inv-zoom,1));transform-origin:bottom left}',
+    '.dc-sectionhead{zoom:var(--dc-inv-zoom,1)}',
+  ].join('\n');
+  document.head.appendChild(s);
+}
+
+const DCCtx = React.createContext(null);
+
+function DesignCanvas({ children, minScale=0.1, maxScale=8 }) {
+  const [state, setState] = React.useState({ sections:{}, focus:null });
+  const [ready, setReady] = React.useState(false);
+  React.useEffect(() => { setReady(true); }, []);
+
+  const registry = {};
+  const sectionMeta = {};
+  const sectionOrder = [];
+  React.Children.forEach(children, (sec) => {
+    if (!sec || sec.type !== DCSection) return;
+    const sid = sec.props.id ?? sec.props.title;
+    if (!sid) return;
+    sectionOrder.push(sid);
+    const abs = [];
+    React.Children.forEach(sec.props.children, (ab) => {
+      if (!ab || ab.type !== DCArtboard) return;
+      const aid = ab.props.id ?? ab.props.label;
+      if (aid) abs.push([aid, ab]);
+    });
+    const srcIds = abs.map(([k]) => k);
+    abs.forEach(([aid, ab]) => { registry[`${sid}/${aid}`] = { sectionId:sid, artboard:ab }; });
+    sectionMeta[sid] = {
+      title: (state.sections[sid]||{}).title ?? sec.props.title,
+      subtitle: sec.props.subtitle, slotIds: srcIds,
+    };
+  });
+
+  const api = React.useMemo(() => ({
+    state, section:(id) => state.sections[id]||{},
+    patchSection:(id,p) => setState(s=>({...s,sections:{...s.sections,[id]:{...s.sections[id],...(typeof p==='function'?p(s.sections[id]||{}):p)}}})),
+    setFocus:(slotId) => setState(s=>({...s,focus:slotId})),
+  }), [state]);
+
+  React.useEffect(() => {
+    const onKey = (e) => { if(e.key==='Escape') api.setFocus(null); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [api]);
+
+  return (
+    <DCCtx.Provider value={api}>
+      <DCViewport minScale={minScale} maxScale={maxScale}>{ready && children}</DCViewport>
+      {state.focus && registry[state.focus] && (
+        <DCFocusOverlay entry={registry[state.focus]} sectionMeta={sectionMeta} sectionOrder={sectionOrder} />
+      )}
+    </DCCtx.Provider>
+  );
+}
+
+function DCViewport({ children, minScale=0.1, maxScale=8 }) {
+  const vpRef = React.useRef(null);
+  const worldRef = React.useRef(null);
+  const tf = React.useRef({ x:0, y:0, scale:1 });
+  const lastPostedScale = React.useRef();
+
+  const apply = React.useCallback(() => {
+    const { x, y, scale } = tf.current;
+    const el = worldRef.current;
+    if (!el) return;
+    el.style.transform = `translate3d(${x}px,${y}px,0) scale(${scale})`;
+    el.style.setProperty('--dc-inv-zoom', String(1/scale));
+    if (lastPostedScale.current !== scale) {
+      lastPostedScale.current = scale;
+      window.parent.postMessage({ type:'__dc_zoom', scale }, '*');
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const vp = vpRef.current;
+    if (!vp) return;
+    const zoomAt = (cx,cy,factor) => {
+      const r = vp.getBoundingClientRect();
+      const px=cx-r.left, py=cy-r.top, t=tf.current;
+      const next=Math.min(maxScale,Math.max(minScale,t.scale*factor));
+      const k=next/t.scale;
+      t.x=px-(px-t.x)*k; t.y=py-(py-t.y)*k; t.scale=next; apply();
+    };
+    const isMouseWheel = (e) => e.deltaMode!==0||(e.deltaX===0&&Number.isInteger(e.deltaY)&&Math.abs(e.deltaY)>=40);
+    let isGesturing=false;
+    const onWheel=(e)=>{
+      e.preventDefault(); if(isGesturing) return;
+      if((e.ctrlKey||e.metaKey)&&!isMouseWheel(e)) zoomAt(e.clientX,e.clientY,Math.exp(-e.deltaY*0.01));
+      else if(isMouseWheel(e)) zoomAt(e.clientX,e.clientY,Math.exp(-Math.sign(e.deltaY)*0.18));
+      else { tf.current.x-=e.deltaX; tf.current.y-=e.deltaY; apply(); }
+    };
+    const onGS=(e)=>{ e.preventDefault(); isGesturing=true; };
+    const onGC=(e)=>{ e.preventDefault(); zoomAt(e.clientX,e.clientY,(tf.current.scale*e.scale)/tf.current.scale); };
+    const onGE=(e)=>{ e.preventDefault(); isGesturing=false; };
+    let drag=null;
+    const onPD=(e)=>{ const onBg=!e.target.closest('[data-dc-slot]'); if(!(e.button===1||(e.button===0&&onBg))) return; e.preventDefault(); vp.setPointerCapture(e.pointerId); drag={id:e.pointerId,lx:e.clientX,ly:e.clientY}; vp.style.cursor='grabbing'; };
+    const onPM=(e)=>{ if(!drag||e.pointerId!==drag.id) return; tf.current.x+=e.clientX-drag.lx; tf.current.y+=e.clientY-drag.ly; drag.lx=e.clientX; drag.ly=e.clientY; apply(); };
+    const onPU=(e)=>{ if(!drag||e.pointerId!==drag.id) return; vp.releasePointerCapture(e.pointerId); drag=null; vp.style.cursor=''; };
+    const onMsg=(e)=>{ const d=e.data; if(d&&d.type==='__dc_set_zoom') { const r=vp.getBoundingClientRect(); zoomAt(r.left+r.width/2,r.top+r.height/2,d.scale/tf.current.scale); } else if(d&&d.type==='__dc_probe') { window.parent.postMessage({type:'__dc_present'},'*'); lastPostedScale.current=undefined; apply(); } };
+    window.addEventListener('message',onMsg);
+    window.parent.postMessage({type:'__dc_present'},'*'); lastPostedScale.current=undefined; apply();
+    vp.addEventListener('wheel',onWheel,{passive:false});
+    vp.addEventListener('gesturestart',onGS,{passive:false});
+    vp.addEventListener('gesturechange',onGC,{passive:false});
+    vp.addEventListener('gestureend',onGE,{passive:false});
+    vp.addEventListener('pointerdown',onPD);
+    vp.addEventListener('pointermove',onPM);
+    vp.addEventListener('pointerup',onPU);
+    vp.addEventListener('pointercancel',onPU);
+    return () => {
+      window.removeEventListener('message',onMsg);
+      vp.removeEventListener('wheel',onWheel);
+      ['gesturestart','gesturechange','gestureend'].forEach(ev=>vp.removeEventListener(ev,ev==='gesturestart'?onGS:ev==='gesturechange'?onGC:onGE));
+      vp.removeEventListener('pointerdown',onPD); vp.removeEventListener('pointermove',onPM);
+      vp.removeEventListener('pointerup',onPU); vp.removeEventListener('pointercancel',onPU);
+    };
+  }, [apply,minScale,maxScale]);
+
+  const gridSvg = `url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M120 0H0v120' fill='none' stroke='${encodeURIComponent(DC.grid)}' stroke-width='1'/%3E%3C/svg%3E")`;
+  return (
+    <div ref={vpRef} style={{ height:'100vh', width:'100vw', background:DC.bg, overflow:'hidden', overscrollBehavior:'none', touchAction:'none', position:'relative', fontFamily:DC.font, boxSizing:'border-box' }}>
+      <div ref={worldRef} style={{ position:'absolute', top:0, left:0, transformOrigin:'0 0', willChange:'transform', width:'max-content', minWidth:'100%', minHeight:'100%', padding:'60px 0 80px' }}>
+        <div style={{ position:'absolute', inset:-6000, backgroundImage:gridSvg, backgroundSize:'120px 120px', pointerEvents:'none', zIndex:-1 }} />
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function DCSection({ id, title, subtitle, children, gap=48 }) {
+  const ctx = React.useContext(DCCtx);
+  const sid = id ?? title;
+  const artboards = React.Children.toArray(children).filter(c => c && c.type === DCArtboard);
+  const byId = Object.fromEntries(artboards.map(a => [a.props.id ?? a.props.label, a]));
+  const order = artboards.map(a => a.props.id ?? a.props.label).filter(Boolean);
+  return (
+    <div data-dc-section={sid} style={{ marginBottom:'calc(80px * var(--dc-inv-zoom, 1))', position:'relative' }}>
+      <div style={{ padding:'0 60px' }}>
+        <div className="dc-sectionhead" style={{ paddingBottom:36 }}>
+          <div style={{ fontSize:28, fontWeight:600, color:DC.title, letterSpacing:-0.4, marginBottom:6 }}>{title}</div>
+          {subtitle && <div style={{ fontSize:16, color:DC.subtitle }}>{subtitle}</div>}
+        </div>
+      </div>
+      <div style={{ display:'flex', gap, padding:'0 60px', alignItems:'flex-start', width:'max-content' }}>
+        {order.map(k => (
+          <DCArtboardFrame key={k} sectionId={sid} artboard={byId[k]} label={byId[k].props.label}
+            onFocus={() => ctx && ctx.setFocus(`${sid}/${k}`)} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function DCArtboard() { return null; }
+
+function DCArtboardFrame({ sectionId, artboard, label, onFocus }) {
+  const { width=260, height=480, children, style={} } = artboard.props;
+  const id = artboard.props.id ?? artboard.props.label;
+  return (
+    <div data-dc-slot={id} style={{ position:'relative', flexShrink:0 }}>
+      <div className="dc-header" style={{ color:DC.label }}>
+        <div className="dc-labelrow">
+          <div className="dc-labeltext" onClick={onFocus} title="Click to focus">
+            <span className="dc-editable" style={{ fontSize:15, fontWeight:500, color:DC.label, lineHeight:1 }}>{label}</span>
+          </div>
+        </div>
+        <div className="dc-btns">
+          <button className="dc-expand" onClick={onFocus} title="Focus">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><path d="M7 1h4v4M5 11H1V7M11 1L7.5 4.5M1 11l3.5-3.5"/></svg>
+          </button>
+        </div>
+      </div>
+      <div className="dc-card" style={{ borderRadius:2, boxShadow:'0 1px 3px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06)', overflow:'hidden', width, height, background:'#fff', ...style }}>
+        {children || <div style={{ height:'100%', display:'flex', alignItems:'center', justifyContent:'center', color:'#bbb', fontSize:13 }}>{id}</div>}
+      </div>
+    </div>
+  );
+}
+
+function DCFocusOverlay({ entry, sectionMeta, sectionOrder }) {
+  const ctx = React.useContext(DCCtx);
+  const { sectionId, artboard } = entry;
+  const meta = sectionMeta[sectionId];
+  const peers = meta.slotIds;
+  const aid = artboard.props.id ?? artboard.props.label;
+  const idx = peers.indexOf(aid);
+  const secIdx = sectionOrder.indexOf(sectionId);
+
+  const go = (d) => { const n=peers[(idx+d+peers.length)%peers.length]; if(n) ctx.setFocus(`${sectionId}/${n}`); };
+  const goSection = (d) => {
+    const n=sectionOrder.length;
+    for(let i=1;i<n;i++){
+      const ns=sectionOrder[(((secIdx+d*i)%n)+n)%n];
+      const first=sectionMeta[ns]&&sectionMeta[ns].slotIds[0];
+      if(first){ ctx.setFocus(`${ns}/${first}`); return; }
+    }
+  };
+  React.useEffect(() => {
+    const k=(e)=>{ if(e.key==='ArrowLeft'){e.preventDefault();go(-1);} if(e.key==='ArrowRight'){e.preventDefault();go(1);} if(e.key==='ArrowUp'){e.preventDefault();goSection(-1);} if(e.key==='ArrowDown'){e.preventDefault();goSection(1);} };
+    document.addEventListener('keydown',k); return()=>document.removeEventListener('keydown',k);
+  });
+
+  const { width=260, height=480, children } = artboard.props;
+  const [vp, setVp] = React.useState({ w:window.innerWidth, h:window.innerHeight });
+  React.useEffect(() => { const r=()=>setVp({w:window.innerWidth,h:window.innerHeight}); window.addEventListener('resize',r); return()=>window.removeEventListener('resize',r); }, []);
+  const scale = Math.max(0.1, Math.min((vp.w-200)/width, (vp.h-260)/height, 2));
+
+  const [ddOpen, setDd] = React.useState(false);
+  const Arrow = ({ dir, onClick }) => (
+    <button onClick={(e)=>{e.stopPropagation();onClick();}}
+      style={{ position:'absolute', top:'50%', [dir]:28, transform:'translateY(-50%)',
+        border:'none', background:'rgba(255,255,255,.08)', color:'rgba(255,255,255,.9)',
+        width:44, height:44, borderRadius:22, fontSize:18, cursor:'pointer',
+        display:'flex', alignItems:'center', justifyContent:'center' }}
+      onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,.18)'}
+      onMouseLeave={e=>e.currentTarget.style.background='rgba(255,255,255,.08)'}>
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+        <path d={dir==='left'?'M11 3L5 9l6 6':'M7 3l6 6-6 6'}/></svg>
+    </button>
+  );
+
+  return ReactDOM.createPortal(
+    <div onClick={()=>ctx.setFocus(null)} onWheel={e=>e.preventDefault()}
+      style={{ position:'fixed', inset:0, zIndex:100, background:'rgba(24,20,16,.6)', backdropFilter:'blur(14px)', fontFamily:DC.font, color:'#fff' }}>
+      <div onClick={e=>e.stopPropagation()}
+        style={{ position:'absolute', top:0, left:0, right:0, height:72, display:'flex', alignItems:'flex-start', padding:'16px 20px 0', gap:16 }}>
+        <div style={{ position:'relative' }}>
+          <button onClick={()=>setDd(o=>!o)}
+            style={{ border:'none', background:'transparent', color:'#fff', cursor:'pointer', padding:'6px 8px', borderRadius:6, textAlign:'left', fontFamily:'inherit' }}>
+            <span style={{ display:'flex', alignItems:'center', gap:8 }}>
+              <span style={{ fontSize:18, fontWeight:600, letterSpacing:-0.3 }}>{meta.title}</span>
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" style={{ opacity:.7 }}><path d="M2 4l3.5 3.5L9 4"/></svg>
+            </span>
+            {meta.subtitle && <span style={{ display:'block', fontSize:13, opacity:.6, fontWeight:400, marginTop:2 }}>{meta.subtitle}</span>}
+          </button>
+          {ddOpen && (
+            <div style={{ position:'absolute', top:'100%', left:0, marginTop:4, background:'#2a251f', borderRadius:8, boxShadow:'0 8px 32px rgba(0,0,0,.4)', padding:4, minWidth:200, zIndex:10 }}>
+              {sectionOrder.filter(sid=>sectionMeta[sid].slotIds.length).map(sid=>(
+                <button key={sid} onClick={()=>{ setDd(false); const f=sectionMeta[sid].slotIds[0]; if(f) ctx.setFocus(`${sid}/${f}`); }}
+                  style={{ display:'block', width:'100%', textAlign:'left', border:'none', cursor:'pointer',
+                    background:sid===sectionId?'rgba(255,255,255,.1)':'transparent', color:'#fff',
+                    padding:'8px 12px', borderRadius:5, fontSize:14, fontWeight:sid===sectionId?600:400, fontFamily:'inherit' }}>
+                  {sectionMeta[sid].title}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        <div style={{ flex:1 }} />
+        <button onClick={()=>ctx.setFocus(null)}
+          onMouseEnter={e=>e.currentTarget.style.background='rgba(255,255,255,.12)'}
+          onMouseLeave={e=>e.currentTarget.style.background='transparent'}
+          style={{ border:'none', background:'transparent', color:'rgba(255,255,255,.7)', width:32, height:32, borderRadius:16, fontSize:20, cursor:'pointer', lineHeight:1 }}>×</button>
+      </div>
+      <div style={{ position:'absolute', top:64, bottom:56, left:100, right:100, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:16 }}>
+        <div onClick={e=>e.stopPropagation()} style={{ width:width*scale, height:height*scale, position:'relative' }}>
+          <div style={{ width, height, transform:`scale(${scale})`, transformOrigin:'top left', background:'#fff', borderRadius:2, overflow:'hidden', boxShadow:'0 20px 80px rgba(0,0,0,.4)' }}>
+            {children}
+          </div>
+        </div>
+        <div onClick={e=>e.stopPropagation()} style={{ fontSize:14, fontWeight:500, opacity:.85, textAlign:'center' }}>
+          {artboard.props.label}
+          <span style={{ opacity:.5, marginLeft:10 }}>{idx+1} / {peers.length}</span>
+        </div>
+      </div>
+      <Arrow dir="left" onClick={()=>go(-1)} />
+      <Arrow dir="right" onClick={()=>go(1)} />
+      <div onClick={e=>e.stopPropagation()}
+        style={{ position:'absolute', bottom:20, left:'50%', transform:'translateX(-50%)', display:'flex', gap:8 }}>
+        {peers.map((p,i)=>(
+          <button key={p} onClick={()=>ctx.setFocus(`${sectionId}/${p}`)}
+            style={{ border:'none', padding:0, cursor:'pointer', width:6, height:6, borderRadius:3, background:i===idx?'#fff':'rgba(255,255,255,.3)' }} />
+        ))}
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
+// ── HOME SCREENS ─────────────────────────────────────────────────
+function HomeHeader({ greeting, name, sub, avatar='JM' }) {
+  return (
+    <div style={{ background:T.primary, padding:'14px 18px 22px', color:'#fff', flexShrink:0 }}>
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+        <div style={{ width:36, height:36, borderRadius:18, background:'rgba(255,255,255,.16)',
+          display:'flex', alignItems:'center', justifyContent:'center', fontSize:13, fontWeight:700, letterSpacing:0.3 }}>{avatar}</div>
+        <div style={{ position:'relative' }}>
+          <Icon name="bell" size={22} color="#fff" />
+          <span style={{ position:'absolute', top:-2, right:-2, width:8, height:8, background:'#FF6B5B', borderRadius:4, border:'2px solid '+T.primary }} />
+        </div>
+      </div>
+      <div style={{ marginTop:14 }}>
+        <div style={{ fontSize:14, color:'rgba(255,255,255,.78)', fontWeight:500 }}>{greeting},</div>
+        <div style={{ fontSize:22, fontWeight:700, letterSpacing:-0.3, marginTop:2 }}>{name}</div>
+        <div style={{ fontSize:12.5, color:'rgba(255,255,255,.78)', marginTop:6 }}>{sub}</div>
+      </div>
+    </div>
+  );
+}
+function StatCard({ label, value, sub, tone='default', icon }) {
+  const isAccent = tone==='accent';
+  return (
+    <div style={{ background:isAccent?T.primary:T.surface, color:isAccent?'#fff':T.ink,
+      borderRadius:14, padding:'14px', border:isAccent?'none':`1px solid ${T.line}`, flex:1, minWidth:0 }}>
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:8 }}>
+        <span style={{ fontSize:11.5, fontWeight:600, letterSpacing:0.2, color:isAccent?'rgba(255,255,255,.85)':T.ink3, textTransform:'uppercase' }}>{label}</span>
+        {icon && <Icon name={icon} size={15} color={isAccent?'rgba(255,255,255,.7)':T.ink4} />}
+      </div>
+      <div style={{ fontSize:19, fontWeight:700, letterSpacing:-0.4, lineHeight:1.1 }}>{value}</div>
+      {sub && <div style={{ fontSize:11.5, color:isAccent?'rgba(255,255,255,.78)':T.ink3, marginTop:4, fontWeight:500 }}>{sub}</div>}
+    </div>
+  );
+}
+function QuickTile({ icon, label, primary=false, badge, sub }) {
+  return (
+    <div style={{ background:primary?T.primary:T.surface, borderRadius:14, border:primary?'none':`1px solid ${T.line}`,
+      padding:'14px 12px 12px', display:'flex', flexDirection:'column', alignItems:'flex-start', gap:10, position:'relative', minHeight:92 }}>
+      <div style={{ width:36, height:36, borderRadius:10, background:primary?'rgba(255,255,255,.18)':T.primaryTint,
+        display:'flex', alignItems:'center', justifyContent:'center' }}>
+        <Icon name={icon} size={20} color={primary?'#fff':T.primary} strokeWidth={1.9} />
+      </div>
+      <div>
+        <div style={{ fontSize:13.5, fontWeight:600, color:primary?'#fff':T.ink, lineHeight:1.2 }}>{label}</div>
+        {sub && <div style={{ fontSize:11.5, color:primary?'rgba(255,255,255,.8)':T.ink3, marginTop:3, fontWeight:500 }}>{sub}</div>}
+      </div>
+      {badge && <span style={{ position:'absolute', top:10, right:10, background:'#FF6B5B', color:'#fff', fontSize:10.5, fontWeight:700, padding:'2px 6px', borderRadius:999 }}>{badge}</span>}
+    </div>
+  );
+}
+function SectionTitle({ children, action }) {
+  return (
+    <div style={{ display:'flex', alignItems:'baseline', justifyContent:'space-between', marginTop:4, marginBottom:-4 }}>
+      <h3 style={{ margin:0, fontSize:13, fontWeight:700, color:T.ink2, letterSpacing:0.2, textTransform:'uppercase' }}>{children}</h3>
+      {action && <span style={{ fontSize:12.5, color:T.primary, fontWeight:600 }}>{action}</span>}
+    </div>
+  );
+}
+
+function OwnerHomeA() {
+  return (
+    <Phone>
+      <HomeHeader greeting="Good morning" name="John" sub="Mawinga Mobile · All branches" avatar="JM" />
+      <Body padded>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginTop:-28 }}>
+          <StatCard label="Today's Sales" value="TZS 4.8M" sub="vs 3.2M yesterday" />
+          <StatCard label="Transactions" value="14 sales" sub="3 in last hour" />
+          <StatCard label="Pending Comm." value="TZS 285K" sub="Awaiting approval" />
+          <StatCard label="Aged Stock" value="7 devices" sub="30+ days" />
+        </div>
+        <SectionTitle>Quick actions</SectionTitle>
+        <QuickTile icon="receipt" label="Record a sale" sub="Log a new transaction" primary />
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+          <QuickTile icon="plus" label="Add inventory" sub="Scan or manual" />
+          <QuickTile icon="transfer" label="Transfer stock" sub="To branch or agent" />
+          <QuickTile icon="chart" label="Reports" sub="Sales & margins" />
+          <QuickTile icon="users" label="Manage" sub="Branches & users" />
+        </div>
+      </Body>
+      <TabBar active="home" />
+    </Phone>
+  );
+}
+function OwnerHomeB() {
+  return (
+    <Phone>
+      <HomeHeader greeting="Good morning" name="John" sub="Mawinga Mobile · All branches" avatar="JM" />
+      <Body padded>
+        <Card pad={18} style={{ marginTop:-28, position:'relative', overflow:'hidden' }}>
+          <div style={{ fontSize:11.5, fontWeight:600, letterSpacing:0.4, color:T.ink3, textTransform:'uppercase' }}>Today's sales</div>
+          <div style={{ fontSize:36, fontWeight:700, letterSpacing:-1, color:T.ink, marginTop:4, lineHeight:1 }}>TZS 4,820,000</div>
+          <div style={{ display:'flex', alignItems:'center', gap:6, marginTop:8 }}>
+            <Pill tone="success">▲ 50% vs yest.</Pill>
+            <span style={{ fontSize:12.5, color:T.ink3 }}>14 transactions</span>
+          </div>
+          <svg viewBox="0 0 280 50" style={{ width:'100%', height:50, marginTop:10 }} preserveAspectRatio="none">
+            <defs><linearGradient id="spk" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stopColor={T.primary} stopOpacity="0.3"/><stop offset="100%" stopColor={T.primary} stopOpacity="0"/></linearGradient></defs>
+            <path d="M0 38 L30 32 L60 36 L90 24 L120 28 L150 18 L180 22 L210 12 L240 16 L280 6 L280 50 L0 50 Z" fill="url(#spk)"/>
+            <path d="M0 38 L30 32 L60 36 L90 24 L120 28 L150 18 L180 22 L210 12 L240 16 L280 6" fill="none" stroke={T.primary} strokeWidth="2" strokeLinejoin="round"/>
+          </svg>
+        </Card>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:8 }}>
+          <Card pad={12}><div style={{ fontSize:10.5, fontWeight:600, color:T.ink3, textTransform:'uppercase' }}>Pending</div><div style={{ fontSize:15, fontWeight:700, color:T.ink, marginTop:4, letterSpacing:-0.3 }}>285K</div><div style={{ fontSize:10.5, color:T.warn, marginTop:2, fontWeight:600 }}>commission</div></Card>
+          <Card pad={12}><div style={{ fontSize:10.5, fontWeight:600, color:T.ink3, textTransform:'uppercase' }}>Aged</div><div style={{ fontSize:15, fontWeight:700, color:T.ink, marginTop:4, letterSpacing:-0.3 }}>7</div><div style={{ fontSize:10.5, color:T.danger, marginTop:2, fontWeight:600 }}>devices</div></Card>
+          <Card pad={12}><div style={{ fontSize:10.5, fontWeight:600, color:T.ink3, textTransform:'uppercase' }}>Stock</div><div style={{ fontSize:15, fontWeight:700, color:T.ink, marginTop:4, letterSpacing:-0.3 }}>342</div><div style={{ fontSize:10.5, color:T.success, marginTop:2, fontWeight:600 }}>in branches</div></Card>
+        </div>
+        <SectionTitle>Quick actions</SectionTitle>
+        <Btn kind="primary" full size="lg" icon={<Icon name="receipt" size={20} color="#fff" />}>Record a sale</Btn>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+          <QuickTile icon="plus" label="Add inventory" sub="Scan or manual" />
+          <QuickTile icon="transfer" label="Transfer stock" sub="To branch / agent" />
+          <QuickTile icon="chart" label="Reports" sub="Sales & margins" />
+          <QuickTile icon="users" label="Manage" sub="Branches & users" />
+        </div>
+      </Body>
+      <TabBar active="home" />
+    </Phone>
+  );
+}
+function OwnerHomeC() {
+  const branches = [
+    { name:'Kariakoo', sales:'2.4M', count:8, aged:4, tone:'success' },
+    { name:'Mwenge', sales:'1.6M', count:4, aged:1, tone:'success' },
+    { name:'Tegeta', sales:'820K', count:2, aged:2, tone:'warn' },
+    { name:'Kinondoni', sales:'0', count:0, aged:0, tone:'danger' },
+  ];
+  return (
+    <Phone>
+      <HomeHeader greeting="Good morning" name="John" sub="Mawinga Mobile · 4 branches" avatar="JM" />
+      <Body padded>
+        <div style={{ display:'flex', gap:8, marginTop:-28 }}>
+          <Card pad={12} style={{ flex:1, background:T.primary, border:'none', color:'#fff' }}>
+            <div style={{ fontSize:10.5, fontWeight:600, letterSpacing:0.3, color:'rgba(255,255,255,.8)', textTransform:'uppercase' }}>Today</div>
+            <div style={{ fontSize:19, fontWeight:700, letterSpacing:-0.4, marginTop:4 }}>TZS 4.8M</div>
+            <div style={{ fontSize:11, color:'rgba(255,255,255,.8)', marginTop:2, fontWeight:500 }}>14 sales</div>
+          </Card>
+          <Card pad={12} style={{ flex:1 }}>
+            <div style={{ fontSize:10.5, fontWeight:600, color:T.ink3, textTransform:'uppercase' }}>Pending</div>
+            <div style={{ fontSize:19, fontWeight:700, letterSpacing:-0.4, color:T.ink, marginTop:4 }}>285K</div>
+            <div style={{ fontSize:11, color:T.warn, marginTop:2, fontWeight:600 }}>9 commissions</div>
+          </Card>
+          <Card pad={12} style={{ flex:1 }}>
+            <div style={{ fontSize:10.5, fontWeight:600, color:T.ink3, textTransform:'uppercase' }}>Aged</div>
+            <div style={{ fontSize:19, fontWeight:700, letterSpacing:-0.4, color:T.ink, marginTop:4 }}>7</div>
+            <div style={{ fontSize:11, color:T.danger, marginTop:2, fontWeight:600 }}>30+ days</div>
+          </Card>
+        </div>
+        <Btn kind="primary" full size="lg" icon={<Icon name="receipt" size={20} color="#fff" />}>Record a sale</Btn>
+        <div><SectionTitle action="See all">Branches today</SectionTitle></div>
+        <Card pad={0}>
+          {branches.map((b,i)=>{
+            const dotColor = b.tone==='success'?T.success:b.tone==='warn'?T.warn:T.danger;
+            return (
+              <div key={b.name} style={{ display:'flex', alignItems:'center', gap:12, padding:'14px 14px', borderBottom:i<branches.length-1?`1px solid ${T.line2}`:'none' }}>
+                <div style={{ width:36, height:36, borderRadius:10, background:T.primaryTint, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                  <Icon name="branch" size={18} color={T.primary} />
+                </div>
+                <div style={{ flex:1, minWidth:0 }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:6 }}>
+                    <span style={{ width:6, height:6, borderRadius:3, background:dotColor }} />
+                    <span style={{ fontSize:14, fontWeight:600, color:T.ink }}>{b.name}</span>
+                  </div>
+                  <div style={{ fontSize:12, color:T.ink3, marginTop:2 }}>{b.count} sales · {b.aged>0?`${b.aged} aged`:'no aged'}</div>
+                </div>
+                <div style={{ textAlign:'right' }}>
+                  <div style={{ fontSize:14, fontWeight:700, color:T.ink, letterSpacing:-0.2 }}>TZS {b.sales}</div>
+                </div>
+                <Icon name="chev" size={16} color={T.ink4} />
+              </div>
+            );
+          })}
+        </Card>
+        <SectionTitle>Tools</SectionTitle>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+          <QuickTile icon="plus" label="Add inventory" sub="Scan or manual" />
+          <QuickTile icon="transfer" label="Transfer stock" sub="To branch / agent" />
+        </div>
+      </Body>
+      <TabBar active="home" />
+    </Phone>
+  );
+}
+function ManagerHome() {
+  return (
+    <Phone>
+      <HomeHeader greeting="Hi" name="Amina" sub="Kariakoo Branch · 86 devices" avatar="AK" />
+      <Body padded>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginTop:-28 }}>
+          <StatCard label="Today's Sales" value="TZS 1,240,000" sub="6 transactions" />
+          <Card pad={14} style={{ background:T.primary, color:'#fff', border:'none' }}>
+            <div style={{ fontSize:11.5, fontWeight:600, letterSpacing:0.2, color:'rgba(255,255,255,.85)', textTransform:'uppercase' }}>My Commission</div>
+            <div style={{ fontSize:19, fontWeight:700, letterSpacing:-0.4, marginTop:4 }}>TZS 84,000</div>
+            <div style={{ fontSize:11, color:'rgba(255,255,255,.85)', marginTop:4, fontWeight:600, display:'flex', alignItems:'center', gap:4 }}>
+              <Icon name="clock" size={11} color="rgba(255,255,255,.85)" /> Pending approval
+            </div>
+          </Card>
+        </div>
+        <Card pad={0} style={{ borderColor:T.warnTint, background:'#FFFBF1' }}>
+          <div style={{ display:'flex', alignItems:'center', gap:12, padding:14 }}>
+            <div style={{ width:38, height:38, borderRadius:10, background:T.warnTint, display:'flex', alignItems:'center', justifyContent:'center' }}>
+              <Icon name="inbox" size={20} color={T.warn} />
+            </div>
+            <div style={{ flex:1, minWidth:0 }}>
+              <div style={{ fontSize:14, fontWeight:600, color:T.ink }}>3 devices pending</div>
+              <div style={{ fontSize:12, color:T.ink3, marginTop:2 }}>From owner · Tap to receive</div>
+            </div>
+            <Icon name="chev" size={16} color={T.ink3} />
+          </div>
+        </Card>
+        <SectionTitle>Quick actions</SectionTitle>
+        <Btn kind="primary" full size="lg" icon={<Icon name="receipt" size={20} color="#fff" />}>Record a sale</Btn>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+          <QuickTile icon="inbox" label="Receive stock" sub="3 pending" badge="3" />
+          <QuickTile icon="users" label="Assign to agent" sub="3 agents" />
+          <QuickTile icon="box" label="My stock" sub="86 · 2 aged ⚠" />
+          <QuickTile icon="return" label="Return aged" sub="Send back to owner" />
+        </div>
+      </Body>
+      <TabBar active="home" items={['home','box','bell']} labels={{ home:'Home', box:'Stock', bell:'Alerts' }} />
+    </Phone>
+  );
+}
+function BigAction({ icon, label, sub, primary=false }) {
+  return (
+    <div style={{ background:primary?T.primary:T.surface, borderRadius:16, border:primary?'none':`1px solid ${T.line}`, padding:'18px 18px', display:'flex', alignItems:'center', gap:14 }}>
+      <div style={{ width:48, height:48, borderRadius:14, background:primary?'rgba(255,255,255,.18)':T.primaryTint, display:'flex', alignItems:'center', justifyContent:'center' }}>
+        <Icon name={icon} size={24} color={primary?'#fff':T.primary} strokeWidth={2} />
+      </div>
+      <div style={{ flex:1 }}>
+        <div style={{ fontSize:16, fontWeight:700, color:primary?'#fff':T.ink, letterSpacing:-0.2 }}>{label}</div>
+        <div style={{ fontSize:12.5, color:primary?'rgba(255,255,255,.8)':T.ink3, marginTop:2, fontWeight:500 }}>{sub}</div>
+      </div>
+      <Icon name="chev" size={18} color={primary?'rgba(255,255,255,.8)':T.ink4} />
+    </div>
+  );
+}
+function AgentHome() {
+  return (
+    <Phone>
+      <HomeHeader greeting="Hi" name="David" sub="12 devices with you" avatar="DM" />
+      <Body padded style={{ paddingBottom:18 }}>
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginTop:-28 }}>
+          <StatCard label="Today's Sales" value="TZS 320,000" sub="1 sale" />
+          <Card pad={14} style={{ background:T.primary, color:'#fff', border:'none' }}>
+            <div style={{ fontSize:11.5, fontWeight:600, letterSpacing:0.2, color:'rgba(255,255,255,.85)', textTransform:'uppercase' }}>My Commission</div>
+            <div style={{ fontSize:19, fontWeight:700, letterSpacing:-0.4, marginTop:4 }}>TZS 16,000</div>
+            <div style={{ fontSize:11, color:'rgba(255,255,255,.85)', marginTop:4, fontWeight:600, display:'flex', alignItems:'center', gap:4 }}>
+              <Icon name="clock" size={11} color="rgba(255,255,255,.85)" /> Pending approval
+            </div>
+          </Card>
+        </div>
+        <div style={{ display:'flex', flexDirection:'column', gap:12, marginTop:10 }}>
+          <BigAction icon="receipt" label="Sell a device" sub="Record a customer sale" primary />
+          <BigAction icon="box" label="My stock" sub="See the 12 devices with me" />
+          <BigAction icon="return" label="Return a device" sub="Send back to manager" />
+        </div>
+        <div style={{ flex:1 }} />
+        <div style={{ textAlign:'center', fontSize:11.5, color:T.ink4, marginTop:16 }}>Mawinga · Logged in as David Mwangi</div>
+      </Body>
+    </Phone>
+  );
+}
+
+// ── ADD STOCK ────────────────────────────────────────────────────
+function AddEntryScreen() {
+  return (
+    <Phone>
+      <AppBar title="Add inventory" sub="Choose how to add new devices" leading="back" />
+      <Body padded>
+        <div style={{ background:T.primary, borderRadius:16, padding:20, color:'#fff', position:'relative', overflow:'hidden' }}>
+          <div style={{ width:52, height:52, borderRadius:14, background:'rgba(255,255,255,.16)', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:14 }}>
+            <Icon name="camera" size={26} color="#fff" strokeWidth={1.9} />
+          </div>
+          <div style={{ fontSize:18, fontWeight:700, letterSpacing:-0.3 }}>Scan shipment label</div>
+          <div style={{ fontSize:13, color:'rgba(255,255,255,.85)', marginTop:4, lineHeight:1.45 }}>
+            Point the camera at a barcode sheet — we'll detect every IMEI in the frame at once.
+          </div>
+          <div style={{ marginTop:14, display:'flex', alignItems:'center', gap:6, fontSize:12.5, color:'rgba(255,255,255,.78)' }}>
+            <Icon name="flash" size={14} color="rgba(255,255,255,.78)" />
+            <span>Fastest for batches of 5+</span>
+          </div>
+        </div>
+        <div style={{ display:'flex', alignItems:'center', gap:10, padding:'4px 0', color:T.ink4 }}>
+          <span style={{ flex:1, height:1, background:T.line }} />
+          <span style={{ fontSize:11.5, fontWeight:600, letterSpacing:0.4, textTransform:'uppercase' }}>or</span>
+          <span style={{ flex:1, height:1, background:T.line }} />
+        </div>
+        <Card pad={16} style={{ display:'flex', alignItems:'center', gap:14 }}>
+          <div style={{ width:44, height:44, borderRadius:12, background:T.primaryTint, display:'flex', alignItems:'center', justifyContent:'center' }}>
+            <Icon name="edit" size={20} color={T.primary} />
+          </div>
+          <div style={{ flex:1 }}>
+            <div style={{ fontSize:14.5, fontWeight:600, color:T.ink }}>Enter manually</div>
+            <div style={{ fontSize:12.5, color:T.ink3, marginTop:2 }}>One device at a time</div>
+          </div>
+          <Icon name="chev" size={18} color={T.ink4} />
+        </Card>
+        <div style={{ flex:1 }} />
+        <div style={{ fontSize:11.5, color:T.ink4, textAlign:'center', lineHeight:1.5 }}>
+          Scanned IMEIs go into a staging list — you confirm before anything is saved.
+        </div>
+      </Body>
+    </Phone>
+  );
+}
+function ScanningScreen() {
+  return (
+    <Phone statusDark>
+      <div style={{ flex:1, position:'relative', overflow:'hidden', background:'linear-gradient(160deg,#1a2236 0%,#0d1426 60%,#1f2a45 100%)' }}>
+        <div style={{ position:'absolute', top:120, left:24, right:24, bottom:220, background:'#F5EFE2', borderRadius:4, boxShadow:'0 18px 40px rgba(0,0,0,.4)', padding:'18px 14px', display:'flex', flexDirection:'column', gap:10, transform:'perspective(800px) rotateX(8deg)' }}>
+          {[{code:'350151145442544',det:true},{code:'350151145442627',det:true},{code:'350151145442734',det:false},{code:'350151145442891',det:true},{code:'350151145443002',det:true},{code:'350151145443175',det:true}].map((it,i)=>(
+            <div key={i} style={{ display:'flex', alignItems:'center', gap:10 }}>
+              <svg width="100%" height="22" viewBox="0 0 200 22" style={{ flex:1 }}>
+                {Array.from({length:38}).map((_,j)=>(
+                  <rect key={j} x={j*5.2} y={0} width={1+(j%3===0?2:j%5===0?1:0.5)} height={22} fill="#0E1530" />
+                ))}
+              </svg>
+              <span style={{ fontSize:9, fontFamily:'monospace', color:'#0E1530', whiteSpace:'nowrap', minWidth:78, textAlign:'right' }}>{it.code}</span>
+              {it.det&&<span style={{ position:'absolute', marginLeft:-22, marginTop:-2, width:22, height:22, borderRadius:11, background:T.success, color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:`0 0 0 3px rgba(15,138,95,.3)` }}><Icon name="check" size={14} color="#fff" strokeWidth={2.5}/></span>}
+            </div>
+          ))}
+        </div>
+        {[0,1,2,3].map(i=>{
+          const top=i<2?88:'auto', bottom=i>=2?188:'auto', left=i%2===0?16:'auto', right=i%2===1?16:'auto';
+          const borders={0:{borderTop:`3px solid #fff`,borderLeft:`3px solid #fff`},1:{borderTop:`3px solid #fff`,borderRight:`3px solid #fff`},2:{borderBottom:`3px solid #fff`,borderLeft:`3px solid #fff`},3:{borderBottom:`3px solid #fff`,borderRight:`3px solid #fff`}};
+          return <div key={i} style={{ position:'absolute', top, bottom, left, right, width:28, height:28, ...borders[i] }}/>;
+        })}
+        <div style={{ position:'absolute', top:0, left:0, right:0, padding:'14px 16px', display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+          <div style={{ width:36, height:36, borderRadius:18, background:'rgba(0,0,0,.5)', display:'flex', alignItems:'center', justifyContent:'center' }}><Icon name="x" size={20} color="#fff"/></div>
+          <div style={{ background:'rgba(0,0,0,.5)', color:'#fff', padding:'6px 12px', borderRadius:999, fontSize:12.5, fontWeight:600 }}>Hold steady · scanning</div>
+          <div style={{ width:36, height:36, borderRadius:18, background:'rgba(0,0,0,.5)', display:'flex', alignItems:'center', justifyContent:'center' }}><Icon name="flash" size={18} color="#fff"/></div>
+        </div>
+        <div style={{ position:'absolute', left:16, right:16, bottom:16, background:'rgba(14,21,48,.92)', backdropFilter:'blur(10px)', borderRadius:16, padding:'14px 16px', display:'flex', alignItems:'center', gap:12, color:'#fff' }}>
+          <div style={{ display:'flex', alignItems:'center', gap:6 }}>
+            <span style={{ width:8, height:8, borderRadius:4, background:'#3DDC84', boxShadow:'0 0 0 4px rgba(61,220,132,.25)' }}/>
+            <span style={{ fontSize:11.5, fontWeight:600, color:'rgba(255,255,255,.7)', textTransform:'uppercase' }}>Detected</span>
+          </div>
+          <div style={{ flex:1, fontSize:26, fontWeight:700, letterSpacing:-0.5, lineHeight:1 }}>14 <span style={{ fontSize:13, color:'rgba(255,255,255,.6)', fontWeight:500 }}>IMEIs</span></div>
+          <Btn kind="primary" size="md" style={{ background:'#fff', color:T.primary }}>Review →</Btn>
+        </div>
+      </div>
+    </Phone>
+  );
+}
+function FieldGroup({ children }) {
+  return <Card pad={0}>{React.Children.map(children,(c,i)=>React.cloneElement(c,{last:i===React.Children.count(children)-1}))}</Card>;
+}
+function Field({ label, value, placeholder, required, hasArrow, suffix, last, error }) {
+  const empty = !value;
+  return (
+    <div style={{ padding:'12px 14px', borderBottom:last?'none':`1px solid ${T.line2}`, display:'flex', alignItems:'center', gap:10 }}>
+      <div style={{ flex:1, minWidth:0 }}>
+        <div style={{ fontSize:11.5, fontWeight:600, color:T.ink3, textTransform:'uppercase' }}>{label}{required&&<span style={{ color:T.danger, marginLeft:3 }}>*</span>}</div>
+        <div style={{ fontSize:15, fontWeight:empty?500:600, color:empty?T.ink4:T.ink, marginTop:4 }}>
+          {empty?(placeholder||'Not set'):value}
+          {suffix&&!empty&&<span style={{ fontSize:12.5, color:T.ink3, fontWeight:500, marginLeft:6 }}>{suffix}</span>}
+        </div>
+        {error&&<div style={{ fontSize:12, color:T.danger, marginTop:4, fontWeight:600 }}>{error}</div>}
+      </div>
+      {hasArrow&&<Icon name="chev" size={16} color={T.ink4}/>}
+    </div>
+  );
+}
+function RadioRow({ label, sub, selected, last }) {
+  return (
+    <div style={{ padding:'14px', borderBottom:last?'none':`1px solid ${T.line2}`, display:'flex', alignItems:'center', gap:12 }}>
+      <div style={{ width:20, height:20, borderRadius:10, border:`2px solid ${selected?T.primary:T.line}`, display:'flex', alignItems:'center', justifyContent:'center', background:'#fff' }}>
+        {selected&&<span style={{ width:10, height:10, borderRadius:5, background:T.primary }}/>}
+      </div>
+      <div style={{ flex:1 }}>
+        <div style={{ fontSize:14, fontWeight:600, color:T.ink }}>{label}</div>
+        {sub&&<div style={{ fontSize:12, color:T.ink3, marginTop:2 }}>{sub}</div>}
+      </div>
+    </div>
+  );
+}
+function StagingScreen() {
+  const items = [{code:'350151145442544',state:'ok'},{code:'350151145442627',state:'ok'},{code:'350151145442734',state:'low'},{code:'350151145442891',state:'ok'},{code:'350151145443002',state:'ok'},{code:'350151145443175',state:'ok'},{code:'350151145443244',state:'ok'},{code:'350151145443327',state:'low'},{code:'350151145443418',state:'ok'},{code:'350151145443505',state:'ok'}];
+  return (
+    <Phone>
+      <AppBar title="Review scanned IMEIs" sub="14 detected · confirm before importing" leading="back" trailing={<span style={{ color:'#fff', fontSize:13, fontWeight:600 }}>Add more +</span>} />
+      <Body padded style={{ paddingBottom:100 }}>
+        <div style={{ display:'flex', gap:8 }}>
+          <Pill tone="success" style={{ fontSize:12, padding:'4px 10px' }}><Icon name="check" size={11} color={T.success} strokeWidth={2.5}/> 12 confirmed</Pill>
+          <Pill tone="warn" style={{ fontSize:12, padding:'4px 10px' }}><Icon name="warn" size={11} color={T.warn}/> 2 to verify</Pill>
+        </div>
+        <Card pad={0}>
+          {items.map((it,i)=>{
+            const ok=it.state==='ok';
+            return (
+              <div key={i} style={{ display:'flex', alignItems:'center', gap:12, padding:'12px 14px', borderBottom:i<items.length-1?`1px solid ${T.line2}`:'none', background:ok?'#fff':'#FFFBF1' }}>
+                <div style={{ width:26, height:26, borderRadius:13, background:ok?T.successTint:T.warnTint, color:ok?T.success:T.warn, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                  <Icon name={ok?'check':'warn'} size={14} color={ok?T.success:T.warn} strokeWidth={2.4}/>
+                </div>
+                <div style={{ flex:1, minWidth:0 }}>
+                  <div style={{ fontFamily:'ui-monospace,monospace', fontSize:13.5, fontWeight:600, color:T.ink }}>{it.code}</div>
+                  {!ok&&<div style={{ fontSize:11.5, color:T.warn, fontWeight:600, marginTop:2 }}>Low confidence — verify before importing</div>}
+                </div>
+                {ok?<button style={{ background:'transparent', border:'none', color:T.ink4, fontSize:12.5, fontWeight:600, cursor:'pointer', padding:4 }}>Remove</button>
+                  :<button style={{ background:T.warn, color:'#fff', border:'none', borderRadius:8, padding:'5px 12px', fontSize:12.5, fontWeight:600, cursor:'pointer' }}>Edit</button>}
+              </div>
+            );
+          })}
+          <div style={{ padding:'10px 14px', textAlign:'center', color:T.ink4, fontSize:12, fontWeight:500 }}>+ 4 more</div>
+        </Card>
+      </Body>
+      <div style={{ position:'absolute', bottom:22, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,.0))' }}>
+        <Btn kind="primary" full size="lg" icon={<Icon name="arrowR" size={18} color="#fff"/>}>Continue with 14 IMEIs</Btn>
+      </div>
+    </Phone>
+  );
+}
+function BatchDetailsScreen() {
+  return (
+    <Phone>
+      <AppBar title="Batch details" sub="Applies to all 14 devices" leading="back" />
+      <Body padded style={{ paddingBottom:90 }}>
+        <FieldGroup>
+          <Field label="Product" value="Samsung A55 128GB" required hasArrow />
+          <Field label="Variant" value="Awesome Navy" required hasArrow />
+          <Field label="Batch" value="Batch #14 · May 5" required hasArrow />
+          <Field label="Buying price (per unit)" value="TZS 320,000" required suffix="TZS" />
+          <Field label="Remark" value="" placeholder="Optional notes" />
+        </FieldGroup>
+        <SectionTitle>Where should they go?</SectionTitle>
+        <Card pad={0}>
+          <RadioRow label="Keep in owner pool" sub="Assign later" />
+          <RadioRow label="Assign to a branch" sub="Kariakoo Branch" selected />
+          <RadioRow label="Assign to a team lead" sub="Choose person" last />
+        </Card>
+        <div style={{ background:T.primaryTint, borderRadius:12, padding:'12px 14px', display:'flex', alignItems:'flex-start', gap:10 }}>
+          <Icon name="info" size={18} color={T.primary}/>
+          <div style={{ fontSize:12.5, color:T.primary, lineHeight:1.5 }}>All 14 devices will share these details. To set per-device prices, import then edit individually.</div>
+        </div>
+      </Body>
+      <div style={{ position:'absolute', bottom:22, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,.0))' }}>
+        <Btn kind="primary" full size="lg" icon={<Icon name="arrowR" size={18} color="#fff"/>}>Review & import</Btn>
+      </div>
+    </Phone>
+  );
+}
+function SummaryRow({ label, value, sub, last }) {
+  return (
+    <div style={{ padding:'12px 14px', borderBottom:last?'none':`1px solid ${T.line2}` }}>
+      <div style={{ fontSize:11.5, fontWeight:600, color:T.ink3, textTransform:'uppercase' }}>{label}</div>
+      <div style={{ fontSize:14.5, fontWeight:600, color:T.ink, marginTop:4 }}>{value}</div>
+      {sub&&<div style={{ fontSize:12, color:T.ink3, marginTop:2 }}>{sub}</div>}
+    </div>
+  );
+}
+function ConfirmScreen() {
+  return (
+    <Phone>
+      <AppBar title="Confirm import" sub="Review before saving" leading="back" />
+      <Body padded style={{ paddingBottom:90 }}>
+        <Card pad={20} style={{ textAlign:'center', background:T.primary, color:'#fff', border:'none' }}>
+          <div style={{ fontSize:11.5, fontWeight:600, textTransform:'uppercase', color:'rgba(255,255,255,.85)' }}>Importing</div>
+          <div style={{ fontSize:44, fontWeight:700, letterSpacing:-1.2, lineHeight:1, marginTop:6 }}>14</div>
+          <div style={{ fontSize:13, color:'rgba(255,255,255,.85)', marginTop:4, fontWeight:500 }}>devices to your inventory</div>
+        </Card>
+        <Card pad={0}>
+          <SummaryRow label="Product" value="Samsung A55 128GB · Navy" />
+          <SummaryRow label="Batch" value="Batch #14" />
+          <SummaryRow label="Buying price" value="TZS 320,000" sub="× 14 = TZS 4,480,000 total" />
+          <SummaryRow label="Assigning to" value="Kariakoo Branch" sub="Pending acceptance from manager" last />
+        </Card>
+        <Card pad={0} style={{ background:T.bg, borderColor:T.line2 }}>
+          <div style={{ padding:'10px 14px 6px', fontSize:11, fontWeight:700, color:T.ink3, textTransform:'uppercase' }}>IMEIs (14)</div>
+          <div style={{ padding:'4px 14px 12px', display:'flex', flexWrap:'wrap', gap:6 }}>
+            {['…442544','…442627','…442734','…442891','…443002','…443175','…443244','…443327'].map(c=>(
+              <span key={c} style={{ fontFamily:'ui-monospace,monospace', fontSize:11, padding:'3px 7px', background:'#fff', border:`1px solid ${T.line}`, borderRadius:6, color:T.ink2 }}>{c}</span>
+            ))}
+            <span style={{ fontSize:11, padding:'3px 7px', color:T.ink3, fontWeight:600 }}>+ 6 more</span>
+          </div>
+        </Card>
+      </Body>
+      <div style={{ position:'absolute', bottom:22, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,0))' }}>
+        <Btn kind="primary" full size="lg" icon={<Icon name="arrowR" size={18} color="#fff"/>}>Import all 14 IMEIs</Btn>
+      </div>
+    </Phone>
+  );
+}
+function SuccessScreen() {
+  return (
+    <Phone>
+      <Body padded style={{ paddingTop:0, alignItems:'stretch', justifyContent:'space-between' }}>
+        <div style={{ paddingTop:90, display:'flex', flexDirection:'column', alignItems:'center', gap:18, textAlign:'center' }}>
+          <div style={{ width:84, height:84, borderRadius:42, background:T.successTint, display:'flex', alignItems:'center', justifyContent:'center', position:'relative' }}>
+            <div style={{ position:'absolute', inset:8, borderRadius:38, border:`2px solid ${T.success}`, opacity:0.3 }}/>
+            <Icon name="check" size={42} color={T.success} strokeWidth={2.5}/>
+          </div>
+          <div>
+            <div style={{ fontSize:24, fontWeight:700, color:T.ink, letterSpacing:-0.5 }}>14 devices added</div>
+            <div style={{ fontSize:14, color:T.ink3, marginTop:6, lineHeight:1.5 }}>Samsung A55 128GB · Navy<br/>Batch #14 · sent to Kariakoo Branch</div>
+          </div>
+        </div>
+        <div style={{ display:'flex', flexDirection:'column', gap:10, paddingBottom:8 }}>
+          <Btn kind="primary" full size="lg" icon={<Icon name="users" size={18} color="#fff"/>}>Assign to agents now</Btn>
+          <Btn kind="ghost" full size="md">Back to home</Btn>
+        </div>
+      </Body>
+    </Phone>
+  );
+}
+function ManualAddScreen() {
+  return (
+    <Phone>
+      <AppBar title="Add a device" sub="Manual entry · single item" leading="back" />
+      <Body padded style={{ paddingBottom:90 }}>
+        <FieldGroup>
+          <Field label="Device model" value="Samsung A55" required hasArrow />
+          <Field label="Variant" value="128GB · Awesome Navy" required hasArrow />
+        </FieldGroup>
+        <div><SectionTitle>IMEI / Serial number</SectionTitle></div>
+        <div style={{ background:'#fff', borderRadius:12, border:`1.5px solid ${T.danger}`, padding:'12px 14px' }}>
+          <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+            <div style={{ flex:1, fontFamily:'ui-monospace,monospace', fontSize:16, fontWeight:600, color:T.ink, letterSpacing:0.5 }}>350151145442544</div>
+            <div style={{ width:32, height:32, borderRadius:8, background:T.primaryTint, display:'flex', alignItems:'center', justifyContent:'center' }}>
+              <Icon name="scan" size={18} color={T.primary}/>
+            </div>
+          </div>
+          <div style={{ display:'flex', alignItems:'center', gap:6, marginTop:8, color:T.danger }}>
+            <Icon name="warn" size={14} color={T.danger}/>
+            <span style={{ fontSize:12.5, fontWeight:600 }}>This IMEI is already in your inventory</span>
+          </div>
+        </div>
+        <FieldGroup>
+          <Field label="Batch" value="Batch #14" required hasArrow />
+          <Field label="Buying price" value="TZS 320,000" required suffix="TZS" />
+          <Field label="Remark" value="" placeholder="Optional notes" />
+          <Field label="Assign to" value="Kariakoo Branch" hasArrow />
+        </FieldGroup>
+      </Body>
+      <div style={{ position:'absolute', bottom:22, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,0))' }}>
+        <Btn kind="primary" full size="lg" style={{ opacity:0.5 }}>Save device</Btn>
+      </div>
+    </Phone>
+  );
+}
+
+// ── VIEW STOCK ───────────────────────────────────────────────────
+function StockListScreen() {
+  const items = [
+    { model:'Samsung A55 128GB', variant:'Navy', imei:'…442544', loc:'Kariakoo', who:'David Mwangi', days:5, tone:'success' },
+    { model:'Samsung A55 128GB', variant:'Lilac', imei:'…442627', loc:'Kariakoo', who:'David Mwangi', days:5, tone:'success' },
+    { model:'Tecno Spark 20', variant:'Black', imei:'…891003', loc:'Mwenge', who:'Grace Mushi', days:18, tone:'warn' },
+    { model:'Itel A70', variant:'Blue', imei:'…774120', loc:'Kariakoo', who:null, days:22, tone:'warn' },
+    { model:'Samsung A15', variant:'Green', imei:'…331804', loc:'Tegeta', who:'Joseph Mtui', days:34, tone:'danger' },
+    { model:'Tecno Camon 20', variant:'Silver', imei:'…998211', loc:'Tegeta', who:'Joseph Mtui', days:41, tone:'danger' },
+    { model:'Infinix Hot 40', variant:'Black', imei:'…109442', loc:'Kariakoo', who:'David Mwangi', days:8, tone:'success' },
+  ];
+  const chips=['All','Aged','Kariakoo','Mwenge','Tegeta','Unassigned'];
+  return (
+    <Phone>
+      <AppBar title="Stock" sub="Mawinga Mobile · 342 devices" leading={null}
+        trailing={<div style={{ display:'flex', gap:6 }}><Icon name="filter" size={20} color="#fff"/></div>} />
+      <div style={{ background:T.primary, padding:'0 16px 14px' }}>
+        <div style={{ background:'rgba(255,255,255,.16)', borderRadius:12, padding:'10px 12px', display:'flex', alignItems:'center', gap:8 }}>
+          <Icon name="search" size={18} color="rgba(255,255,255,.85)"/>
+          <span style={{ flex:1, color:'rgba(255,255,255,.7)', fontSize:13.5 }}>Search by model, colour, or IMEI…</span>
+        </div>
+      </div>
+      <Body padded={false} style={{ gap:0, paddingTop:14 }}>
+        <div style={{ display:'flex', gap:6, padding:'0 16px 12px', overflow:'auto' }}>
+          {chips.map((c,i)=>{
+            const active=i===0;
+            return <span key={c} style={{ fontSize:12.5, fontWeight:600, padding:'6px 12px', borderRadius:999, background:active?T.primary:T.surface, color:active?'#fff':T.ink2, border:active?'none':`1px solid ${T.line}`, whiteSpace:'nowrap', flexShrink:0 }}>{c}</span>;
+          })}
+        </div>
+        <div style={{ padding:'0 16px 12px' }}>
+          <div style={{ background:'#FEF1DC', border:`1px solid ${T.warnTint}`, borderRadius:12, padding:'10px 12px', display:'flex', alignItems:'center', gap:10 }}>
+            <Icon name="warn" size={18} color={T.warn}/>
+            <div style={{ flex:1, fontSize:12.5, color:T.warn, fontWeight:600, lineHeight:1.4 }}>3 devices aged 30+ days — consider returning or repricing</div>
+            <Icon name="chev" size={16} color={T.warn}/>
+          </div>
+        </div>
+        <div style={{ padding:'0 16px 16px', display:'flex', flexDirection:'column', gap:8 }}>
+          {items.map((it,i)=>{
+            const tones={success:{bg:T.successTint,fg:T.success},warn:{bg:T.warnTint,fg:T.warn},danger:{bg:T.dangerTint,fg:T.danger}};
+            const tn=tones[it.tone];
+            return (
+              <Card key={i} pad={14}>
+                <div style={{ display:'flex', alignItems:'flex-start', gap:10 }}>
+                  <div style={{ flex:1, minWidth:0 }}>
+                    <div style={{ fontSize:14.5, fontWeight:700, color:T.ink, letterSpacing:-0.2 }}>{it.model} <span style={{ color:T.ink3, fontWeight:500 }}>· {it.variant}</span></div>
+                    <div style={{ fontFamily:'ui-monospace,monospace', fontSize:12, color:T.ink3, marginTop:4 }}>IMEI: {it.imei}</div>
+                  </div>
+                  <span style={{ fontSize:11.5, fontWeight:700, color:tn.fg, background:tn.bg, padding:'4px 8px', borderRadius:999, whiteSpace:'nowrap' }}>{it.days}d {it.tone==='success'?'✓':it.tone==='warn'?'!':'⚠'}</span>
+                </div>
+                <div style={{ display:'flex', alignItems:'center', gap:8, marginTop:10, paddingTop:10, borderTop:`1px solid ${T.line2}` }}>
+                  <Icon name="branch" size={13} color={T.ink3}/>
+                  <span style={{ fontSize:12, color:T.ink2, fontWeight:500 }}>{it.loc}</span>
+                  {it.who?(<><span style={{ color:T.ink4 }}>·</span><Icon name="user" size={13} color={T.ink3}/><span style={{ fontSize:12, color:T.ink2, fontWeight:500 }}>{it.who}</span></>)
+                    :(<><span style={{ color:T.ink4 }}>·</span><span style={{ fontSize:11.5, color:T.warn, fontWeight:600 }}>Unassigned</span></>)}
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+      </Body>
+      <TabBar active="box" />
+    </Phone>
+  );
+}
+
+// ── MOVE / RETURN ────────────────────────────────────────────────
+function MoveSelectScreen() {
+  const items = [{model:'Samsung A55 128GB',variant:'Navy',imei:'…442544',selected:true},{model:'Samsung A55 128GB',variant:'Lilac',imei:'…442627',selected:false},{model:'Tecno Spark 20',variant:'Black',imei:'…891003',selected:true},{model:'Itel A70',variant:'Blue',imei:'…774120',selected:true},{model:'Samsung A15',variant:'Green',imei:'…331804',selected:false},{model:'Infinix Hot 40',variant:'Black',imei:'…109442',selected:false}];
+  return (
+    <Phone>
+      <AppBar title="Select to move" sub="Tap devices to add to transfer" leading="close" trailing={<span style={{ color:'#fff', fontSize:13, fontWeight:600 }}>All</span>} />
+      <Body padded={false} style={{ gap:0, paddingTop:12, paddingBottom:100 }}>
+        <div style={{ padding:'0 16px', display:'flex', flexDirection:'column', gap:8 }}>
+          {items.map((it,i)=>{
+            const sel=it.selected;
+            return (
+              <Card key={i} pad={12} style={{ borderColor:sel?T.primary:T.line, background:sel?T.primaryTint:'#fff', borderWidth:sel?1.5:1 }}>
+                <div style={{ display:'flex', alignItems:'center', gap:12 }}>
+                  <div style={{ width:22, height:22, borderRadius:6, border:`2px solid ${sel?T.primary:T.line}`, background:sel?T.primary:'#fff', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                    {sel&&<Icon name="check" size={14} color="#fff" strokeWidth={3}/>}
+                  </div>
+                  <div style={{ flex:1, minWidth:0 }}>
+                    <div style={{ fontSize:14, fontWeight:600, color:T.ink }}>{it.model} <span style={{ color:T.ink3, fontWeight:500 }}>· {it.variant}</span></div>
+                    <div style={{ fontFamily:'ui-monospace,monospace', fontSize:11.5, color:T.ink3, marginTop:2 }}>{it.imei}</div>
+                  </div>
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+      </Body>
+      <div style={{ position:'absolute', bottom:22, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,0))' }}>
+        <div style={{ background:T.ink, color:'#fff', borderRadius:14, padding:'10px 14px 10px 18px', display:'flex', alignItems:'center', gap:12 }}>
+          <div style={{ flex:1 }}>
+            <div style={{ fontSize:11, fontWeight:600, color:'rgba(255,255,255,.7)', textTransform:'uppercase' }}>Selected</div>
+            <div style={{ fontSize:17, fontWeight:700, marginTop:2 }}>3 devices</div>
+          </div>
+          <Btn kind="primary" size="md" icon={<Icon name="arrowR" size={16} color="#fff"/>}>Move</Btn>
+        </div>
+      </div>
+    </Phone>
+  );
+}
+function DestRow({ icon, title, sub, selected, last, muted }) {
+  return (
+    <div style={{ padding:'14px', display:'flex', alignItems:'center', gap:12, borderBottom:last?'none':`1px solid ${T.line2}`, background:selected?T.primaryTint:'#fff', opacity:muted?0.5:1 }}>
+      <div style={{ width:20, height:20, borderRadius:10, border:`2px solid ${selected?T.primary:T.line}`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+        {selected&&<span style={{ width:10, height:10, borderRadius:5, background:T.primary }}/>}
+      </div>
+      <Icon name={icon} size={18} color={selected?T.primary:T.ink2}/>
+      <div style={{ flex:1 }}>
+        <div style={{ fontSize:14, fontWeight:600, color:T.ink }}>{title}</div>
+        <div style={{ fontSize:12, color:T.ink3, marginTop:1 }}>{sub}</div>
+      </div>
+    </div>
+  );
+}
+function MoveDestinationScreen() {
+  return (
+    <Phone>
+      <AppBar title="Where to?" sub="Choose destination for 3 devices" leading="back" />
+      <Body padded style={{ paddingBottom:90 }}>
+        <Card pad={0}>
+          <DestRow icon="branch" title="To a branch" sub="Kariakoo, Mwenge, Tegeta…" />
+          <DestRow icon="users" title="To a team lead" sub="Branch manager" />
+          <DestRow icon="user" title="To an agent" sub="David Mwangi" selected />
+          <DestRow icon="user" title="To an agent" sub="Choose another agent" last muted />
+        </Card>
+        <div><SectionTitle>Selected agent</SectionTitle></div>
+        <Card pad={0}>
+          {[{name:'David Mwangi',branch:'Kariakoo',stock:12,selected:true},{name:'Grace Mushi',branch:'Kariakoo',stock:8,selected:false},{name:'Joseph Mtui',branch:'Tegeta',stock:4,selected:false}].map((a,i,arr)=>(
+            <div key={a.name} style={{ display:'flex', alignItems:'center', gap:12, padding:'12px 14px', background:a.selected?T.primaryTint:'#fff', borderBottom:i<arr.length-1?`1px solid ${T.line2}`:'none' }}>
+              <div style={{ width:36, height:36, borderRadius:18, background:T.primary, color:'#fff', display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, fontWeight:700 }}>{a.name.split(' ').map(s=>s[0]).join('')}</div>
+              <div style={{ flex:1 }}>
+                <div style={{ fontSize:14, fontWeight:600, color:T.ink }}>{a.name}</div>
+                <div style={{ fontSize:12, color:T.ink3, marginTop:1 }}>{a.branch} · {a.stock} devices</div>
+              </div>
+              {a.selected&&<Icon name="check" size={18} color={T.primary} strokeWidth={2.5}/>}
+            </div>
+          ))}
+        </Card>
+        <div style={{ background:T.primaryTint, borderRadius:12, padding:'12px 14px', display:'flex', alignItems:'flex-start', gap:10 }}>
+          <Icon name="info" size={18} color={T.primary}/>
+          <div style={{ fontSize:12.5, color:T.primary, lineHeight:1.5 }}>David must accept the transfer before the devices appear in his stock.</div>
+        </div>
+      </Body>
+      <div style={{ position:'absolute', bottom:22, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,0))' }}>
+        <Btn kind="primary" full size="lg" icon={<Icon name="arrowR" size={18} color="#fff"/>}>Continue</Btn>
+      </div>
+    </Phone>
+  );
+}
+function MoveConfirmScreen() {
+  const items=[{model:'Samsung A55 Navy',imei:'…442544'},{model:'Tecno Spark 20',imei:'…891003'},{model:'Itel A70 Blue',imei:'…774120'}];
+  return (
+    <Phone>
+      <AppBar title="Confirm transfer" sub="Review before sending" leading="back" />
+      <Body padded style={{ paddingBottom:90 }}>
+        <Card pad={18}>
+          <div style={{ display:'flex', alignItems:'center', gap:14 }}>
+            <div style={{ flex:1, textAlign:'center' }}>
+              <div style={{ width:44, height:44, borderRadius:22, background:T.primaryTint, color:T.primary, display:'inline-flex', alignItems:'center', justifyContent:'center', fontWeight:700 }}>JM</div>
+              <div style={{ fontSize:11.5, fontWeight:600, color:T.ink3, marginTop:6, textTransform:'uppercase' }}>From</div>
+              <div style={{ fontSize:13.5, fontWeight:600, color:T.ink, marginTop:2 }}>You · Owner</div>
+            </div>
+            <div style={{ width:36, height:36, borderRadius:18, background:T.bg, display:'flex', alignItems:'center', justifyContent:'center' }}>
+              <Icon name="arrowR" size={18} color={T.primary}/>
+            </div>
+            <div style={{ flex:1, textAlign:'center' }}>
+              <div style={{ width:44, height:44, borderRadius:22, background:T.primary, color:'#fff', display:'inline-flex', alignItems:'center', justifyContent:'center', fontWeight:700 }}>DM</div>
+              <div style={{ fontSize:11.5, fontWeight:600, color:T.ink3, marginTop:6, textTransform:'uppercase' }}>To</div>
+              <div style={{ fontSize:13.5, fontWeight:600, color:T.ink, marginTop:2 }}>David Mwangi</div>
+              <div style={{ fontSize:11, color:T.ink3, marginTop:1 }}>Agent · Kariakoo</div>
+            </div>
+          </div>
+        </Card>
+        <SectionTitle>3 devices</SectionTitle>
+        <Card pad={0}>
+          {items.map((it,i)=>(
+            <div key={i} style={{ padding:'12px 14px', borderBottom:i<items.length-1?`1px solid ${T.line2}`:'none', display:'flex', alignItems:'center', gap:10 }}>
+              <div style={{ width:8, height:8, borderRadius:4, background:T.primary }}/>
+              <div style={{ flex:1 }}>
+                <div style={{ fontSize:14, fontWeight:600, color:T.ink }}>{it.model}</div>
+                <div style={{ fontFamily:'ui-monospace,monospace', fontSize:11.5, color:T.ink3, marginTop:2 }}>{it.imei}</div>
+              </div>
+              <Icon name="arrowR" size={14} color={T.ink4}/>
+              <div style={{ fontSize:12, color:T.ink2, fontWeight:600 }}>David</div>
+            </div>
+          ))}
+        </Card>
+        <div style={{ background:'#FFFBF1', border:`1px solid ${T.warnTint}`, borderRadius:12, padding:'12px 14px', display:'flex', alignItems:'flex-start', gap:10 }}>
+          <Icon name="info" size={18} color={T.warn}/>
+          <div style={{ fontSize:12.5, color:T.warn, lineHeight:1.5, fontWeight:600 }}>Devices stay in your pool until David accepts.</div>
+        </div>
+      </Body>
+      <div style={{ position:'absolute', bottom:22, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,0))' }}>
+        <Btn kind="primary" full size="lg" icon={<Icon name="arrowR" size={18} color="#fff"/>}>Confirm transfer</Btn>
+      </div>
+    </Phone>
+  );
+}
+function ReceiveScreen() {
+  const items=[{model:'Samsung A55 Navy',imei:'…442544'},{model:'Tecno Spark 20',imei:'…891003'},{model:'Itel A70 Blue',imei:'…774120'}];
+  return (
+    <Phone>
+      <AppBar title="Pending transfer" sub="From John (Owner) · 2 min ago" leading="back" />
+      <Body padded style={{ paddingBottom:100 }}>
+        <Card pad={16} style={{ display:'flex', alignItems:'center', gap:12 }}>
+          <div style={{ width:44, height:44, borderRadius:22, background:T.primaryTint, color:T.primary, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700 }}>JM</div>
+          <div style={{ flex:1 }}>
+            <div style={{ fontSize:14, fontWeight:600, color:T.ink }}>John Mwakyusa</div>
+            <div style={{ fontSize:12, color:T.ink3, marginTop:2 }}>Sent 3 devices to you</div>
+          </div>
+          <Pill tone="warn">Pending</Pill>
+        </Card>
+        <SectionTitle action="Accept all">3 devices to confirm</SectionTitle>
+        <Card pad={0}>
+          {items.map((it,i)=>(
+            <div key={i} style={{ padding:'14px', borderBottom:i<items.length-1?`1px solid ${T.line2}`:'none', display:'flex', alignItems:'center', gap:10 }}>
+              <div style={{ flex:1, minWidth:0 }}>
+                <div style={{ fontSize:14, fontWeight:600, color:T.ink }}>{it.model}</div>
+                <div style={{ fontFamily:'ui-monospace,monospace', fontSize:11.5, color:T.ink3, marginTop:2 }}>IMEI: {it.imei}</div>
+              </div>
+              <button style={{ background:T.dangerTint, color:T.danger, border:'none', padding:'6px 10px', borderRadius:8, fontSize:12.5, fontWeight:600 }}>Reject</button>
+              <button style={{ background:T.success, color:'#fff', border:'none', padding:'6px 12px', borderRadius:8, fontSize:12.5, fontWeight:600 }}>Accept</button>
+            </div>
+          ))}
+        </Card>
+      </Body>
+      <div style={{ position:'absolute', bottom:22, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,0))' }}>
+        <Btn kind="primary" full size="lg" icon={<Icon name="check" size={18} color="#fff" strokeWidth={2.5}/>}>Accept all 3 devices</Btn>
+      </div>
+    </Phone>
+  );
+}
+function ReturnScreen() {
+  const items=[{model:'Samsung A15 Green',imei:'…331804',days:34,selected:true},{model:'Tecno Camon 20',imei:'…998211',days:41,selected:true},{model:'Infinix Hot 40',imei:'…664021',days:32,selected:false}];
+  return (
+    <Phone>
+      <AppBar title="Return aged stock" sub="Send back to owner · 2 selected" leading="back" />
+      <Body padded style={{ paddingBottom:100 }}>
+        <Card pad={14} style={{ background:'#FFFBF1', borderColor:T.warnTint }}>
+          <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+            <Icon name="warn" size={18} color={T.warn}/>
+            <div style={{ flex:1, fontSize:12.5, color:T.warn, fontWeight:600, lineHeight:1.4 }}>3 devices in your branch are aged 30+ days. Returning sends them back to John (Owner).</div>
+          </div>
+        </Card>
+        <SectionTitle>Aged devices</SectionTitle>
+        <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+          {items.map((it,i)=>{
+            const sel=it.selected;
+            return (
+              <Card key={i} pad={12} style={{ borderColor:sel?T.primary:T.line, background:sel?T.primaryTint:'#fff', borderWidth:sel?1.5:1 }}>
+                <div style={{ display:'flex', alignItems:'center', gap:12 }}>
+                  <div style={{ width:22, height:22, borderRadius:6, border:`2px solid ${sel?T.primary:T.line}`, background:sel?T.primary:'#fff', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                    {sel&&<Icon name="check" size={14} color="#fff" strokeWidth={3}/>}
+                  </div>
+                  <div style={{ flex:1, minWidth:0 }}>
+                    <div style={{ fontSize:14, fontWeight:600, color:T.ink }}>{it.model}</div>
+                    <div style={{ fontFamily:'ui-monospace,monospace', fontSize:11.5, color:T.ink3, marginTop:2 }}>{it.imei}</div>
+                  </div>
+                  <span style={{ fontSize:11.5, fontWeight:700, color:T.danger, background:T.dangerTint, padding:'4px 8px', borderRadius:999 }}>{it.days}d</span>
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+        <SectionTitle>Reason (optional)</SectionTitle>
+        <Card pad={0}>
+          <RadioRow label="Slow movement at this branch" sub="Most common reason" selected />
+          <RadioRow label="Wrong variant for this market" />
+          <RadioRow label="Damaged or refurbished" last />
+        </Card>
+      </Body>
+      <div style={{ position:'absolute', bottom:22, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,0))' }}>
+        <Btn kind="primary" full size="lg" icon={<Icon name="return" size={18} color="#fff"/>}>Return 2 devices to owner</Btn>
+      </div>
+    </Phone>
+  );
+}
+
+// ── LEGEND ───────────────────────────────────────────────────────
+const PHONE_W = 380, PHONE_H = 760;
+function Sw({ c, label, hex }) {
+  return (
+    <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+      <div style={{ width:22, height:22, borderRadius:6, background:c, border:'1px solid rgba(0,0,0,.06)' }}/>
+      <div>
+        <div style={{ fontSize:12.5, fontWeight:600, color:'#0E1530' }}>{label}</div>
+        <div style={{ fontSize:11, color:'#6B7493', fontFamily:'ui-monospace,monospace' }}>{hex}</div>
+      </div>
+    </div>
+  );
+}
+function Legend() {
+  return (
+    <div style={{ padding:28, fontFamily:'Inter,system-ui,sans-serif', display:'flex', flexDirection:'column', gap:22, height:'100%', boxSizing:'border-box', background:'#fff' }}>
+      <div>
+        <div style={{ fontSize:11.5, fontWeight:700, color:'#1E3A8A', letterSpacing:0.5, textTransform:'uppercase' }}>Mawinga · v1 redesign</div>
+        <div style={{ fontSize:22, fontWeight:700, color:'#0E1530', marginTop:4, letterSpacing:-0.4, lineHeight:1.2 }}>Home screens & Stock Management</div>
+        <div style={{ fontSize:13, color:'#3A4567', marginTop:8, lineHeight:1.5 }}>
+          Hi-fi Android mockups for the dealer walkthrough. Click any screen's <b>↗</b> icon to open fullscreen — use ←/→ to step through.
+        </div>
+      </div>
+      <div>
+        <div style={{ fontSize:11, fontWeight:700, color:'#6B7493', textTransform:'uppercase', marginBottom:10 }}>Brand</div>
+        <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+          <Sw c="#1E3A8A" label="Primary" hex="#1E3A8A"/>
+          <Sw c="#1E40AF" label="Accent" hex="#1E40AF"/>
+          <Sw c="#E8EDF8" label="Tint" hex="#E8EDF8"/>
+        </div>
+      </div>
+      <div>
+        <div style={{ fontSize:11, fontWeight:700, color:'#6B7493', textTransform:'uppercase', marginBottom:10 }}>Status colours</div>
+        <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+          <Sw c="#0F8A5F" label="Success — fresh stock ≤ 7d" hex="#0F8A5F"/>
+          <Sw c="#B45309" label="Warn — aging 8–29d" hex="#B45309"/>
+          <Sw c="#B42318" label="Danger — aged 30d+" hex="#B42318"/>
+        </div>
+      </div>
+      <div style={{ background:'#F6F7FB', borderRadius:12, padding:'14px 16px', fontSize:12.5, color:'#3A4567', lineHeight:1.55 }}>
+        <b style={{ color:'#0E1530' }}>Decisions baked in:</b>
+        <ul style={{ margin:'8px 0 0 16px', padding:0 }}>
+          <li>Buying price applied to whole batch (per-device editable later)</li>
+          <li>Aging threshold = 30 days, configurable</li>
+          <li>Transfers always require recipient acceptance</li>
+          <li>Buying price locked at sale time</li>
+        </ul>
+      </div>
+      <div style={{ flex:1 }}/>
+      <div style={{ fontSize:11, color:'#9AA1B8' }}>v1 draft · May 2026</div>
+    </div>
+  );
+}
+
+// ── APP ──────────────────────────────────────────────────────────
+function App() {
+  return (
+    <DesignCanvas>
+      <DCSection id="context" title="Mawinga · Home Screens & Stock Module" subtitle="Hi-fi Android mockups for the customer walkthrough · v1 draft">
+        <DCArtboard id="legend" label="Reading guide" width={460} height={PHONE_H}><Legend/></DCArtboard>
+      </DCSection>
+
+      <DCSection id="homes" title="1 · Home screens" subtitle="Role-based — what each user sees the moment they open the app">
+        <DCArtboard id="owner-a" label="1.1 Owner · A — Stat grid" width={PHONE_W} height={PHONE_H}><OwnerHomeA/></DCArtboard>
+        <DCArtboard id="owner-b" label="1.1 Owner · B — Hero revenue" width={PHONE_W} height={PHONE_H}><OwnerHomeB/></DCArtboard>
+        <DCArtboard id="owner-c" label="1.1 Owner · C — Per-branch" width={PHONE_W} height={PHONE_H}><OwnerHomeC/></DCArtboard>
+        <DCArtboard id="manager" label="1.2 Manager / TL home" width={PHONE_W} height={PHONE_H}><ManagerHome/></DCArtboard>
+        <DCArtboard id="agent" label="1.3 Sales agent home" width={PHONE_W} height={PHONE_H}><AgentHome/></DCArtboard>
+      </DCSection>
+
+      <DCSection id="add" title="2.2 · Add stock" subtitle="Bulk scan flow (the headline feature) + manual single-item">
+        <DCArtboard id="entry" label="Entry — scan or manual" width={PHONE_W} height={PHONE_H}><AddEntryScreen/></DCArtboard>
+        <DCArtboard id="scan" label="Scanning — live OCR" width={PHONE_W} height={PHONE_H}><ScanningScreen/></DCArtboard>
+        <DCArtboard id="staging" label="Staging — review IMEIs" width={PHONE_W} height={PHONE_H}><StagingScreen/></DCArtboard>
+        <DCArtboard id="batch" label="Batch details" width={PHONE_W} height={PHONE_H}><BatchDetailsScreen/></DCArtboard>
+        <DCArtboard id="confirm" label="Confirm import" width={PHONE_W} height={PHONE_H}><ConfirmScreen/></DCArtboard>
+        <DCArtboard id="success" label="Success" width={PHONE_W} height={PHONE_H}><SuccessScreen/></DCArtboard>
+        <DCArtboard id="manual" label="Manual add — duplicate IMEI" width={PHONE_W} height={PHONE_H}><ManualAddScreen/></DCArtboard>
+      </DCSection>
+
+      <DCSection id="view" title="2.3 · View stock" subtitle="Search · filter chips · aging-aware list with banner">
+        <DCArtboard id="stocklist" label="Stock list" width={PHONE_W} height={PHONE_H}><StockListScreen/></DCArtboard>
+      </DCSection>
+
+      <DCSection id="move" title="2.4 · Move stock" subtitle="Owner → branch → TL → agent. Recipient must accept.">
+        <DCArtboard id="select" label="1 · Select to move" width={PHONE_W} height={PHONE_H}><MoveSelectScreen/></DCArtboard>
+        <DCArtboard id="dest" label="2 · Choose destination" width={PHONE_W} height={PHONE_H}><MoveDestinationScreen/></DCArtboard>
+        <DCArtboard id="moveconfirm" label="3 · Confirm transfer" width={PHONE_W} height={PHONE_H}><MoveConfirmScreen/></DCArtboard>
+        <DCArtboard id="receive" label="Receive (manager/agent)" width={PHONE_W} height={PHONE_H}><ReceiveScreen/></DCArtboard>
+      </DCSection>
+
+      <DCSection id="return" title="2.5 · Return stock" subtitle="Aged-stock-focused return back up the chain">
+        <DCArtboard id="returnflow" label="Return aged devices" width={PHONE_W} height={PHONE_H}><ReturnScreen/></DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
