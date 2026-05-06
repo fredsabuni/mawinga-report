@@ -94,6 +94,9 @@ function Icon({ name, size=22, color='currentColor', strokeWidth=1.7 }) {
     receipt: <><path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2V3z" {...p}/><path d="M8 8h8M8 12h8M8 16h5" {...p}/></>,
     arrowR: <><path d="M5 12h14M13 5l7 7-7 7" {...p}/></>,
     arrowL: <><path d="M19 12H5M11 5l-7 7 7 7" {...p}/></>,
+    arrowDown: <><path d="M12 5v14M5 12l7 7 7-7" {...p}/></>,
+    arrowUp: <><path d="M12 19V5M5 12l7-7 7 7" {...p}/></>,
+    swap: <><path d="M7 7h13M7 7l3-3M7 7l3 3M17 17H4M17 17l-3-3M17 17l-3 3" {...p}/></>,
     transfer: <><path d="M4 8h13M14 5l3 3-3 3M20 16H7M10 13l-3 3 3 3" {...p}/></>,
     return: <><path d="M9 14l-5-5 5-5" {...p}/><path d="M4 9h11a5 5 0 0 1 5 5v0a5 5 0 0 1-5 5H8" {...p}/></>,
     camera: <><path d="M3 8h4l2-3h6l2 3h4v12H3V8z" {...p}/><circle cx="12" cy="13" r="4" {...p}/></>,
@@ -109,12 +112,18 @@ function Icon({ name, size=22, color='currentColor', strokeWidth=1.7 }) {
     user: <><circle cx="12" cy="8" r="4" {...p}/><path d="M4 21c0-4 4-7 8-7s8 3 8 7" {...p}/></>,
     users: <><circle cx="9" cy="8" r="3.5" {...p}/><path d="M2 20c0-4 3-6 7-6s7 2 7 6" {...p}/><path d="M16 4a4 4 0 0 1 0 8M22 20c0-3-2-5-5-5.5" {...p}/></>,
     branch: <><path d="M3 21V8l9-5 9 5v13" {...p}/><path d="M9 21v-7h6v7" {...p}/><path d="M3 21h18" {...p}/></>,
+    settings: <><circle cx="12" cy="12" r="3" {...p}/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.5-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.5 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.5 2.4-1c.6.5 1.3.9 2 1.2L10 21h4l.5-2.6c.7-.3 1.4-.7 2-1.2l2.4 1 2-3.5-2-1.5c.1-.4.1-.8.1-1.2z" {...p}/></>,
     money: <><circle cx="12" cy="12" r="9" {...p}/><path d="M9 14c0 1.1 1.3 2 3 2s3-.9 3-2c0-2.5-6-1.5-6-4 0-1.1 1.3-2 3-2s3 .9 3 2M12 6v2M12 16v2" {...p}/></>,
     clock: <><circle cx="12" cy="12" r="9" {...p}/><path d="M12 7v5l3 2" {...p}/></>,
+    flame: <><path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3-1-3 1-6 1-9z" {...p}/></>,
     inbox: <><path d="M3 13h5l1 3h6l1-3h5M3 13l3-9h12l3 9v7H3v-7z" {...p}/></>,
+    barcode: <><path d="M4 6v12M7 6v12M10 6v12M13 6v12M16 6v12M19 6v12" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round"/></>,
     edit: <><path d="M4 20h4L20 8l-4-4L4 16v4z" {...p}/><path d="M14 6l4 4" {...p}/></>,
-    flash: <><path d="M13 3L4 14h6l-1 7 9-11h-6l1-7z" {...p}/></>,
+    trash: <><path d="M5 7h14M9 7V4h6v3M7 7l1 13h8l1-13" {...p}/></>,
     sparkle: <><path d="M12 4l1.8 5.2L19 11l-5.2 1.8L12 18l-1.8-5.2L5 11l5.2-1.8L12 4z" {...p}/></>,
+    grid: <><rect x="4" y="4" width="7" height="7" {...p}/><rect x="13" y="4" width="7" height="7" {...p}/><rect x="4" y="13" width="7" height="7" {...p}/><rect x="13" y="13" width="7" height="7" {...p}/></>,
+    list: <><path d="M8 6h13M8 12h13M8 18h13" {...p}/><circle cx="4" cy="6" r=".7" fill={color}/><circle cx="4" cy="12" r=".7" fill={color}/><circle cx="4" cy="18" r=".7" fill={color}/></>,
+    dot: <><circle cx="12" cy="12" r="3" fill={color} stroke="none"/></>,
   };
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" style={{ flexShrink:0, display:'block' }}>
@@ -122,23 +131,34 @@ function Icon({ name, size=22, color='currentColor', strokeWidth=1.7 }) {
     </svg>
   );
 }
-function AppBar({ title, sub, leading='back', trailing, dark=true }) {
+function AppBar({ title, sub, leading='back', trailing, dark=true, rounded=true }) {
   const fg = dark ? '#fff' : T.ink;
-  const subFg = dark ? 'rgba(255,255,255,.78)' : T.ink3;
+  const subFg = dark ? 'rgba(255,255,255,.75)' : T.ink3;
+  const btnBg = dark ? 'rgba(255,255,255,.14)' : T.line2;
   return (
-    <div style={{ background:dark?T.primary:T.surface, padding:'10px 16px 16px', color:fg,
-      borderBottom:dark?'none':`1px solid ${T.line}`, flexShrink:0 }}>
+    <div style={{ background:dark?T.primary:T.surface,
+      backgroundImage:dark?`radial-gradient(120% 80% at 100% 0%, ${T.accent} 0%, ${T.primary} 60%)`:undefined,
+      padding:'12px 18px 22px', color:fg,
+      borderBottom:dark?'none':`1px solid ${T.line}`,
+      borderBottomLeftRadius:rounded&&dark?24:0, borderBottomRightRadius:rounded&&dark?24:0,
+      flexShrink:0 }}>
       <div style={{ display:'flex', alignItems:'center', gap:8, height:36 }}>
-        {(leading==='back'||leading==='close') && (
-          <div style={{ width:32, height:32, borderRadius:16, display:'flex', alignItems:'center', justifyContent:'center', marginLeft:-6 }}>
-            <Icon name={leading==='back'?'arrowL':'x'} size={20} color={fg} />
+        {leading==='back' && (
+          <div style={{ width:36, height:36, borderRadius:18, background:btnBg, display:'flex', alignItems:'center', justifyContent:'center', marginLeft:-4 }}>
+            <Icon name="arrowL" size={18} color={fg} />
           </div>
         )}
+        {leading==='close' && (
+          <div style={{ width:36, height:36, borderRadius:18, background:btnBg, display:'flex', alignItems:'center', justifyContent:'center', marginLeft:-4 }}>
+            <Icon name="x" size={18} color={fg} />
+          </div>
+        )}
+        {leading===null && <div style={{ width:0 }}/>}
         <div style={{ flex:1 }} />
         {trailing}
       </div>
-      <div style={{ marginTop:4 }}>
-        <div style={{ fontSize:22, fontWeight:700, letterSpacing:-0.3, lineHeight:1.15 }}>{title}</div>
+      <div style={{ marginTop:8 }}>
+        <div style={{ fontSize:22, fontWeight:700, letterSpacing:-0.4, lineHeight:1.15 }}>{title}</div>
         {sub && <div style={{ fontSize:13, color:subFg, marginTop:4 }}>{sub}</div>}
       </div>
     </div>
@@ -161,7 +181,8 @@ function TabBar({ active='home', items=['home','box','chart','bell'], labels={ho
 }
 function Card({ children, style, pad=16 }) {
   return (
-    <div style={{ background:T.surface, borderRadius:14, border:`1px solid ${T.line}`, padding:pad, ...style }}>
+    <div style={{ background:T.surface, borderRadius:16, border:`1px solid ${T.line}`,
+      boxShadow:'0 1px 2px rgba(20,30,80,.04)', padding:pad, ...style }}>
       {children}
     </div>
   );
@@ -210,6 +231,16 @@ function Body({ children, padded=true, style }) {
   );
 }
 function tzs(n) { return 'TZS '+Number(n).toLocaleString('en-US'); }
+
+function StickyCTA({ children }) {
+  return (
+    <div style={{ position:'absolute', bottom:28, left:0, right:0, padding:'20px 16px 0',
+      background:'linear-gradient(to top, #fff 55%, rgba(255,255,255,0))',
+      pointerEvents:'none' }}>
+      <div style={{ pointerEvents:'auto' }}>{children}</div>
+    </div>
+  );
+}
 
 // ── DESIGN CANVAS ────────────────────────────────────────────────
 const DC = {
@@ -522,19 +553,27 @@ function DCFocusOverlay({ entry, sectionMeta, sectionOrder }) {
 // ── HOME SCREENS ─────────────────────────────────────────────────
 function HomeHeader({ greeting, name, sub, avatar='JM' }) {
   return (
-    <div style={{ background:T.primary, padding:'14px 18px 22px', color:'#fff', flexShrink:0 }}>
+    <div style={{ background:T.primary, padding:'14px 20px 44px', color:'#fff', flexShrink:0,
+      position:'relative', borderBottomLeftRadius:28, borderBottomRightRadius:28,
+      backgroundImage:`radial-gradient(120% 80% at 100% 0%, ${T.accent} 0%, ${T.primary} 60%)` }}>
       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
-        <div style={{ width:36, height:36, borderRadius:18, background:'rgba(255,255,255,.16)',
-          display:'flex', alignItems:'center', justifyContent:'center', fontSize:13, fontWeight:700, letterSpacing:0.3 }}>{avatar}</div>
-        <div style={{ position:'relative' }}>
-          <Icon name="bell" size={22} color="#fff" />
-          <span style={{ position:'absolute', top:-2, right:-2, width:8, height:8, background:'#FF6B5B', borderRadius:4, border:'2px solid '+T.primary }} />
+        <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+          <div style={{ width:38, height:38, borderRadius:19, background:'rgba(255,255,255,.18)',
+            display:'flex', alignItems:'center', justifyContent:'center', fontSize:13, fontWeight:700, letterSpacing:0.3,
+            border:'1px solid rgba(255,255,255,.16)' }}>{avatar}</div>
+        </div>
+        <div style={{ width:38, height:38, borderRadius:19, background:'rgba(255,255,255,.12)',
+          border:'1px solid rgba(255,255,255,.14)',
+          display:'flex', alignItems:'center', justifyContent:'center', position:'relative' }}>
+          <Icon name="bell" size={19} color="#fff" />
+          <span style={{ position:'absolute', top:8, right:9, width:7, height:7,
+            background:'#FF6B5B', borderRadius:4, border:'2px solid '+T.primary }} />
         </div>
       </div>
-      <div style={{ marginTop:14 }}>
-        <div style={{ fontSize:14, color:'rgba(255,255,255,.78)', fontWeight:500 }}>{greeting},</div>
-        <div style={{ fontSize:22, fontWeight:700, letterSpacing:-0.3, marginTop:2 }}>{name}</div>
-        <div style={{ fontSize:12.5, color:'rgba(255,255,255,.78)', marginTop:6 }}>{sub}</div>
+      <div style={{ marginTop:16 }}>
+        <div style={{ fontSize:13, color:'rgba(255,255,255,.75)', fontWeight:500, letterSpacing:0.1 }}>{greeting},</div>
+        <div style={{ fontSize:24, fontWeight:700, letterSpacing:-0.4, marginTop:2, lineHeight:1.15 }}>{name}</div>
+        <div style={{ fontSize:12.5, color:'rgba(255,255,255,.72)', marginTop:6 }}>{sub}</div>
       </div>
     </div>
   );
@@ -543,29 +582,34 @@ function StatCard({ label, value, sub, tone='default', icon }) {
   const isAccent = tone==='accent';
   return (
     <div style={{ background:isAccent?T.primary:T.surface, color:isAccent?'#fff':T.ink,
-      borderRadius:14, padding:'14px', border:isAccent?'none':`1px solid ${T.line}`, flex:1, minWidth:0 }}>
-      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:8 }}>
-        <span style={{ fontSize:11.5, fontWeight:600, letterSpacing:0.2, color:isAccent?'rgba(255,255,255,.85)':T.ink3, textTransform:'uppercase' }}>{label}</span>
+      borderRadius:16, padding:'14px 14px 14px',
+      border:isAccent?'none':`1px solid ${T.line}`,
+      boxShadow:isAccent?'none':'0 1px 2px rgba(20,30,80,.04)',
+      flex:1, minWidth:0 }}>
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:10 }}>
+        <span style={{ fontSize:11, fontWeight:600, letterSpacing:0.4, color:isAccent?'rgba(255,255,255,.78)':T.ink3, textTransform:'uppercase' }}>{label}</span>
         {icon && <Icon name={icon} size={15} color={isAccent?'rgba(255,255,255,.7)':T.ink4} />}
       </div>
-      <div style={{ fontSize:19, fontWeight:700, letterSpacing:-0.4, lineHeight:1.1 }}>{value}</div>
-      {sub && <div style={{ fontSize:11.5, color:isAccent?'rgba(255,255,255,.78)':T.ink3, marginTop:4, fontWeight:500 }}>{sub}</div>}
+      <div style={{ fontSize:20, fontWeight:700, letterSpacing:-0.5, lineHeight:1.1 }}>{value}</div>
+      {sub && <div style={{ fontSize:11.5, color:isAccent?'rgba(255,255,255,.78)':T.ink3, marginTop:6, fontWeight:500 }}>{sub}</div>}
     </div>
   );
 }
 function QuickTile({ icon, label, primary=false, badge, sub }) {
   return (
-    <div style={{ background:primary?T.primary:T.surface, borderRadius:14, border:primary?'none':`1px solid ${T.line}`,
-      padding:'14px 12px 12px', display:'flex', flexDirection:'column', alignItems:'flex-start', gap:10, position:'relative', minHeight:92 }}>
-      <div style={{ width:36, height:36, borderRadius:10, background:primary?'rgba(255,255,255,.18)':T.primaryTint,
+    <div style={{ background:primary?T.primary:T.surface, borderRadius:16,
+      border:primary?'none':`1px solid ${T.line}`,
+      boxShadow:primary?'0 6px 18px -8px rgba(30,58,138,.45)':'0 1px 2px rgba(20,30,80,.04)',
+      padding:'14px 14px 14px', display:'flex', flexDirection:'column', alignItems:'flex-start', gap:12, position:'relative', minHeight:96 }}>
+      <div style={{ width:38, height:38, borderRadius:11, background:primary?'rgba(255,255,255,.18)':T.primaryTint,
         display:'flex', alignItems:'center', justifyContent:'center' }}>
         <Icon name={icon} size={20} color={primary?'#fff':T.primary} strokeWidth={1.9} />
       </div>
       <div>
-        <div style={{ fontSize:13.5, fontWeight:600, color:primary?'#fff':T.ink, lineHeight:1.2 }}>{label}</div>
+        <div style={{ fontSize:13.5, fontWeight:600, color:primary?'#fff':T.ink, lineHeight:1.2, letterSpacing:-0.1 }}>{label}</div>
         {sub && <div style={{ fontSize:11.5, color:primary?'rgba(255,255,255,.8)':T.ink3, marginTop:3, fontWeight:500 }}>{sub}</div>}
       </div>
-      {badge && <span style={{ position:'absolute', top:10, right:10, background:'#FF6B5B', color:'#fff', fontSize:10.5, fontWeight:700, padding:'2px 6px', borderRadius:999 }}>{badge}</span>}
+      {badge && <span style={{ position:'absolute', top:12, right:12, background:'#FF6B5B', color:'#fff', fontSize:10.5, fontWeight:700, padding:'2px 7px', borderRadius:999 }}>{badge}</span>}
     </div>
   );
 }
@@ -582,20 +626,22 @@ function OwnerHomeA() {
   return (
     <Phone>
       <HomeHeader greeting="Good morning" name="John" sub="Mawinga Mobile · All branches" avatar="JM" />
-      <Body padded>
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginTop:-28 }}>
-          <StatCard label="Today's Sales" value="TZS 4.8M" sub="vs 3.2M yesterday" />
-          <StatCard label="Transactions" value="14 sales" sub="3 in last hour" />
-          <StatCard label="Pending Comm." value="TZS 285K" sub="Awaiting approval" />
-          <StatCard label="Aged Stock" value="7 devices" sub="30+ days" />
-        </div>
-        <SectionTitle>Quick actions</SectionTitle>
-        <QuickTile icon="receipt" label="Record a sale" sub="Log a new transaction" primary />
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
-          <QuickTile icon="plus" label="Add inventory" sub="Scan or manual" />
-          <QuickTile icon="transfer" label="Transfer stock" sub="To branch or agent" />
-          <QuickTile icon="chart" label="Reports" sub="Sales & margins" />
-          <QuickTile icon="users" label="Manage" sub="Branches & users" />
+      <Body padded={false} style={{ paddingBottom:24 }}>
+        <div style={{ padding:'0 16px', marginTop:-28, display:'flex', flexDirection:'column', gap:14 }}>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+            <StatCard label="Today's Sales" value="TZS 4.8M" sub="vs 3.2M yesterday" />
+            <StatCard label="Transactions" value="14 sales" sub="3 in last hour" />
+            <StatCard label="Pending Comm." value="TZS 285K" sub="Awaiting approval" />
+            <StatCard label="Aged Stock" value="7 devices" sub="30+ days" />
+          </div>
+          <SectionTitle>Quick actions</SectionTitle>
+          <QuickTile icon="receipt" label="Record a sale" sub="Log a new transaction" primary />
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+            <QuickTile icon="plus" label="Add inventory" sub="Scan or manual" />
+            <QuickTile icon="transfer" label="Transfer stock" sub="To branch or agent" />
+            <QuickTile icon="chart" label="Reports" sub="Sales & margins" />
+            <QuickTile icon="users" label="Manage" sub="Branches & users" />
+          </div>
         </div>
       </Body>
       <TabBar active="home" />
@@ -606,32 +652,34 @@ function OwnerHomeB() {
   return (
     <Phone>
       <HomeHeader greeting="Good morning" name="John" sub="Mawinga Mobile · All branches" avatar="JM" />
-      <Body padded>
-        <Card pad={18} style={{ marginTop:-28, position:'relative', overflow:'hidden' }}>
-          <div style={{ fontSize:11.5, fontWeight:600, letterSpacing:0.4, color:T.ink3, textTransform:'uppercase' }}>Today's sales</div>
-          <div style={{ fontSize:36, fontWeight:700, letterSpacing:-1, color:T.ink, marginTop:4, lineHeight:1 }}>TZS 4,820,000</div>
-          <div style={{ display:'flex', alignItems:'center', gap:6, marginTop:8 }}>
-            <Pill tone="success">▲ 50% vs yest.</Pill>
-            <span style={{ fontSize:12.5, color:T.ink3 }}>14 transactions</span>
+      <Body padded={false} style={{ paddingBottom:24 }}>
+        <div style={{ padding:'0 16px', marginTop:-32, display:'flex', flexDirection:'column', gap:14 }}>
+          <Card pad={20} style={{ position:'relative', overflow:'hidden', borderRadius:18, boxShadow:'0 10px 30px -16px rgba(20,30,80,.18)' }}>
+            <div style={{ fontSize:11, fontWeight:600, letterSpacing:0.4, color:T.ink3, textTransform:'uppercase' }}>Today's sales</div>
+            <div style={{ fontSize:34, fontWeight:700, letterSpacing:-1, color:T.ink, marginTop:6, lineHeight:1 }}>TZS 4,820,000</div>
+            <div style={{ display:'flex', alignItems:'center', gap:8, marginTop:10 }}>
+              <Pill tone="success">▲ 50% vs yest.</Pill>
+              <span style={{ fontSize:12.5, color:T.ink3 }}>14 transactions</span>
+            </div>
+            <svg viewBox="0 0 280 50" style={{ width:'100%', height:50, marginTop:12 }} preserveAspectRatio="none">
+              <defs><linearGradient id="spk" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stopColor={T.primary} stopOpacity="0.28"/><stop offset="100%" stopColor={T.primary} stopOpacity="0"/></linearGradient></defs>
+              <path d="M0 38 L30 32 L60 36 L90 24 L120 28 L150 18 L180 22 L210 12 L240 16 L280 6 L280 50 L0 50 Z" fill="url(#spk)"/>
+              <path d="M0 38 L30 32 L60 36 L90 24 L120 28 L150 18 L180 22 L210 12 L240 16 L280 6" fill="none" stroke={T.primary} strokeWidth="2" strokeLinejoin="round"/>
+            </svg>
+          </Card>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:8 }}>
+            <Card pad={12} style={{ borderRadius:14 }}><div style={{ fontSize:10.5, fontWeight:600, color:T.ink3, letterSpacing:0.3, textTransform:'uppercase' }}>Pending</div><div style={{ fontSize:16, fontWeight:700, color:T.ink, marginTop:6, letterSpacing:-0.3 }}>285K</div><div style={{ fontSize:10.5, color:T.warn, marginTop:3, fontWeight:600 }}>commission</div></Card>
+            <Card pad={12} style={{ borderRadius:14 }}><div style={{ fontSize:10.5, fontWeight:600, color:T.ink3, letterSpacing:0.3, textTransform:'uppercase' }}>Aged</div><div style={{ fontSize:16, fontWeight:700, color:T.ink, marginTop:6, letterSpacing:-0.3 }}>7</div><div style={{ fontSize:10.5, color:T.danger, marginTop:3, fontWeight:600 }}>devices</div></Card>
+            <Card pad={12} style={{ borderRadius:14 }}><div style={{ fontSize:10.5, fontWeight:600, color:T.ink3, letterSpacing:0.3, textTransform:'uppercase' }}>Stock</div><div style={{ fontSize:16, fontWeight:700, color:T.ink, marginTop:6, letterSpacing:-0.3 }}>342</div><div style={{ fontSize:10.5, color:T.success, marginTop:3, fontWeight:600 }}>in branches</div></Card>
           </div>
-          <svg viewBox="0 0 280 50" style={{ width:'100%', height:50, marginTop:10 }} preserveAspectRatio="none">
-            <defs><linearGradient id="spk" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stopColor={T.primary} stopOpacity="0.3"/><stop offset="100%" stopColor={T.primary} stopOpacity="0"/></linearGradient></defs>
-            <path d="M0 38 L30 32 L60 36 L90 24 L120 28 L150 18 L180 22 L210 12 L240 16 L280 6 L280 50 L0 50 Z" fill="url(#spk)"/>
-            <path d="M0 38 L30 32 L60 36 L90 24 L120 28 L150 18 L180 22 L210 12 L240 16 L280 6" fill="none" stroke={T.primary} strokeWidth="2" strokeLinejoin="round"/>
-          </svg>
-        </Card>
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:8 }}>
-          <Card pad={12}><div style={{ fontSize:10.5, fontWeight:600, color:T.ink3, textTransform:'uppercase' }}>Pending</div><div style={{ fontSize:15, fontWeight:700, color:T.ink, marginTop:4, letterSpacing:-0.3 }}>285K</div><div style={{ fontSize:10.5, color:T.warn, marginTop:2, fontWeight:600 }}>commission</div></Card>
-          <Card pad={12}><div style={{ fontSize:10.5, fontWeight:600, color:T.ink3, textTransform:'uppercase' }}>Aged</div><div style={{ fontSize:15, fontWeight:700, color:T.ink, marginTop:4, letterSpacing:-0.3 }}>7</div><div style={{ fontSize:10.5, color:T.danger, marginTop:2, fontWeight:600 }}>devices</div></Card>
-          <Card pad={12}><div style={{ fontSize:10.5, fontWeight:600, color:T.ink3, textTransform:'uppercase' }}>Stock</div><div style={{ fontSize:15, fontWeight:700, color:T.ink, marginTop:4, letterSpacing:-0.3 }}>342</div><div style={{ fontSize:10.5, color:T.success, marginTop:2, fontWeight:600 }}>in branches</div></Card>
-        </div>
-        <SectionTitle>Quick actions</SectionTitle>
-        <Btn kind="primary" full size="lg" icon={<Icon name="receipt" size={20} color="#fff" />}>Record a sale</Btn>
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
-          <QuickTile icon="plus" label="Add inventory" sub="Scan or manual" />
-          <QuickTile icon="transfer" label="Transfer stock" sub="To branch / agent" />
-          <QuickTile icon="chart" label="Reports" sub="Sales & margins" />
-          <QuickTile icon="users" label="Manage" sub="Branches & users" />
+          <SectionTitle>Quick actions</SectionTitle>
+          <Btn kind="primary" full size="lg" icon={<Icon name="receipt" size={20} color="#fff" />}>Record a sale</Btn>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+            <QuickTile icon="plus" label="Add inventory" sub="Scan or manual" />
+            <QuickTile icon="transfer" label="Transfer stock" sub="To branch / agent" />
+            <QuickTile icon="chart" label="Reports" sub="Sales & margins" />
+            <QuickTile icon="users" label="Manage" sub="Branches & users" />
+          </div>
         </div>
       </Body>
       <TabBar active="home" />
@@ -648,53 +696,55 @@ function OwnerHomeC() {
   return (
     <Phone>
       <HomeHeader greeting="Good morning" name="John" sub="Mawinga Mobile · 4 branches" avatar="JM" />
-      <Body padded>
-        <div style={{ display:'flex', gap:8, marginTop:-28 }}>
-          <Card pad={12} style={{ flex:1, background:T.primary, border:'none', color:'#fff' }}>
-            <div style={{ fontSize:10.5, fontWeight:600, letterSpacing:0.3, color:'rgba(255,255,255,.8)', textTransform:'uppercase' }}>Today</div>
-            <div style={{ fontSize:19, fontWeight:700, letterSpacing:-0.4, marginTop:4 }}>TZS 4.8M</div>
-            <div style={{ fontSize:11, color:'rgba(255,255,255,.8)', marginTop:2, fontWeight:500 }}>14 sales</div>
-          </Card>
-          <Card pad={12} style={{ flex:1 }}>
-            <div style={{ fontSize:10.5, fontWeight:600, color:T.ink3, textTransform:'uppercase' }}>Pending</div>
-            <div style={{ fontSize:19, fontWeight:700, letterSpacing:-0.4, color:T.ink, marginTop:4 }}>285K</div>
-            <div style={{ fontSize:11, color:T.warn, marginTop:2, fontWeight:600 }}>9 commissions</div>
-          </Card>
-          <Card pad={12} style={{ flex:1 }}>
-            <div style={{ fontSize:10.5, fontWeight:600, color:T.ink3, textTransform:'uppercase' }}>Aged</div>
-            <div style={{ fontSize:19, fontWeight:700, letterSpacing:-0.4, color:T.ink, marginTop:4 }}>7</div>
-            <div style={{ fontSize:11, color:T.danger, marginTop:2, fontWeight:600 }}>30+ days</div>
-          </Card>
-        </div>
-        <Btn kind="primary" full size="lg" icon={<Icon name="receipt" size={20} color="#fff" />}>Record a sale</Btn>
-        <div><SectionTitle action="See all">Branches today</SectionTitle></div>
-        <Card pad={0}>
-          {branches.map((b,i)=>{
-            const dotColor = b.tone==='success'?T.success:b.tone==='warn'?T.warn:T.danger;
-            return (
-              <div key={b.name} style={{ display:'flex', alignItems:'center', gap:12, padding:'14px 14px', borderBottom:i<branches.length-1?`1px solid ${T.line2}`:'none' }}>
-                <div style={{ width:36, height:36, borderRadius:10, background:T.primaryTint, display:'flex', alignItems:'center', justifyContent:'center' }}>
-                  <Icon name="branch" size={18} color={T.primary} />
-                </div>
-                <div style={{ flex:1, minWidth:0 }}>
-                  <div style={{ display:'flex', alignItems:'center', gap:6 }}>
-                    <span style={{ width:6, height:6, borderRadius:3, background:dotColor }} />
-                    <span style={{ fontSize:14, fontWeight:600, color:T.ink }}>{b.name}</span>
+      <Body padded={false} style={{ paddingBottom:24 }}>
+        <div style={{ padding:'0 16px', marginTop:-32, display:'flex', flexDirection:'column', gap:14 }}>
+          <div style={{ display:'flex', gap:8 }}>
+            <Card pad={12} style={{ flex:1, background:T.primary, border:'none', color:'#fff', borderRadius:14, boxShadow:'0 6px 18px -10px rgba(30,58,138,.5)' }}>
+              <div style={{ fontSize:10.5, fontWeight:600, letterSpacing:0.3, color:'rgba(255,255,255,.8)', textTransform:'uppercase' }}>Today</div>
+              <div style={{ fontSize:18, fontWeight:700, letterSpacing:-0.4, marginTop:6 }}>TZS 4.8M</div>
+              <div style={{ fontSize:11, color:'rgba(255,255,255,.8)', marginTop:3, fontWeight:500 }}>14 sales</div>
+            </Card>
+            <Card pad={12} style={{ flex:1, borderRadius:14 }}>
+              <div style={{ fontSize:10.5, fontWeight:600, color:T.ink3, letterSpacing:0.3, textTransform:'uppercase' }}>Pending</div>
+              <div style={{ fontSize:18, fontWeight:700, letterSpacing:-0.4, color:T.ink, marginTop:6 }}>285K</div>
+              <div style={{ fontSize:11, color:T.warn, marginTop:3, fontWeight:600 }}>9 commissions</div>
+            </Card>
+            <Card pad={12} style={{ flex:1, borderRadius:14 }}>
+              <div style={{ fontSize:10.5, fontWeight:600, color:T.ink3, letterSpacing:0.3, textTransform:'uppercase' }}>Aged</div>
+              <div style={{ fontSize:18, fontWeight:700, letterSpacing:-0.4, color:T.ink, marginTop:6 }}>7</div>
+              <div style={{ fontSize:11, color:T.danger, marginTop:3, fontWeight:600 }}>30+ days</div>
+            </Card>
+          </div>
+          <Btn kind="primary" full size="lg" icon={<Icon name="receipt" size={20} color="#fff" />}>Record a sale</Btn>
+          <div><SectionTitle action="See all">Branches today</SectionTitle></div>
+          <Card pad={0} style={{ borderRadius:16, overflow:'hidden' }}>
+            {branches.map((b,i)=>{
+              const dotColor = b.tone==='success'?T.success:b.tone==='warn'?T.warn:T.danger;
+              return (
+                <div key={b.name} style={{ display:'flex', alignItems:'center', gap:12, padding:'14px 14px', borderBottom:i<branches.length-1?`1px solid ${T.line2}`:'none' }}>
+                  <div style={{ width:36, height:36, borderRadius:11, background:T.primaryTint, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                    <Icon name="branch" size={18} color={T.primary} />
                   </div>
-                  <div style={{ fontSize:12, color:T.ink3, marginTop:2 }}>{b.count} sales · {b.aged>0?`${b.aged} aged`:'no aged'}</div>
+                  <div style={{ flex:1, minWidth:0 }}>
+                    <div style={{ display:'flex', alignItems:'center', gap:6 }}>
+                      <span style={{ width:6, height:6, borderRadius:3, background:dotColor }} />
+                      <span style={{ fontSize:14, fontWeight:600, color:T.ink }}>{b.name}</span>
+                    </div>
+                    <div style={{ fontSize:12, color:T.ink3, marginTop:2 }}>{b.count} sales · {b.aged>0?`${b.aged} aged`:'no aged'}</div>
+                  </div>
+                  <div style={{ textAlign:'right' }}>
+                    <div style={{ fontSize:14, fontWeight:700, color:T.ink, letterSpacing:-0.2 }}>TZS {b.sales}</div>
+                  </div>
+                  <Icon name="chev" size={16} color={T.ink4} />
                 </div>
-                <div style={{ textAlign:'right' }}>
-                  <div style={{ fontSize:14, fontWeight:700, color:T.ink, letterSpacing:-0.2 }}>TZS {b.sales}</div>
-                </div>
-                <Icon name="chev" size={16} color={T.ink4} />
-              </div>
-            );
-          })}
-        </Card>
-        <SectionTitle>Tools</SectionTitle>
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
-          <QuickTile icon="plus" label="Add inventory" sub="Scan or manual" />
-          <QuickTile icon="transfer" label="Transfer stock" sub="To branch / agent" />
+              );
+            })}
+          </Card>
+          <SectionTitle>Tools</SectionTitle>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+            <QuickTile icon="plus" label="Add inventory" sub="Scan or manual" />
+            <QuickTile icon="transfer" label="Transfer stock" sub="To branch / agent" />
+          </div>
         </div>
       </Body>
       <TabBar active="home" />
@@ -705,36 +755,38 @@ function ManagerHome() {
   return (
     <Phone>
       <HomeHeader greeting="Hi" name="Amina" sub="Kariakoo Branch · 86 devices" avatar="AK" />
-      <Body padded>
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginTop:-28 }}>
-          <StatCard label="Today's Sales" value="TZS 1,240,000" sub="6 transactions" />
-          <Card pad={14} style={{ background:T.primary, color:'#fff', border:'none' }}>
-            <div style={{ fontSize:11.5, fontWeight:600, letterSpacing:0.2, color:'rgba(255,255,255,.85)', textTransform:'uppercase' }}>My Commission</div>
-            <div style={{ fontSize:19, fontWeight:700, letterSpacing:-0.4, marginTop:4 }}>TZS 84,000</div>
-            <div style={{ fontSize:11, color:'rgba(255,255,255,.85)', marginTop:4, fontWeight:600, display:'flex', alignItems:'center', gap:4 }}>
-              <Icon name="clock" size={11} color="rgba(255,255,255,.85)" /> Pending approval
-            </div>
-          </Card>
-        </div>
-        <Card pad={0} style={{ borderColor:T.warnTint, background:'#FFFBF1' }}>
-          <div style={{ display:'flex', alignItems:'center', gap:12, padding:14 }}>
-            <div style={{ width:38, height:38, borderRadius:10, background:T.warnTint, display:'flex', alignItems:'center', justifyContent:'center' }}>
-              <Icon name="inbox" size={20} color={T.warn} />
-            </div>
-            <div style={{ flex:1, minWidth:0 }}>
-              <div style={{ fontSize:14, fontWeight:600, color:T.ink }}>3 devices pending</div>
-              <div style={{ fontSize:12, color:T.ink3, marginTop:2 }}>From owner · Tap to receive</div>
-            </div>
-            <Icon name="chev" size={16} color={T.ink3} />
+      <Body padded={false} style={{ paddingBottom:24 }}>
+        <div style={{ padding:'0 16px', marginTop:-32, display:'flex', flexDirection:'column', gap:14 }}>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+            <StatCard label="Today's Sales" value="TZS 1.24M" sub="6 transactions" />
+            <Card pad={14} style={{ background:T.primary, color:'#fff', border:'none', borderRadius:16, boxShadow:'0 6px 18px -10px rgba(30,58,138,.5)' }}>
+              <div style={{ fontSize:11, fontWeight:600, letterSpacing:0.4, color:'rgba(255,255,255,.8)', textTransform:'uppercase' }}>My Commission</div>
+              <div style={{ fontSize:20, fontWeight:700, letterSpacing:-0.5, marginTop:6 }}>TZS 84,000</div>
+              <div style={{ fontSize:11, color:'rgba(255,255,255,.85)', marginTop:6, fontWeight:600, display:'flex', alignItems:'center', gap:4 }}>
+                <Icon name="clock" size={11} color="rgba(255,255,255,.85)" /> Pending approval
+              </div>
+            </Card>
           </div>
-        </Card>
-        <SectionTitle>Quick actions</SectionTitle>
-        <Btn kind="primary" full size="lg" icon={<Icon name="receipt" size={20} color="#fff" />}>Record a sale</Btn>
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
-          <QuickTile icon="inbox" label="Receive stock" sub="3 pending" badge="3" />
-          <QuickTile icon="users" label="Assign to agent" sub="3 agents" />
-          <QuickTile icon="box" label="My stock" sub="86 · 2 aged ⚠" />
-          <QuickTile icon="return" label="Return aged" sub="Send back to owner" />
+          <div style={{ borderRadius:16, background:'#FFFBF1', border:`1px solid ${T.warnTint}`, overflow:'hidden' }}>
+            <div style={{ display:'flex', alignItems:'center', gap:12, padding:14 }}>
+              <div style={{ width:40, height:40, borderRadius:12, background:T.warnTint, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                <Icon name="inbox" size={20} color={T.warn} />
+              </div>
+              <div style={{ flex:1, minWidth:0 }}>
+                <div style={{ fontSize:14, fontWeight:600, color:T.ink }}>3 devices pending</div>
+                <div style={{ fontSize:12, color:T.ink3, marginTop:2 }}>From owner · Tap to receive</div>
+              </div>
+              <Icon name="chev" size={16} color={T.ink3} />
+            </div>
+          </div>
+          <SectionTitle>Quick actions</SectionTitle>
+          <Btn kind="primary" full size="lg" icon={<Icon name="receipt" size={20} color="#fff" />}>Record a sale</Btn>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+            <QuickTile icon="inbox" label="Receive stock" sub="3 pending" badge="3" />
+            <QuickTile icon="users" label="Assign to agent" sub="3 agents" />
+            <QuickTile icon="box" label="My stock" sub="86 · 2 aged" />
+            <QuickTile icon="return" label="Return aged" sub="Send to owner" />
+          </div>
         </div>
       </Body>
       <TabBar active="home" items={['home','box','bell']} labels={{ home:'Home', box:'Stock', bell:'Alerts' }} />
@@ -743,8 +795,11 @@ function ManagerHome() {
 }
 function BigAction({ icon, label, sub, primary=false }) {
   return (
-    <div style={{ background:primary?T.primary:T.surface, borderRadius:16, border:primary?'none':`1px solid ${T.line}`, padding:'18px 18px', display:'flex', alignItems:'center', gap:14 }}>
-      <div style={{ width:48, height:48, borderRadius:14, background:primary?'rgba(255,255,255,.18)':T.primaryTint, display:'flex', alignItems:'center', justifyContent:'center' }}>
+    <div style={{ background:primary?T.primary:T.surface, borderRadius:18,
+      border:primary?'none':`1px solid ${T.line}`,
+      boxShadow:primary?'0 8px 22px -12px rgba(30,58,138,.55)':'0 1px 2px rgba(20,30,80,.04)',
+      padding:'18px 18px', display:'flex', alignItems:'center', gap:14 }}>
+      <div style={{ width:50, height:50, borderRadius:15, background:primary?'rgba(255,255,255,.18)':T.primaryTint, display:'flex', alignItems:'center', justifyContent:'center' }}>
         <Icon name={icon} size={24} color={primary?'#fff':T.primary} strokeWidth={2} />
       </div>
       <div style={{ flex:1 }}>
@@ -759,24 +814,26 @@ function AgentHome() {
   return (
     <Phone>
       <HomeHeader greeting="Hi" name="David" sub="12 devices with you" avatar="DM" />
-      <Body padded style={{ paddingBottom:18 }}>
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginTop:-28 }}>
-          <StatCard label="Today's Sales" value="TZS 320,000" sub="1 sale" />
-          <Card pad={14} style={{ background:T.primary, color:'#fff', border:'none' }}>
-            <div style={{ fontSize:11.5, fontWeight:600, letterSpacing:0.2, color:'rgba(255,255,255,.85)', textTransform:'uppercase' }}>My Commission</div>
-            <div style={{ fontSize:19, fontWeight:700, letterSpacing:-0.4, marginTop:4 }}>TZS 16,000</div>
-            <div style={{ fontSize:11, color:'rgba(255,255,255,.85)', marginTop:4, fontWeight:600, display:'flex', alignItems:'center', gap:4 }}>
-              <Icon name="clock" size={11} color="rgba(255,255,255,.85)" /> Pending approval
-            </div>
-          </Card>
+      <Body padded={false} style={{ paddingBottom:20 }}>
+        <div style={{ padding:'0 16px', marginTop:-32, display:'flex', flexDirection:'column', gap:14, flex:1 }}>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
+            <StatCard label="Today's Sales" value="TZS 320K" sub="1 sale" />
+            <Card pad={14} style={{ background:T.primary, color:'#fff', border:'none', borderRadius:16, boxShadow:'0 6px 18px -10px rgba(30,58,138,.5)' }}>
+              <div style={{ fontSize:11, fontWeight:600, letterSpacing:0.4, color:'rgba(255,255,255,.8)', textTransform:'uppercase' }}>My Commission</div>
+              <div style={{ fontSize:20, fontWeight:700, letterSpacing:-0.5, marginTop:6 }}>TZS 16,000</div>
+              <div style={{ fontSize:11, color:'rgba(255,255,255,.85)', marginTop:6, fontWeight:600, display:'flex', alignItems:'center', gap:4 }}>
+                <Icon name="clock" size={11} color="rgba(255,255,255,.85)" /> Pending approval
+              </div>
+            </Card>
+          </div>
+          <div style={{ display:'flex', flexDirection:'column', gap:12, marginTop:6 }}>
+            <BigAction icon="receipt" label="Sell a device" sub="Record a customer sale" primary />
+            <BigAction icon="box" label="My stock" sub="See the 12 devices with me" />
+            <BigAction icon="return" label="Return a device" sub="Send back to manager" />
+          </div>
+          <div style={{ flex:1 }} />
+          <div style={{ textAlign:'center', fontSize:11.5, color:T.ink4, marginTop:16 }}>Mawinga · Logged in as David Mwangi</div>
         </div>
-        <div style={{ display:'flex', flexDirection:'column', gap:12, marginTop:10 }}>
-          <BigAction icon="receipt" label="Sell a device" sub="Record a customer sale" primary />
-          <BigAction icon="box" label="My stock" sub="See the 12 devices with me" />
-          <BigAction icon="return" label="Return a device" sub="Send back to manager" />
-        </div>
-        <div style={{ flex:1 }} />
-        <div style={{ textAlign:'center', fontSize:11.5, color:T.ink4, marginTop:16 }}>Mawinga · Logged in as David Mwangi</div>
       </Body>
     </Phone>
   );
@@ -925,9 +982,9 @@ function StagingScreen() {
           <div style={{ padding:'10px 14px', textAlign:'center', color:T.ink4, fontSize:12, fontWeight:500 }}>+ 4 more</div>
         </Card>
       </Body>
-      <div style={{ position:'absolute', bottom:28, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,.0))' }}>
+      <StickyCTA>
         <Btn kind="primary" full size="lg" icon={<Icon name="arrowR" size={18} color="#fff"/>}>Continue with 14 IMEIs</Btn>
-      </div>
+      </StickyCTA>
     </Phone>
   );
 }
@@ -954,9 +1011,9 @@ function BatchDetailsScreen() {
           <div style={{ fontSize:12.5, color:T.primary, lineHeight:1.5 }}>All 14 devices will share these details. To set per-device prices, import then edit individually.</div>
         </div>
       </Body>
-      <div style={{ position:'absolute', bottom:28, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,.0))' }}>
+      <StickyCTA>
         <Btn kind="primary" full size="lg" icon={<Icon name="arrowR" size={18} color="#fff"/>}>Review & import</Btn>
-      </div>
+      </StickyCTA>
     </Phone>
   );
 }
@@ -995,9 +1052,9 @@ function ConfirmScreen() {
           </div>
         </Card>
       </Body>
-      <div style={{ position:'absolute', bottom:22, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,0))' }}>
+      <StickyCTA>
         <Btn kind="primary" full size="lg" icon={<Icon name="arrowR" size={18} color="#fff"/>}>Import all 14 IMEIs</Btn>
-      </div>
+      </StickyCTA>
     </Phone>
   );
 }
@@ -1052,9 +1109,9 @@ function ManualAddScreen() {
           <Field label="Assign to" value="Kariakoo Branch" hasArrow />
         </FieldGroup>
       </Body>
-      <div style={{ position:'absolute', bottom:22, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,0))' }}>
+      <StickyCTA>
         <Btn kind="primary" full size="lg" style={{ opacity:0.5 }}>Save device</Btn>
-      </div>
+      </StickyCTA>
     </Phone>
   );
 }
@@ -1150,7 +1207,7 @@ function MoveSelectScreen() {
           })}
         </div>
       </Body>
-      <div style={{ position:'absolute', bottom:22, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,0))' }}>
+      <StickyCTA>
         <div style={{ background:T.ink, color:'#fff', borderRadius:14, padding:'10px 14px 10px 18px', display:'flex', alignItems:'center', gap:12 }}>
           <div style={{ flex:1 }}>
             <div style={{ fontSize:11, fontWeight:600, color:'rgba(255,255,255,.7)', textTransform:'uppercase' }}>Selected</div>
@@ -1158,7 +1215,7 @@ function MoveSelectScreen() {
           </div>
           <Btn kind="primary" size="md" icon={<Icon name="arrowR" size={16} color="#fff"/>}>Move</Btn>
         </div>
-      </div>
+      </StickyCTA>
     </Phone>
   );
 }
@@ -1205,9 +1262,9 @@ function MoveDestinationScreen() {
           <div style={{ fontSize:12.5, color:T.primary, lineHeight:1.5 }}>David must accept the transfer before the devices appear in his stock.</div>
         </div>
       </Body>
-      <div style={{ position:'absolute', bottom:22, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,0))' }}>
+      <StickyCTA>
         <Btn kind="primary" full size="lg" icon={<Icon name="arrowR" size={18} color="#fff"/>}>Continue</Btn>
-      </div>
+      </StickyCTA>
     </Phone>
   );
 }
@@ -1254,9 +1311,9 @@ function MoveConfirmScreen() {
           <div style={{ fontSize:12.5, color:T.warn, lineHeight:1.5, fontWeight:600 }}>Devices stay in your pool until David accepts.</div>
         </div>
       </Body>
-      <div style={{ position:'absolute', bottom:22, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,0))' }}>
+      <StickyCTA>
         <Btn kind="primary" full size="lg" icon={<Icon name="arrowR" size={18} color="#fff"/>}>Confirm transfer</Btn>
-      </div>
+      </StickyCTA>
     </Phone>
   );
 }
@@ -1288,9 +1345,9 @@ function ReceiveScreen() {
           ))}
         </Card>
       </Body>
-      <div style={{ position:'absolute', bottom:22, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,0))' }}>
+      <StickyCTA>
         <Btn kind="primary" full size="lg" icon={<Icon name="check" size={18} color="#fff" strokeWidth={2.5}/>}>Accept all 3 devices</Btn>
-      </div>
+      </StickyCTA>
     </Phone>
   );
 }
@@ -1333,9 +1390,9 @@ function ReturnScreen() {
           <RadioRow label="Damaged or refurbished" last />
         </Card>
       </Body>
-      <div style={{ position:'absolute', bottom:22, left:0, right:0, padding:'12px 16px 0', background:'linear-gradient(to top,#fff 60%,rgba(255,255,255,0))' }}>
+      <StickyCTA>
         <Btn kind="primary" full size="lg" icon={<Icon name="return" size={18} color="#fff"/>}>Return 2 devices to owner</Btn>
-      </div>
+      </StickyCTA>
     </Phone>
   );
 }
